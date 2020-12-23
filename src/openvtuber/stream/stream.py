@@ -1,5 +1,4 @@
 from rx import Observable, interval, operators as op
-import asyncio
 from cv2 import VideoCapture
 
 

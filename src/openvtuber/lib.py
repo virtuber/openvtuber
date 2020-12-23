@@ -15,7 +15,7 @@ async def show_coroutine(image):
 
 def show(image):
     future = asyncio.run_coroutine_threadsafe(show_coroutine(image), loop)
-    key = future.result()
+    future.result()
 
 
 def main():
