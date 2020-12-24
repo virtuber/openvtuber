@@ -8,8 +8,8 @@ setup(
     package_dir={'': 'src'},
     include_package_data=True,
     install_requires=[],
-    tests_require=['flake8', 'pytest-cov', 'mypy', 'pytest'],
+    tests_require=['flake8', 'pytest-cov', 'mypy', 'pytest', 'opencv-python'],
     extras_require={
-        'tests': ['flake8', 'pytest-cov', 'mypy', 'pytest'],
+        'tests': ['flake8', 'pytest-cov', 'mypy', 'pytest', 'opencv-python'],
     },
 )
