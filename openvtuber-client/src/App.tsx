@@ -1,5 +1,5 @@
 import React from 'react';
-import VrmViewer from './components/VrmViewer';
+import MainView from './components/MainView';
 import './App.css';
 
 interface AppProps {}
@@ -7,7 +7,7 @@ interface AppProps {}
 function App({}: AppProps) {
   return (
     <>
-      <VrmViewer />
+      <MainView />
     </>
   );
 }
