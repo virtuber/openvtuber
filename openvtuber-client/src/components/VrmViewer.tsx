@@ -3,9 +3,11 @@ import React, {
   useImperativeHandle,
   forwardRef,
   MutableRefObject,
+  Suspense,
 } from 'react';
 import { useThree, useResource, useFrame, Camera } from 'react-three-fiber';
 import useVrm from '../hooks/useVrm';
+import Vrm from './Vrm';
 
 type VrmViewerProps = {};
 type VrmViewerRefProps = {
@@ -43,7 +45,9 @@ const VrmViewer = forwardRef<VrmViewerRefProps, VrmViewerProps>((_, ref) => {
         onUpdate={(self) => self.updateProjectionMatrix()}
       />
       <spotLight position={[0, 0, 50]} />
-      {vrm && vrm.scene && <primitive object={vrm.scene} />}
+      <Suspense fallback={null}>
+        {vrm && vrm.scene && <Vrm vrm={vrm} />}
+      </Suspense>
     </>
   );
 });
