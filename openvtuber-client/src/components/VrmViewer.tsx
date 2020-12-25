@@ -4,10 +4,12 @@ import React, {
   forwardRef,
   MutableRefObject,
   Suspense,
+  useMemo,
 } from 'react';
 import { useThree, useResource, useFrame, Camera } from 'react-three-fiber';
 import useVrm from '../hooks/useVrm';
 import Vrm from './Vrm';
+import Stars from './Stars';
 
 type VrmViewerProps = {};
 type VrmViewerRefProps = {
@@ -40,11 +42,14 @@ const VrmViewer = forwardRef<VrmViewerRefProps, VrmViewerProps>((_, ref) => {
       <perspectiveCamera
         ref={perspectiveRef}
         aspect={aspect}
-        fov={100}
-        position={[0, 0.6, 4]}
+        focus={10}
+        fov={50}
+        position={[0, 1.25, 1]}
         onUpdate={(self) => self.updateProjectionMatrix()}
       />
-      <spotLight position={[0, 0, 50]} />
+      <ambientLight intensity={0.75} />
+      <pointLight intensity={0.25} position={[100, 100, 10]} />
+      <Stars />
       <Suspense fallback={null}>
         {vrm && vrm.scene && <Vrm vrm={vrm} />}
       </Suspense>
