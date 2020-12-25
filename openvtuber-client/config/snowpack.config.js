@@ -1,4 +1,5 @@
 /** @type {import("snowpack").SnowpackUserConfig } */
+const path = require('path');
 module.exports = {
   mount: {
     public: { url: '/', static: false },
@@ -13,7 +14,7 @@ module.exports = {
       {
         transformOptions: {
           root: '../',
-          configFile: 'config/babel.config.json',
+          configFile: path.resolve(__dirname, '../config/babel.config.json'),
         },
       },
     ],
