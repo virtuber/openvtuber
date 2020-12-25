@@ -1,6 +1,7 @@
 import cv2
 from rx import operators as op
-from openvtuber import stream, ml
+from openvtuber import stream, ml, client
+import threading
 
 import asyncio
 
@@ -19,6 +20,8 @@ def show(image):
 
 
 def main():
+    web_thread = threading.Thread(target=client.run_web_server)
+    web_thread.start()
     video = cv2.VideoCapture(0)
 
     video_stream = stream.cv_videocapture(video)

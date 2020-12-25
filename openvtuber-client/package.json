@@ -1,4 +1,5 @@
 {
+  "homepage": "/openvtuber/",
   "scripts": {
     "start": "snowpack dev --config config/snowpack.config.js",
     "build": "snowpack build --config config/snowpack.config.js",
@@ -21,6 +22,7 @@
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-react": "^7.12.10",
     "@babel/preset-typescript": "^7.12.7",
+    "@emotion/babel-plugin": "^11.1.2",
     "@snowpack/plugin-babel": "^2.1.5",
     "@snowpack/plugin-dotenv": "^2.0.5",
     "@snowpack/plugin-react-refresh": "^2.3.9",
@@ -33,6 +35,7 @@
     "@types/snowpack-env": "^2.3.2",
     "@web/test-runner": "^0.10.0",
     "babel-loader": "^8.2.2",
+    "babel-plugin-emotion": "^11.0.0",
     "chai": "^4.2.0",
     "prettier": "^2.0.5",
     "snowpack": "^3.0.0-rc.2",
