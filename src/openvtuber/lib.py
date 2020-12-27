@@ -12,6 +12,8 @@ async def show_coroutine(image):
     cv2.imshow('res', image)
     return cv2.waitKey(1) & 0xff
 
+def test(image):
+    return 1
 
 def show(image):
     future = asyncio.run_coroutine_threadsafe(show_coroutine(image), loop)
@@ -23,6 +25,13 @@ def main():
 
     video_stream = stream.cv_videocapture(video)
     grey_stream = video_stream.pipe(op.map(ml.infer))
+
+    # debug_stream = video_stream.pipe(op.map(test))
+    # debug_stream.subscribe(print)
+
+    debug_stream = video_stream.pipe(op.map(ml.infer_image))
+    debug_stream.subscribe(print)
+
     grey_stream.subscribe(show)
     loop.run_forever()
 
