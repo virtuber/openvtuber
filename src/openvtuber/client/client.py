@@ -1,14 +1,17 @@
 from .config import Configuration as config
 
 from flask import Flask, send_from_directory
-import os
+from pathlib import Path
+from openvtuber import utils
 
 app = Flask(__name__, static_url_path='')
 
 
 @app.route('/openvtuber/<path:path>')
 def serve_pwa(path):
-    abspath = os.path.abspath(config.static_files_dir)
+    root = utils.get_project_root()
+    abspath = root.joinpath(config.static_files_dir)
+    print(abspath)
     return send_from_directory(abspath, path)
 
 
