@@ -1,7 +1,7 @@
 from dataclasses import dataclass
-from openvtuber import client
+from openvtuber import web
 
 
 @dataclass
 class Configuration:
-    client: client.Configuration
+    client: web.Configuration

@@ -30,6 +30,7 @@ module.exports = {
   },
   buildOptions: {
     clean: true,
+    out: '../src/openvtuber/client',
     /* ... */
   },
   proxy: {
