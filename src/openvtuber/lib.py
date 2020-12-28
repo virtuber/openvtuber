@@ -1,6 +1,7 @@
 import cv2
 from rx import operators as op
-from openvtuber import stream, ml
+from openvtuber import stream, ml, web
+import threading
 
 import asyncio
 
@@ -12,8 +13,10 @@ async def show_coroutine(image):
     cv2.imshow('res', image)
     return cv2.waitKey(1) & 0xff
 
+
 def test(image):
     return 1
+
 
 def show(image):
     future = asyncio.run_coroutine_threadsafe(show_coroutine(image), loop)
@@ -21,6 +24,8 @@ def show(image):
 
 
 def main():
+    web_thread = threading.Thread(target=web.run_web_server)
+    web_thread.start()
     video = cv2.VideoCapture(0)
 
     video_stream = stream.cv_videocapture(video)
