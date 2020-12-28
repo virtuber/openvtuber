@@ -1,8 +1,5 @@
 numpy
 opencv-python
 rx
-<<<<<<< HEAD
 dlib
-=======
 flask
->>>>>>> 0ce034e7138abf38d663d44e676933e73a8b58a6
