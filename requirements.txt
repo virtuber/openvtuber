@@ -2,3 +2,5 @@ numpy
 opencv-python
 rx
 flask
+protobuf
+requests

@@ -139,3 +139,4 @@ cython_debug/
 
 # Project-specific
 src/openvtuber/client
+src/openvtuber/assets
