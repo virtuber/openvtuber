@@ -32,7 +32,7 @@ def main():
     grey_stream = video_stream.pipe(op.map(ml.infer))
     grey_stream.subscribe(show)
     ml_stream = video_stream.pipe(op.map(ml.infer_image))
-    control_stream = ml_stream.pipe(op.map(control.ml_to_vrm_state))
+    control_stream = ml_stream.pipe(op.filter(lambda x: x), op.map(control.ml_to_vrm_state))
     control_stream.subscribe(send_data) # Send via WS
     control_stream.subscribe(print)
 
