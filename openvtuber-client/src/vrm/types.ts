@@ -1,5 +1,5 @@
-import type {VrmState} from '../types'
-
+import type {VrmStateMessage} from '../protobufs/VrmStateMessage';
+export type VrmState = VrmStateMessage;
 export const UPDATE_VRM_STATE = "UPDATE_VRM_STATE";
 
 interface UpdateVrmAction {

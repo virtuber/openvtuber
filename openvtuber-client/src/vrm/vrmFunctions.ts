@@ -1,7 +1,7 @@
 import {Vector3} from 'three';
 import THREEVRM from '@pixiv/three-vrm'
 import type {VRM} from '@pixiv/three-vrm';
-import type {VrmState} from '../types'
+import type {VrmState} from './types'
 
 /**
  * Updates VRM with new state.
@@ -52,3 +52,4 @@ export const updateVrm = (vrm: VRM, state: VrmState, delta: any) => {
     vrm.lookAt.lookAt(new Vector3(state.lookAtX, state.lookAtY, state.lookAtZ));
   vrm.update(delta);
 }
+
