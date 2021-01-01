@@ -1,6 +1,6 @@
 import cv2
 from rx import operators as op
-from openvtuber import stream, ml, web, utils
+from openvtuber import stream, ml, web, control, utils
 import threading
 
 import asyncio
@@ -28,6 +28,10 @@ def main():
     video_stream = stream.cv_videocapture(video)
     grey_stream = video_stream.pipe(op.map(ml.infer))
     grey_stream.subscribe(show)
+    ml_stream = video_stream.pipe(op.map(ml.infer_image))
+    control_stream = ml_stream.pipe(op.map(control.ml_to_vrm_state))
+    control_stream.subscribe(print)
+
     loop.run_forever()
 
     video.release()
