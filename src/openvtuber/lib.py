@@ -18,6 +18,9 @@ def show(image):
     future = asyncio.run_coroutine_threadsafe(show_coroutine(image), loop)
     future.result()
 
+def send_data(data):
+    future = asyncio.run_coroutine_threadsafe(stream.send_data_coro(data), loop)
+    future.result()
 
 def main():
     utils.get_assets()
@@ -30,6 +33,7 @@ def main():
     grey_stream.subscribe(show)
     ml_stream = video_stream.pipe(op.map(ml.infer_image))
     control_stream = ml_stream.pipe(op.map(control.ml_to_vrm_state))
+    control_stream.subscribe(send_data) # Send via WS
     control_stream.subscribe(print)
 
     loop.run_forever()

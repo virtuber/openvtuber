@@ -4,3 +4,4 @@ rx
 flask
 protobuf
 requests
+websockets
