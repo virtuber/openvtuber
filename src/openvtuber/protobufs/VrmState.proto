@@ -1,0 +1,14 @@
+syntax = "proto3";
+message VrmStateMessage {
+  float blinkLeftValue = 1;
+  float blinkRightValue = 2;
+  float headRotationX = 3;
+  float headRotationY = 4;
+  float jawRotationX = 5;
+  float jawRotationY = 6;
+  float lookAtX = 7;
+  float lookAtY = 8;
+  float lookAtZ = 9;
+  float neckRotationX = 10;
+  float neckRotationY = 11;
+}
