@@ -221,7 +221,7 @@ def infer_image(image):
         yaw = np.clip(-(np.degrees(pose[0])), -50, 50)
 
         # returns min of left and right eye, so currently cannot wink
-        min_ear = min(eye_aspect_ratio(marks[36:42]), eye_aspect_ratio(marks[42:48]))  
+        min_ear = min(eye_aspect_ratio(marks[36:42]), eye_aspect_ratio(marks[42:48]))
         mar = mouth_aspect_ration(marks[60:68])
         mdst = mouth_distance(marks[60:68])/(facebox[2] - facebox[0])
 
