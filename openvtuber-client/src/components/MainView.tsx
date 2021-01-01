@@ -1,6 +1,6 @@
 import React, { useRef, FunctionComponent } from 'react';
 import { Canvas } from 'react-three-fiber';
-import VrmViewerImpl from './VrmViewer';
+import VrmViewerImpl from '../vrm/VrmViewer';
 
 const MainView: FunctionComponent = () => {
   type vrmViewerImplType = React.ElementRef<typeof VrmViewerImpl>;

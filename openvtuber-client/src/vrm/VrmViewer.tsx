@@ -4,12 +4,11 @@ import React, {
   forwardRef,
   MutableRefObject,
   Suspense,
-  useMemo,
 } from 'react';
 import { useThree, useResource, useFrame, Camera } from 'react-three-fiber';
-import useVrm from '../hooks/useVrm';
+import useVrm from './useVrm';
 import Vrm from './Vrm';
-import Stars from './Stars';
+import Stars from '../components/Stars';
 
 type VrmViewerProps = {};
 type VrmViewerRefProps = {
