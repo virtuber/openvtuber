@@ -2,7 +2,6 @@ from rx import Observable, interval, operators as op
 from cv2 import VideoCapture
 from openvtuber.protobufs import VrmStateMessage
 import asyncio
-import base64
 from collections import deque
 
 ws = None
@@ -43,4 +42,4 @@ def control_to_protobuf(args) -> bytes:
     vsm.blinkLeftValue, vsm.blinkRightValue, vsm.headRotationX, vsm.headRotationY, \
         vsm.jawRotationX, vsm.jawRotationY, vsm.lookAtX, vsm.lookAtY, vsm.lookAtZ, \
         vsm.neckRotationX, vsm.neckRotationY = map(float, args)
-    return base64.b64encode(vsm.SerializeToString())
+    return vsm.SerializeToString()
