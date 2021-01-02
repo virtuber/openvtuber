@@ -1,8 +1,10 @@
 import cv2
 from rx import operators as op
+import websockets
 from openvtuber import stream, ml, web, control, utils
+from web.config import Configuration as config
 import threading
-
+import websockets
 import asyncio
 
 
@@ -26,6 +28,9 @@ def main():
     utils.get_assets()
     web_thread = threading.Thread(target=web.run_web_server)
     web_thread.start()
+
+    start_server = websockets.serve(stream.ack, config.ip_address, config.ws_port)
+
     video = cv2.VideoCapture(0)
 
     video_stream = stream.cv_videocapture(video)
@@ -34,7 +39,9 @@ def main():
     ml_stream = video_stream.pipe(op.map(ml.infer_image))
     control_stream = ml_stream.pipe(op.filter(lambda x: x), op.map(control.ml_to_vrm_state))
     control_stream.subscribe(send_data) # Send via WS
-    control_stream.subscribe(print)
+
+    loop.run_until_complete(start_server)
+    loop.run_until_complete(stream.connect_ws())
 
     loop.run_forever()
 
