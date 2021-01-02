@@ -39,4 +39,10 @@ module.exports = {
   alias: {
     /* ... */
   },
+  experiments: {
+    optimize: {
+      minify: true,
+      target: 'es2018',
+    },
+  },
 };
