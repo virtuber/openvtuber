@@ -44,8 +44,8 @@ export const updateVrm = (vrm: VRM, state: VrmState, delta: any) => {
     }
   }
   if (vrm.blendShapeProxy) {
-    vrm.blendShapeProxy.setValue('blinkLeft', state.blinkLeftValue);
-    vrm.blendShapeProxy.setValue('blinkRight', state.blinkRightValue);
+    vrm.blendShapeProxy.setValue('blink_l', state.blinkLeftValue);
+    vrm.blendShapeProxy.setValue('blink_r', state.blinkRightValue);
     vrm.blendShapeProxy.setValue('fun', 0.5);
   }
   if (vrm.lookAt)
