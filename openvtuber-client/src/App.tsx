@@ -9,17 +9,13 @@ interface AppProps {}
 const App = ({}: AppProps) => {
   const updateVrmState = useVrmStore((state) => state.updateVrmState);
   const socket = new WebSocket('ws://localhost:42069');
+  socket.binaryType = 'arraybuffer';
 
   // Listen for messages
   socket.addEventListener('message', (event) => {
-    const data = atob(event.data);
-    /*
-    if (VrmStateMessage.VrmStateMessage.verify(data)) {
-      const msg = VrmStateMessage.VrmStateMessage.decode(data);
-      updateVrmState(msg);
-    }
-    */
-    console.log('Message from server ', event.data);
+    const buffer = new Uint8Array(event.data);
+    const msg = VrmStateMessage.VrmStateMessage.decode(buffer);
+    updateVrmState(msg);
   });
 
   return (
