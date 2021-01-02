@@ -15,7 +15,8 @@ const App = ({}: AppProps) => {
 
   // Listen for messages
   socket.addEventListener('message', (event) => {
-    const data = event.data;
+    const data = atob(event.data);
+    console.log(data);
     if (VrmStateMessage.VrmStateMessage.verify(data)) {
       const msg = VrmStateMessage.VrmStateMessage.decode(data);
       updateVrmState(msg);
