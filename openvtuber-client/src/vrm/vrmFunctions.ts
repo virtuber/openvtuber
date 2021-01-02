@@ -1,7 +1,7 @@
 import {Vector3} from 'three';
 import THREEVRM from '@pixiv/three-vrm'
 import type {VRM} from '@pixiv/three-vrm';
-import type {VrmState} from './types'
+import type {VrmState} from '../types'
 
 /**
  * Updates VRM with new state.

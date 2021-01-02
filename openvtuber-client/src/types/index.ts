@@ -1,2 +1,13 @@
-import type {VrmState} from '../vrm/types';
-export interface RootState {vrmState: VrmState}
+export interface VrmState{
+    blinkLeftValue: number;
+    blinkRightValue: number;
+    headRotationX: number;
+    headRotationY: number;
+    jawRotationX: number;
+    jawRotationY: number;
+    lookAtX: number;
+    lookAtY: number;
+    lookAtZ: number;
+    neckRotationX: number;
+    neckRotationY: number;
+}

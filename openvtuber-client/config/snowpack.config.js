@@ -39,9 +39,4 @@ module.exports = {
   alias: {
     /* ... */
   },
-  optimize: {
-    bundle: true,
-    minify: true,
-    target: 'es2018',
-  },
 };
