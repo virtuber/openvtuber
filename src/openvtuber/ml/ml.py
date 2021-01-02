@@ -143,6 +143,9 @@ def detect_iris(frame, marks, side="left"):
     contours = sorted(contours, key=cv2.contourArea)
     moments = cv2.moments(contours[-2])
 
+    if moments['m00'] == 0:
+        return 0, 0, 0.5, 0.5
+
     x = int(moments['m10'] / moments['m00']) + min_x
     y = int(moments['m01'] / moments['m00']) + min_y
     l_ratio = (x - min_x - margin) / (max_x - min_x - 2 * margin)
