@@ -1,3 +1,4 @@
+"""
 import cProfile
 import cv2
 from openvtuber import ml
@@ -9,3 +10,4 @@ for n in range(4):
     cProfile.run('ml.infer_image(frame)')
 
 video.release()
+"""
