@@ -1,4 +1,4 @@
-from .stream import cv_videocapture
+from .stream import cv_videocapture, control_to_protobuf, send_data_coro
 
 
-__all__ = ['cv_videocapture', ]
+__all__ = ['cv_videocapture', 'control_to_protobuf', 'send_data_coro']
