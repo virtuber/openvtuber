@@ -9,9 +9,11 @@ const MainView: FunctionComponent = () => {
 
   return (
     <>
+      <label htmlFor="vrm-picker">Pick VRM model</label>
       <input
         type="file"
         accept=".vrm"
+        id="vrm-picker"
         onChange={(e) => {
           vrmRef.current?.handleFileChange(e);
         }}

@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import App from './App';
+import MainView from './components/MainView';
 
-describe('<App>', () => {
-  it('renders learn react link', () => {
-    const { getByText } = render(<App />);
-    const linkElement = getByText(/learn react/i);
-    expect(document.body.contains(linkElement));
+describe('<MainView>', () => {
+  it('renders vrm picker', () => {
+    const { getByLabelText } = render(<MainView />);
+    const label = getByLabelText('Pick VRM model');
+    expect(document.body.contains(label));
   });
 });
