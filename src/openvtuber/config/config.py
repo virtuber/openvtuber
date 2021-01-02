@@ -4,4 +4,4 @@ from openvtuber import web
 
 @dataclass
 class Configuration:
-    client: web.Configuration
+    web: web.Configuration

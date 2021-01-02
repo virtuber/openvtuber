@@ -1,7 +1,7 @@
 import cv2
 from rx import operators as op
 from openvtuber import stream, ml, web, control, utils
-from web.config import Configuration as config
+from openvtuber.web.config import Configuration as config
 import threading
 import websockets
 import asyncio
@@ -37,10 +37,10 @@ def main():
     grey_stream.subscribe(show)
     ml_stream = video_stream.pipe(op.map(ml.infer_image))
     control_stream = ml_stream.pipe(op.filter(lambda x: x), op.map(control.ml_to_vrm_state))
-    control_stream.subscribe(print)
     control_stream.subscribe(stream.queue_control_data)  # push to queue
 
-    start_server = websockets.serve(stream.websocket_handler, config.ip_address, config.ws_port)
+    start_server = websockets.serve(stream.websocket_handler,
+                                    config.ip_address, config.ws_port)
 
     loop.run_until_complete(start_server)
     loop.run_forever()
