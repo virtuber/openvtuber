@@ -1,21 +1,20 @@
 import React, { FunctionComponent } from 'react';
 import { useFrame } from 'react-three-fiber';
-import { useSelector } from 'react-redux';
 import { updateVrm } from './vrmFunctions';
+import { useVrmStore } from '../utils/store';
 import type { VRM as pixivVRM } from '@pixiv/three-vrm';
-import type { RootState } from '../types';
 
-type VrmProps = {
-  vrm: pixivVRM | null;
-};
+interface VrmProps {
+  vrm: pixivVRM;
+}
 
 const Vrm: FunctionComponent<VrmProps> = ({ vrm }) => {
   useFrame((_, delta: number) => {
-    const vrmState = useSelector((state: RootState) => state.vrmState);
-    if (vrm) updateVrm(vrm, vrmState, delta);
+    const vrmState = useVrmStore.getState().vrmState;
+    updateVrm(vrm, vrmState, delta);
   });
 
-  return vrm && <primitive object={vrm.scene} />;
+  return <primitive object={vrm.scene} />;
 };
 
 export default Vrm;
