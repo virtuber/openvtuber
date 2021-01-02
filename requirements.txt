@@ -1,3 +1,4 @@
+dlib
 numpy
 opencv-python
 rx
