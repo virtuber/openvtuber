@@ -26,6 +26,8 @@ def send_data(data):
 
 
 def main():
+    inference = ml.Inference()
+
     utils.get_assets()
     web_thread = threading.Thread(target=web.run_web_server)
     web_thread.start()
@@ -35,7 +37,8 @@ def main():
     video_stream = stream.cv_videocapture(video)
     grey_stream = video_stream.pipe(op.map(ml.infer))
     grey_stream.subscribe(show)
-    ml_stream = video_stream.pipe(op.map(ml.infer_image))
+    ml_stream = video_stream.pipe(op.map(inference.infer_image))
+    ml_stream.subscribe(print)
     control_stream = ml_stream.pipe(op.filter(lambda x: x), op.map(control.ml_to_vrm_state))
     control_stream.subscribe(stream.queue_control_data)  # push to queue
 
