@@ -140,6 +140,10 @@ def detect_iris(frame, marks, side="left"):
 
     eye_binarized = cv2.threshold(eye, np.quantile(eye, 0.2), 255, cv2.THRESH_BINARY)[1]
     contours, _ = cv2.findContours(eye_binarized, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
+
+    if len(contours) < 2:
+        return 0, 0, 0.5, 0.5
+
     contours = sorted(contours, key=cv2.contourArea)
     moments = cv2.moments(contours[-2])
 
@@ -229,6 +233,8 @@ def infer_image(image):
         mdst = mouth_distance(marks[60:68])/(facebox[2] - facebox[0])
 
         return (roll, pitch, yaw, min_ear, mar, mdst, [x_l, y_l, ll, lu], [x_r, y_r, rl, ru])
+    else:
+        return None
 
 
 """
