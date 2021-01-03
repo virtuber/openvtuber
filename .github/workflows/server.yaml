@@ -1,6 +1,9 @@
-name: build
+name: server
 
-on: [push]
+on:
+  push:
+    paths-ignore:
+    - 'openvtuber-client/**'
 
 jobs:
   build:
