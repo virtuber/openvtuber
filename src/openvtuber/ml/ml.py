@@ -17,7 +17,9 @@ class Inference:
         self.camera_angle = 0
         self.face_detector = dlib.get_frontal_face_detector()
         self.root = utils.get_project_root()
-        self.dlib_model_path = str(self.root.joinpath("openvtuber/assets/shape_predictor_68_face_landmarks.dat"))
+
+        path = "openvtuber/assets/shape_predictor_68_face_landmarks.dat"
+        self.dlib_model_path = str(self.root.joinpath(path))
         self.shape_predictor = dlib.shape_predictor(self.dlib_model_path)
         pass
 
@@ -152,6 +154,9 @@ class Inference:
             mar = self.mouth_aspect_ration(marks[60:68])
             mdst = self.mouth_distance(marks[60:68])/(facebox[2] - facebox[0])
 
-            return (roll, pitch, yaw, ear_left, ear_right, mar, mdst, [x_l, y_l, ll, lu], [x_r, y_r, rl, ru])
+            left_iris = [x_l, y_l, ll, lu]
+            right_iris = [y_r, y_r, rl, ru]
+
+            return (roll, pitch, yaw, ear_left, ear_right, mar, mdst, left_iris, right_iris)
         else:
             return None
