@@ -9,7 +9,7 @@ def infer(image):
     """
     default infer place holder, output black white video stream
     """
-    return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    return cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2GRAY)
 
 
 class Inference:
@@ -69,7 +69,13 @@ class Inference:
         max_y = np.max(region[:, 1]) + margin
 
         eye = eye[min_y:max_y, min_x:max_x]
+
+
+        if eye.size == 0:
+            return 0, 0, 0.5, 0.5
+        
         eye = cv2.cvtColor(eye, cv2.COLOR_RGB2GRAY)
+
 
         eye_binarized = cv2.threshold(eye, np.quantile(eye, 0.2), 255, cv2.THRESH_BINARY)[1]
         contours, _ = cv2.findContours(eye_binarized, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)

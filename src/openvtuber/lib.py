@@ -26,9 +26,8 @@ def send_data(data):
 
 
 def main():
-    inference = ml.Inference()
-
     utils.get_assets()
+    inference = ml.Inference()
     web_thread = threading.Thread(target=web.run_web_server)
     web_thread.start()
 
