@@ -3,6 +3,7 @@ from cv2 import VideoCapture
 from openvtuber.protobufs import VrmStateMessage
 import asyncio
 from collections import deque
+import websockets
 
 ws = None
 
@@ -11,7 +12,8 @@ control_ready = asyncio.Event()
 queue: deque = deque([])
 # Control stream data is stored inside a queue, and then dequeued when sent into Websocket
 # Potential Concern: If the client doesn't connect fast enough, the queue gets too big and explodes
-
+# Second Concern: Won't work for simultaneous connections. Probably should make it
+# just a single variable which holds the most recent frame, to allow reads from multiple different clients
 
 def cv_videocapture(v: VideoCapture) -> Observable:
     FPS = 30
@@ -33,7 +35,10 @@ async def websocket_handler(websocket, path):
         if queue:
             # extra check to make sure queue is nonempty
             encoded_data = control_to_protobuf(queue.popleft())
-            await websocket.send(encoded_data)
+            try:
+                await websocket.send(encoded_data)
+            except Exception:
+                break  # upon termination of connection, break loop
             control_ready.clear()  # clear the event
 
 
