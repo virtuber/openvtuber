@@ -1,4 +1,4 @@
-from .ml import infer, infer_image
+from .ml import infer, Inference
 
 
-__all__ = ['infer', 'infer_image', ]
+__all__ = ['infer', 'Inference', ]
