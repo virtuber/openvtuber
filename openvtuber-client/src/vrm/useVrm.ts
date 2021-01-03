@@ -5,7 +5,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 type UseVrmReturn = {
   vrm: THREEVRM.VRM | undefined;
-  loadVrm: Function;
+  loadVrm: (url: string) => void;
 };
 
 const useVrm = (): UseVrmReturn => {

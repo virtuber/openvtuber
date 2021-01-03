@@ -1,36 +1,45 @@
-import {Vector3} from 'three';
-import THREEVRM from '@pixiv/three-vrm'
-import type {VRM} from '@pixiv/three-vrm';
-import type {VrmState} from '../types'
+import { Vector3 } from 'three';
+import THREEVRM from '@pixiv/three-vrm';
+import type { VRM } from '@pixiv/three-vrm';
+import type { VrmState } from '../types';
 
 /**
  * Updates VRM with new state.
  */
-export const updateVrm = (vrm: VRM, state: VrmState, delta: any) => {
+export const updateVrm = (vrm: VRM, state: VrmState, delta: number): void => {
   if (vrm.humanoid) {
     const chest = vrm.humanoid.getBoneNode(
-        THREEVRM.VRMSchema.HumanoidBoneName.Chest,
+      THREEVRM.VRMSchema.HumanoidBoneName.Chest,
     );
     const upperChest = vrm.humanoid.getBoneNode(
-        THREEVRM.VRMSchema.HumanoidBoneName.UpperChest,
+      THREEVRM.VRMSchema.HumanoidBoneName.UpperChest,
     );
     const leftShoulder = vrm.humanoid.getBoneNode(
-        THREEVRM.VRMSchema.HumanoidBoneName.LeftShoulder,
+      THREEVRM.VRMSchema.HumanoidBoneName.LeftShoulder,
     );
     const rightShoulder = vrm.humanoid.getBoneNode(
-        THREEVRM.VRMSchema.HumanoidBoneName.RightShoulder,
+      THREEVRM.VRMSchema.HumanoidBoneName.RightShoulder,
     );
     const neck = vrm.humanoid.getBoneNode(
-        THREEVRM.VRMSchema.HumanoidBoneName.Neck,
+      THREEVRM.VRMSchema.HumanoidBoneName.Neck,
     );
     const jaw = vrm.humanoid.getBoneNode(
-        THREEVRM.VRMSchema.HumanoidBoneName.Jaw,
+      THREEVRM.VRMSchema.HumanoidBoneName.Jaw,
     );
     const head = vrm.humanoid.getBoneNode(
-        THREEVRM.VRMSchema.HumanoidBoneName.Head,
+      THREEVRM.VRMSchema.HumanoidBoneName.Head,
     );
-    if (chest && upperChest && jaw && leftShoulder && rightShoulder && neck && jaw && head) {
-      neck.rotation.x = state.neckRotationX
+    if (
+      chest &&
+      upperChest &&
+      jaw &&
+      leftShoulder &&
+      rightShoulder &&
+      neck &&
+      jaw &&
+      head
+    ) {
+      neck.rotation.x = state.neckRotationX;
       neck.rotation.y = state.neckRotationY;
       jaw.rotation.x = state.jawRotationX;
       jaw.rotation.y = state.jawRotationY;
@@ -39,7 +48,7 @@ export const updateVrm = (vrm: VRM, state: VrmState, delta: any) => {
       leftShoulder.rotation.x = Math.PI / 2;
       rightShoulder.rotation.y = -Math.PI / 3;
       rightShoulder.rotation.x = Math.PI / 2;
-      chest.rotation.y = 0
+      chest.rotation.y = 0;
       upperChest.rotation.y = 0;
     }
   }
@@ -51,5 +60,4 @@ export const updateVrm = (vrm: VRM, state: VrmState, delta: any) => {
   if (vrm.lookAt)
     vrm.lookAt.lookAt(new Vector3(state.lookAtX, state.lookAtY, state.lookAtZ));
   vrm.update(delta);
-}
-
+};
