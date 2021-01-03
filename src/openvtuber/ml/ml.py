@@ -4,11 +4,13 @@ import numpy as np
 from openvtuber import utils
 from .poseEstimator import PoseEstimator
 
+
 def infer(image):
     """
     default infer place holder, output black white video stream
     """
     return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
 
 class Inference:
     def __init__(self):
@@ -18,7 +20,6 @@ class Inference:
         self.dlib_model_path = str(self.root.joinpath("openvtuber/assets/shape_predictor_68_face_landmarks.dat"))
         self.shape_predictor = dlib.shape_predictor(self.dlib_model_path)
         pass
-
 
     def get_face(self, detector, image):
         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -34,13 +35,11 @@ class Inference:
         y2 = box.bottom()
         return [x1, y1, x2, y2]
 
-
     def shape_to_np(self, shape):
         coords = np.zeros((68, 2))
         for i in range(68):
             coords[i] = (shape.part(i).x, shape.part(i).y)
         return coords
-
 
     def detect_iris(self, frame, marks, side="left"):
         """
@@ -91,7 +90,6 @@ class Inference:
         # except:
         #    return 0, 0, 0.5, 0.5
 
-
     def eye_aspect_ratio(self, eye):
         """
         eye: array of shape 6x2
@@ -100,7 +98,6 @@ class Inference:
         ear /= (2 * np.linalg.norm(eye[0] - eye[3]) + 1e-6)
         return ear
 
-
     def mouth_aspect_ration(self, mouth):
         mar = np.linalg.norm(mouth[1] - mouth[7]) + \
                             np.linalg.norm(mouth[2] - mouth[6]) + \
@@ -108,19 +105,17 @@ class Inference:
         mar /= (2*np.linalg.norm(mouth[0] - mouth[4]) + 1e-6)
         return mar
 
-
     def mouth_distance(self, mouth):
         return np.linalg.norm(mouth[0] - mouth[4])
-
 
     def infer_image(self, image):
         pose_estimator = PoseEstimator(self.root, img_size=image.shape[:2])
         image = cv2.flip(image, 1)
-        facebox = self.get_face(self.face_detector, image)  # don't need args.cpu, assume it's already cpu
+        facebox = self.get_face(self.face_detector, image)
 
         if facebox is not None:
             face = dlib.rectangle(left=facebox[0], top=facebox[1],
-                                right=facebox[2], bottom=facebox[3])
+                                  right=facebox[2], bottom=facebox[3])
             marks = self.shape_to_np(self.shape_predictor(image, face))
 
             x_l, y_l, ll, lu = self.detect_iris(image, marks, "left")
@@ -160,4 +155,3 @@ class Inference:
             return (roll, pitch, yaw, ear_left, ear_right, mar, mdst, [x_l, y_l, ll, lu], [x_r, y_r, rl, ru])
         else:
             return None
-

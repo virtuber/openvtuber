@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 
+
 class PoseEstimator:
     def __init__(self, prj_root, img_size=(480, 640)):
         self.size = img_size
@@ -76,4 +77,3 @@ class PoseEstimator:
         reprojection_error = np.mean((image_points - reproject_image_points)**2)
 
         return reprojection_error, rotation_vector, translation_vector
-
