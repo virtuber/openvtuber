@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import MainView from './components/MainView';
 import './App.css';
 import VrmStateMessage from './protobufs/VrmStateMessage';
 import { useVrmStore } from './utils/store';
 
-interface AppProps {}
+type AppProps = {};
 
-const App = ({}: AppProps) => {
+const App: FunctionComponent<AppProps> = () => {
   const updateVrmState = useVrmStore((state) => state.updateVrmState);
   const socket = new WebSocket('ws://localhost:42069');
   socket.binaryType = 'arraybuffer';

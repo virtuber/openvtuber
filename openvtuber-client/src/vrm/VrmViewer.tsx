@@ -55,5 +55,6 @@ const VrmViewer = forwardRef<VrmViewerRefProps, VrmViewerProps>((_, ref) => {
     </>
   );
 });
+VrmViewer.displayName = 'VrmViewer';
 
 export default VrmViewer;

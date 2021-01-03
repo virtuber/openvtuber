@@ -1,7 +1,10 @@
-import React, { useMemo } from 'react';
-const Stars = ({ count = 5000 }) => {
+import React, { useMemo, FunctionComponent } from 'react';
+type StarsProps = {
+  count?: number;
+};
+const Stars: FunctionComponent<StarsProps> = ({ count = 5000 }: StarsProps) => {
   const positions = useMemo(() => {
-    let positions = [];
+    const positions = [];
     for (let i = 0; i < count; i++) {
       positions.push(
         (50 + Math.random() * 1000) * (Math.round(Math.random()) ? -1 : 1),
