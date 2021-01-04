@@ -55,4 +55,3 @@ def ml_to_vrm_state(*args):
 
     return (blinkLeftValue, blinkRightValue, headRotationX, headRotationY, jawRotationX,
             jawRotationY, lookAtX, lookAtY, lookAtZ, neckRotationX, neckRotationY)
-
