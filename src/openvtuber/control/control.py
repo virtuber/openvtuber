@@ -29,8 +29,8 @@ def set_jaw_rotation_Y(mouth_aspect_ratio, mouth_distance):
 
 
 def ml_to_vrm_state(*args):
-    roll, pitch, yaw, eye_aspect_ratio_left, eye_aspect_ratio_right, mouth_aspect_ratio, mouth_distance, \
-        left_iris, right_iris = args[0]
+    roll, pitch, yaw, eye_aspect_ratio_left, eye_aspect_ratio_right, mouth_aspect_ratio, \
+        mouth_distance, left_iris, right_iris = args[0]
     # x_l, y_l, ll, lu = left_iris
     # x_r, y_r, rl, ru = right_iris
     blinkLeftValue = 0
