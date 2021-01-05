@@ -32,22 +32,22 @@ export const updateVrm = (vrm: VRM, state: VrmState, delta: number): void => {
     if (
       chest &&
       upperChest &&
-      jaw &&
       leftShoulder &&
       rightShoulder &&
       neck &&
-      jaw &&
       head
     ) {
+      head.rotation.x = state.headRotationX;
+      head.rotation.y = state.headRotationY;
+
       neck.rotation.x = state.neckRotationX;
       neck.rotation.y = state.neckRotationY;
-      jaw.rotation.x = state.jawRotationX;
-      jaw.rotation.y = state.jawRotationY;
 
       leftShoulder.rotation.y = Math.PI / 3;
       leftShoulder.rotation.x = Math.PI / 2;
       rightShoulder.rotation.y = -Math.PI / 3;
       rightShoulder.rotation.x = Math.PI / 2;
+
       chest.rotation.y = 0;
       upperChest.rotation.y = 0;
     }
