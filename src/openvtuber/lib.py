@@ -34,8 +34,8 @@ def main():
     video = cv2.VideoCapture(0)
 
     video_stream = stream.cv_videocapture(video)
-    grey_stream = video_stream.pipe(op.map(ml.infer))
-    grey_stream.subscribe(show)
+    # grey_stream = video_stream.pipe(op.map(ml.infer))
+    # grey_stream.subscribe(show)
     ml_stream = video_stream.pipe(op.map(inference.infer_image))
     ml_stream.subscribe(print)
     control_stream = ml_stream.pipe(op.filter(lambda x: x), op.map(control.ml_to_vrm_state))
