@@ -6,13 +6,9 @@ from collections import deque
 
 ws = None
 
-control_ready = asyncio.Event()
-
-queue: deque = deque([])
-# Control stream data is stored inside a queue, and then dequeued when sent into Websocket
-# Potential Concern: If the client doesn't connect fast enough, the queue gets too big and explodes
-# Second Concern: Won't work for simultaneous connections. Probably should make it
-# a single variable which holds the most recent frame to allow reads from multiple different clients
+queue = None
+# Bootleg queue of one variable
+# This is basically a stream except way worse
 
 
 def cv_videocapture(v: VideoCapture) -> Observable:
@@ -24,22 +20,23 @@ def cv_videocapture(v: VideoCapture) -> Observable:
 
 
 def queue_control_data(data):
-    queue.append(data)
-    control_ready.set()
+    global queue
+    queue = data
 
 
 async def websocket_handler(websocket, path):
     # called when the client connects to the server
     while True:
-        await control_ready.wait()
+        await asyncio.sleep(0.1)  # 10 FPS
         if queue:
             # extra check to make sure queue is nonempty
-            encoded_data = control_to_protobuf(queue.popleft())
+            encoded_data = control_to_protobuf(queue)
+            print(encoded_data)
+            # Remove this once we're happy with data egress
             try:
                 await websocket.send(encoded_data)
             except Exception:
                 break  # upon termination of connection, break loop
-            control_ready.clear()  # clear the event
 
 
 def control_to_protobuf(args) -> bytes:
