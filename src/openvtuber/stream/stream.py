@@ -2,7 +2,6 @@ from rx import Observable, interval, operators as op
 from cv2 import VideoCapture
 from openvtuber.protobufs import VrmStateMessage
 import asyncio
-from collections import deque
 
 ws = None
 
