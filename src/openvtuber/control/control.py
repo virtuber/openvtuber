@@ -1,5 +1,7 @@
 def set_blink(eye_aspect_ratio):
     # average human eye aspect ratio is assumed to be 0.25
+    if eye_aspect_ratio < 0.11:
+        eye_aspect_ratio = 0
     return (min(eye_aspect_ratio/0.35, 1))
 
 
