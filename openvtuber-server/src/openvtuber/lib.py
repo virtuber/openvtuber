@@ -24,6 +24,7 @@ def send_data(data):
     future = asyncio.run_coroutine_threadsafe(stream.send_data_coro(data), loop)
     future.result()
 
+
 def debug_print(data):
     if data is not None:
         roll, pitch, yaw, ear_left, ear_right, mar, mdst, left_iris, right_iris = data
