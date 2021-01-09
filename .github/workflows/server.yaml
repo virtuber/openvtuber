@@ -2,12 +2,16 @@ name: server
 
 on:
   push:
-    paths-ignore:
-    - 'openvtuber-client/**'
+    paths:
+    - 'openvtuber-server/**'
+    - '.github/workflows/**'
 
 jobs:
   build:
     runs-on: self-hosted
+    defaults:
+      run:
+        working-directory: openvtuber-server
     strategy:
       matrix:
         python: ['3.8', '3.9']

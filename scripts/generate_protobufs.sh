@@ -1,8 +1,10 @@
-PBJS_PATH="../openvtuber-client/node_modules/protobufjs/bin"
-CJS_TO_ES6_PATH="../openvtuber-client/node_modules/cjs-to-es6"
-JS_OUT_DIR="../openvtuber-client/src/protobufs"
-PY_OUT_DIR="../src/openvtuber/protobufs"
-PROTO_PATH="$(realpath "../src/openvtuber/protobufs")"
+#!/bin/bash
+PROJECT_ROOT=$(realpath "$(dirname $0)/..")
+PBJS_PATH="$PROJECT_ROOT/openvtuber-client/node_modules/protobufjs/bin"
+CJS_TO_ES6_PATH="$PROJECT_ROOT/openvtuber-client/node_modules/cjs-to-es6"
+JS_OUT_DIR="$PROJECT_ROOT/openvtuber-client/src/protobufs"
+PY_OUT_DIR="$PROJECT_ROOT/openvtuber-server/src/openvtuber/protobufs"
+PROTO_PATH="$PROJECT_ROOT/openvtuber-server/src/openvtuber/protobufs"
 
 protoc \
         --python_out=${PY_OUT_DIR} \
