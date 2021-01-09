@@ -56,7 +56,7 @@ def ml_to_vrm_state(*args):
     else:
         blinkLeftValue = max(blinkLeftValue, blinkRightValue)
         blinkRightValue = blinkLeftValue
-    
+        
     lookAtX = set_gaze_left(left_iris, right_iris)
     lookAtY = set_gaze_up(left_iris, right_iris)
     # headRotationX = set_head_rotation_X(yaw)
