@@ -48,7 +48,9 @@ def main():
     # grey_stream.subscribe(show)
     ml_stream = video_stream.pipe(op.map(inference.infer_image))
     ml_stream.subscribe(debug_print)
-    control_stream = ml_stream.pipe(op.filter(lambda x: x), op.map(control.ml_to_vrm_state))
+
+    # use filter with identity function, None values are filtered out
+    control_stream = ml_stream.pipe(op.filter(lambda x: x), op.map(control.ml_to_vrm_state)) 
     control_stream.subscribe(stream.queue_control_data)  # push to queue
 
     start_server = websockets.serve(stream.websocket_handler,
