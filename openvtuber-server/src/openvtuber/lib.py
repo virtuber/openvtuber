@@ -5,6 +5,7 @@ from openvtuber.web.config import Configuration as config
 import threading
 import websockets
 import asyncio
+import click
 
 
 loop = asyncio.get_event_loop()
@@ -33,7 +34,17 @@ def debug_print(data):
         print(None)
 
 
-def main():
+@click.command()
+@click.option('--debug', required=False, type=str, help='enable debug output', default="false")
+@click.option('--config_path', required=False, type=str,
+              help='filepath to config file for app', default=".")
+def main(debug, config_path):
+    if debug != "false" and debug != "true":
+        print("ERROR!!\n \
+debug flag must be equal 'true' or 'false',\n \
+e.g. --debug=true or --debug=false")
+        return
+
     utils.get_assets()
     inference = ml.Inference()
     web_thread = threading.Thread(target=web.run_web_server)
@@ -47,10 +58,12 @@ def main():
     # grey_stream = video_stream.pipe(op.map(ml.infer))
     # grey_stream.subscribe(show)
     ml_stream = video_stream.pipe(op.map(inference.infer_image))
-    ml_stream.subscribe(debug_print)
+
+    if debug == 'true':
+        ml_stream.subscribe(debug_print)
 
     # use filter with identity function, None values are filtered out
-    control_stream = ml_stream.pipe(op.filter(lambda x: x), op.map(control.ml_to_vrm_state)) 
+    control_stream = ml_stream.pipe(op.filter(lambda x: x), op.map(control.ml_to_vrm_state))
     control_stream.subscribe(stream.queue_control_data)  # push to queue
 
     start_server = websockets.serve(stream.websocket_handler,
