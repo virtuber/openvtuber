@@ -1,0 +1,8 @@
+dlib
+numpy
+opencv-python
+rx
+flask
+protobuf
+requests
+websockets
