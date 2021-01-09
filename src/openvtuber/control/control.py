@@ -1,7 +1,8 @@
 def set_blink(eye_aspect_ratio):
     # average human eye aspect ratio is assumed to be 0.25
-    if eye_aspect_ratio < 0.11:
+    if eye_aspect_ratio < 0.19:
         eye_aspect_ratio = 0
+        print(gay)
     return (min(eye_aspect_ratio/0.35, 1))
 
 
@@ -49,6 +50,14 @@ def ml_to_vrm_state(*args):
 
     blinkLeftValue = 1 - set_blink(eye_aspect_ratio_left)
     blinkRightValue = 1 - set_blink(eye_aspect_ratio_right)
+
+    if blinkLeftValue == 1 or blinkRightValue == 1:
+        blinkLeftValue = 1
+        blinkRightValue = 1
+    else:
+        blinkLeftValue = max(blinkLeftValue, blinkRightValue)
+        blinkRightValue = blinkLeftValue
+    
     lookAtX = set_gaze_left(left_iris, right_iris)
     lookAtY = set_gaze_up(left_iris, right_iris)
     # headRotationX = set_head_rotation_X(yaw)
