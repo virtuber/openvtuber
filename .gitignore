@@ -138,5 +138,5 @@ dmypy.json
 cython_debug/
 
 # Project-specific
-src/openvtuber/client
-src/openvtuber/assets
+openvtuber-server/src/openvtuber/client
+openvtuber-server/src/openvtuber/assets
