@@ -29,6 +29,8 @@ def main():
     utils.get_assets()
     inference = ml.Inference()
     web_thread = threading.Thread(target=web.run_web_server)
+    web_thread.daemon = True  # makes thread die when main is interrupted.
+    # Now you don't need to spam ctrl c 37 times in a row
     web_thread.start()
 
     video = cv2.VideoCapture(0)
