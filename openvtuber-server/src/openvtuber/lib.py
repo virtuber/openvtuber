@@ -24,6 +24,13 @@ def send_data(data):
     future = asyncio.run_coroutine_threadsafe(stream.send_data_coro(data), loop)
     future.result()
 
+def debug_print(data):
+    if data is not None:
+        roll, pitch, yaw, ear_left, ear_right, mar, mdst, left_iris, right_iris = data
+        print(roll, pitch, yaw)
+    else:
+        print(None)
+
 
 def main():
     utils.get_assets()
@@ -37,7 +44,7 @@ def main():
     grey_stream = video_stream.pipe(op.map(ml.infer))
     grey_stream.subscribe(show)
     ml_stream = video_stream.pipe(op.map(inference.infer_image))
-    ml_stream.subscribe(print)
+    ml_stream.subscribe(debug_print)
     control_stream = ml_stream.pipe(op.filter(lambda x: x), op.map(control.ml_to_vrm_state))
     control_stream.subscribe(stream.queue_control_data)  # push to queue
 
