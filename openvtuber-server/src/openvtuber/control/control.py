@@ -1,5 +1,6 @@
 import math
 
+
 def set_blink(eye_aspect_ratio):
     # average human eye aspect ratio is assumed to be 0.25
     if eye_aspect_ratio < 0.19:
@@ -57,7 +58,7 @@ def ml_to_vrm_state(*args):
 
     lookAtX = set_gaze_left(left_iris, right_iris)
     lookAtY = set_gaze_up(left_iris, right_iris)
-    
+
     headRotationX = set_head_rotation(pitch*math.pi/180)
     headRotationY = set_head_rotation(-yaw*math.pi/180)
     # jawRotationY = set_jaw_rotation_Y(mouth_distance, mouth_aspect_ratio)
