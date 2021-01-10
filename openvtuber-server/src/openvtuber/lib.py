@@ -38,12 +38,16 @@ def main(debug, cam, config_path):
 debug flag must be equal 'true' or 'false',\n \
 e.g. --debug=true or --debug=false")
         return
+    else:
+        debug = (debug == "true")
 
     if cam != "false" and cam != "true":
         print("ERROR!!\n \
 cam flag must be equal 'true' or 'false',\n \
 e.g. --cam=true or --cam=false")
         return
+    else:
+        cam = (cam == "true")
 
 
     utils.get_assets()
@@ -58,11 +62,11 @@ e.g. --cam=true or --cam=false")
     video_stream = stream.cv_videocapture(video)
     ml_stream = video_stream.pipe(op.map(inference.infer_image))
 
-    if cam == 'true':
+    if cam:
         grey_stream = video_stream.pipe(op.map(ml.infer))
         grey_stream.subscribe(show)
 
-    if debug == 'true':
+    if debug:
         debug_init()
         ml_stream.subscribe(debug_print)
 
