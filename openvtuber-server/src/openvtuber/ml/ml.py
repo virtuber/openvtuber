@@ -154,11 +154,13 @@ class Inference:
         return np.linalg.norm(mouth[0] - mouth[4])
 
     def infer_image(self, image):
+        """
         if self.evenFrame:
             self.evenFrame = False
             return self.extrapolate_last_two()
 
         self.evenFrame = True
+        """
 
         pose_estimator = PoseEstimator(self.root, img_size=image.shape[:2])
         image = cv2.flip(image, 1)
