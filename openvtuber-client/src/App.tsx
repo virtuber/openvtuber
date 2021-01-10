@@ -15,6 +15,7 @@ const App: FunctionComponent<AppProps> = () => {
   socket.addEventListener('message', (event) => {
     const buffer = new Uint8Array(event.data);
     const msg = VrmStateMessage.VrmStateMessage.decode(buffer);
+    console.log(msg);
     updateVrmState(msg);
   });
 

@@ -1,0 +1,21 @@
+---
+name: Getting Started
+route: /
+---
+
+# Getting Started
+
+```bash
+# Install and build web client
+cd openvtuber-client
+yarn install
+yarn build
+
+# Install server dependencies
+cd ../openvtuber-server
+pip install -r requirements.txt --user
+
+# Run server
+cd src
+python -m openvtuber.lib
+```
