@@ -48,18 +48,21 @@ e.g. --debug=true or --debug=false")
     utils.get_assets()
     inference = ml.Inference()
     web_thread = threading.Thread(target=web.run_web_server)
+    web_thread.daemon = True  # makes thread die when main is interrupted.
+    # Now you don't need to spam ctrl c 37 times in a row
     web_thread.start()
 
     video = cv2.VideoCapture(0)
 
     video_stream = stream.cv_videocapture(video)
-    grey_stream = video_stream.pipe(op.map(ml.infer))
-    grey_stream.subscribe(show)
+    # grey_stream = video_stream.pipe(op.map(ml.infer))
+    # grey_stream.subscribe(show)
     ml_stream = video_stream.pipe(op.map(inference.infer_image))
 
     if debug == 'true':
         ml_stream.subscribe(debug_print)
 
+    # use filter with identity function, None values are filtered out
     control_stream = ml_stream.pipe(op.filter(lambda x: x), op.map(control.ml_to_vrm_state))
     control_stream.subscribe(stream.queue_control_data)  # push to queue
 
