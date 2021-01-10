@@ -76,15 +76,11 @@ e.g. --cam=true or --cam=false")
     video_stream = stream.cv_videocapture(video)
     ml_stream = video_stream.pipe(op.map(inference.infer_image))
 
-<<<<<<< HEAD
     if cam == 'true':
         grey_stream = video_stream.pipe(op.map(ml.infer))
         grey_stream.subscribe(show)
 
     if debug == 'true':
-=======
-    if debug:
->>>>>>> 273faf557c33b95d739a6408d507bdffe1a729bd
         ml_stream.subscribe(debug_print)
 
     # use filter with identity function, None values are filtered out
