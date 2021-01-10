@@ -7,7 +7,6 @@ import threading
 import websockets
 import asyncio
 import click
-from matplotlib import pyplot as plt
 
 
 loop = asyncio.get_event_loop()
@@ -46,7 +45,6 @@ cam flag must be equal 'true' or 'false',\n \
 e.g. --cam=true or --cam=false")
         return
 
-    debug_init()
 
     utils.get_assets()
     inference = ml.Inference()
@@ -64,9 +62,9 @@ e.g. --cam=true or --cam=false")
         grey_stream = video_stream.pipe(op.map(ml.infer))
         grey_stream.subscribe(show)
 
-    # if debug == 'true':
-
-    ml_stream.subscribe(debug_print)
+    if debug == 'true':
+        debug_init()
+        ml_stream.subscribe(debug_print)
 
     # use filter with identity function, None values are filtered out
     control_stream = ml_stream.pipe(op.filter(lambda x: x), op.map(control.ml_to_vrm_state))
