@@ -2,7 +2,7 @@ import cv2
 from rx import operators as op
 from openvtuber import stream, ml, web, control, utils
 from openvtuber.web.config import Configuration as config
-from openvtuber.debugger import debug_print, debug_init
+from openvtuber.debugger import Debugger 
 import threading
 import websockets
 import asyncio
@@ -67,8 +67,8 @@ e.g. --cam=true or --cam=false")
         grey_stream.subscribe(show)
 
     if debug:
-        debug_init()
-        ml_stream.subscribe(debug_print)
+        d = Debugger()
+        ml_stream.subscribe(d.debug_print)
 
     # use filter with identity function, None values are filtered out
     control_stream = ml_stream.pipe(op.filter(lambda x: x), op.map(control.ml_to_vrm_state))
