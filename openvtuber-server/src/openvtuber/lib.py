@@ -29,7 +29,7 @@ def send_data(data):
 def debug_print(data):
     if data is not None:
         roll, pitch, yaw, ear_left, ear_right, mar, mdst, left_iris, right_iris = data
-        print(roll, pitch, yaw)
+        print(data)
     else:
         print(None)
 

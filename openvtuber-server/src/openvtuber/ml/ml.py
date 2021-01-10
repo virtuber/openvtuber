@@ -42,7 +42,7 @@ class Inference:
         last_two = self.get_from_val_hist(2)
 
         # can't use iter here becaues of nested values for iris
-        if last_two[0] is None or last_two[1] is None:
+        if len(last_two) < 2 or last_two[0] is None or last_two[1] is None:
             return None
 
         roll1, pitch1, yaw1, ear_left1, ear_right1, mar1, mdst1, left_iris1, right_iris1 = last_two[0]
@@ -55,10 +55,10 @@ class Inference:
         ear_right_e = extrapolate(ear_right1, ear_right2)
         mar_e = extrapolate(mar1, mar2)
         mdst_e = extrapolate(mdst1, mdst2)
-        left_iris_e = [extrapolate(z) for z in zip(left_iris1, left_iris2)]
-        right_iris_e = [extrapolate(z) for z in zip(right_iris1, right_iris2)]
+        left_iris_e = [extrapolate(z[0], z[1]) for z in zip(left_iris1, left_iris2)]
+        right_iris_e = [extrapolate(z[0], z[1]) for z in zip(right_iris1, right_iris2)]
         
-        out = (roll_e, pitch_e, yaw_e, ear_left_e, ear_right_e, mar_e, mdst_e, left_iris_e, right_iris_e)
+        out = ([roll_e], [pitch_e], [yaw_e], ear_left_e, ear_right_e, mar_e, mdst_e, left_iris_e, right_iris_e)
         return out
 
     def get_face(self, detector, image):
@@ -152,13 +152,11 @@ class Inference:
         return np.linalg.norm(mouth[0] - mouth[4])
 
     def infer_image(self, image):
-        """
         if self.evenFrame:
             self.evenFrame = False
-            return None
+            return self.extrapolate_last_two()
 
         self.evenFrame = True
-        """
 
         pose_estimator = PoseEstimator(self.root, img_size=image.shape[:2])
         image = cv2.flip(image, 1)
