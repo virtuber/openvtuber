@@ -6,6 +6,7 @@ import threading
 import websockets
 import asyncio
 import click
+import time
 
 
 loop = asyncio.get_event_loop()
@@ -28,8 +29,19 @@ def send_data(data):
 
 def debug_print(data):
     if data is not None:
-        roll, pitch, yaw, ear_left, ear_right, mar, mdst, left_iris, right_iris = data
+        (roll, pitch, yaw, ear_left, ear_right,
+            mar, mdst, left_iris, right_iris) = data
         print(roll, pitch, yaw)
+        with open("debug.log", "a") as f:
+            f.write(",".join([str(time.perf_counter()),
+                              str(roll[0]), str(pitch[0]),
+                              str(yaw[0]), str(ear_left),
+                              str(ear_right), str(mar),
+                              str(mdst),
+                              str(left_iris[0]), str(left_iris[1]),
+                              str(left_iris[2]), str(left_iris[3]),
+                              str(right_iris[0]), str(right_iris[1]),
+                              str(right_iris[2]), str(right_iris[3])]) + "\n")
     else:
         print(None)
 
@@ -59,7 +71,7 @@ e.g. --debug=true or --debug=false")
     # grey_stream.subscribe(show)
     ml_stream = video_stream.pipe(op.map(inference.infer_image))
 
-    if debug == 'true':
+    if debug:
         ml_stream.subscribe(debug_print)
 
     # use filter with identity function, None values are filtered out
