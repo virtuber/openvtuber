@@ -1,8 +1,10 @@
 name: release
 
-on: [push]
-#    tags:
-#  - 'v*'
+on:
+  push:
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
 
 jobs:
   test-server:
@@ -10,7 +12,7 @@ jobs:
     name: Testing openvtuber server
     strategy:
       matrix:
-        python: ['3.8','3.9']
+        python: ["3.8", "3.9"]
     defaults:
       run:
         working-directory: openvtuber-server
@@ -37,13 +39,12 @@ jobs:
       - name: Test with pytest
         run: pytest tests/
 
-
   test-client:
     runs-on: self-hosted
     name: Testing openvtuber client
     strategy:
       matrix:
-        node: ['12']
+        node: ["12"]
     defaults:
       run:
         working-directory: openvtuber-client
@@ -84,3 +85,38 @@ jobs:
           pip3 install --upgrade pip setuptools wheel
           python setup.py sdist bdist_wheel
         working-directory: openvtuber-server
+
+      - name: Set value for version
+        run: echo "VERSION=$(python setup.py --version)" >> $GITHUB_ENV
+        working-directory: openvtuber-server
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+      - name: Upload source distribution
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./openvtuber-server/dist/openvtuber-$VERSION.tar.gz
+          asset_name: openvtuber-$VERSION.tar.gz
+          asset_content_type: application/tar+gzip
+
+      - name: Upload wheel
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./openvtuber-server/dist/openvtuber-$VERSION-py3-none-any.whl
+          asset_name: openvtuber-$VERSION-py3-none-any.whl
+          asset_content_type: application/x-wheel+zip
