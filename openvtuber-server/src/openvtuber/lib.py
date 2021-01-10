@@ -6,6 +6,7 @@ import threading
 import websockets
 import asyncio
 import click
+import time
 
 
 loop = asyncio.get_event_loop()
@@ -28,21 +29,39 @@ def send_data(data):
 
 def debug_print(data):
     if data is not None:
-        roll, pitch, yaw, ear_left, ear_right, mar, mdst, left_iris, right_iris = data
+        (roll, pitch, yaw, ear_left, ear_right,
+            mar, mdst, left_iris, right_iris) = data
         print(roll, pitch, yaw)
+        with open("debug.log", "a") as f:
+            f.write(",".join([str(time.perf_counter()),
+                              str(roll[0]), str(pitch[0]),
+                              str(yaw[0]), str(ear_left),
+                              str(ear_right), str(mar),
+                              str(mdst),
+                              str(left_iris[0]), str(left_iris[1]),
+                              str(left_iris[2]), str(left_iris[3]),
+                              str(right_iris[0]), str(right_iris[1]),
+                              str(right_iris[2]), str(right_iris[3])]) + "\n")
     else:
         print(None)
 
 
 @click.command()
 @click.option('--debug', required=False, type=str, help='enable debug output', default="false")
+@click.option('--cam', required=False, type=str, help='enable cam output', default="false")
 @click.option('--config_path', required=False, type=str,
               help='filepath to config file for app', default=".")
-def main(debug, config_path):
+def main(debug, cam, config_path):
     if debug != "false" and debug != "true":
         print("ERROR!!\n \
 debug flag must be equal 'true' or 'false',\n \
 e.g. --debug=true or --debug=false")
+        return
+
+    if cam != "false" and cam != "true":
+        print("ERROR!!\n \
+cam flag must be equal 'true' or 'false',\n \
+e.g. --cam=true or --cam=false")
         return
 
     utils.get_assets()
@@ -55,9 +74,11 @@ e.g. --debug=true or --debug=false")
     video = cv2.VideoCapture(0)
 
     video_stream = stream.cv_videocapture(video)
-    # grey_stream = video_stream.pipe(op.map(ml.infer))
-    # grey_stream.subscribe(show)
     ml_stream = video_stream.pipe(op.map(inference.infer_image))
+
+    if cam == 'true':
+        grey_stream = video_stream.pipe(op.map(ml.infer))
+        grey_stream.subscribe(show)
 
     if debug == 'true':
         ml_stream.subscribe(debug_print)
