@@ -1,15 +1,17 @@
-import numpy as np
-from numpy.linalg import inv
+# import numpy as np
+# from numpy.linalg import inv
 
 def extrapolate(val1, val2):
-   """
+    """
     linear extrapolation, assumes input comes at constant rate, 1 frame/unit of time
-   """
-   diff = val2 - val1
-   return val2 + diff
+    """
+    diff = val2 - val1
+    return val2 + diff
+
 
 def kalman():
     return None
+
 
 """
 x_observations = np.array([4000, 4260, 4550, 4860, 5110])
