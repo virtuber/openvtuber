@@ -36,13 +36,20 @@ def debug_print(data):
 
 @click.command()
 @click.option('--debug', required=False, type=str, help='enable debug output', default="false")
+@click.option('--cam', required=False, type=str, help='enable cam output', default="false")
 @click.option('--config_path', required=False, type=str,
               help='filepath to config file for app', default=".")
-def main(debug, config_path):
+def main(debug, cam, config_path):
     if debug != "false" and debug != "true":
         print("ERROR!!\n \
 debug flag must be equal 'true' or 'false',\n \
 e.g. --debug=true or --debug=false")
+        return
+
+    if cam != "false" and cam != "true":
+        print("ERROR!!\n \
+cam flag must be equal 'true' or 'false',\n \
+e.g. --cam=true or --cam=false")
         return
 
     utils.get_assets()
@@ -57,9 +64,11 @@ e.g. --debug=true or --debug=false")
     video_stream = stream.cv_videocapture(video)
     ml_stream = video_stream.pipe(op.map(inference.infer_image))
 
-    if debug == 'true':
+    if cam == 'true':
         grey_stream = video_stream.pipe(op.map(ml.infer))
         grey_stream.subscribe(show)
+
+    if debug == 'true':
         ml_stream.subscribe(debug_print)
 
     # use filter with identity function, None values are filtered out
