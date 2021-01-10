@@ -7,9 +7,9 @@ from .poseEstimator import PoseEstimator
 
 def infer(image):
     """
-    default infer place holder, output black white video stream
+    default infer place holder, output video stream
     """
-    return cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2GRAY)
+    return cv2.flip(image, 1)
 
 
 class Inference:
@@ -17,6 +17,7 @@ class Inference:
         self.camera_angle = 0
         self.face_detector = dlib.get_frontal_face_detector()
         self.root = utils.get_project_root()
+        self.evenFrame = True
 
         path = "openvtuber/assets/shape_predictor_68_face_landmarks.dat"
         self.dlib_model_path = str(self.root.joinpath(path))
@@ -114,6 +115,14 @@ class Inference:
         return np.linalg.norm(mouth[0] - mouth[4])
 
     def infer_image(self, image):
+        """
+        if self.evenFrame:
+            self.evenFrame = False
+            return None
+
+        self.evenFrame = True
+        """
+
         pose_estimator = PoseEstimator(self.root, img_size=image.shape[:2])
         image = cv2.flip(image, 1)
         facebox = self.get_face(self.face_detector, image)
