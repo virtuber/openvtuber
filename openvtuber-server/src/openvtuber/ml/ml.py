@@ -25,7 +25,6 @@ class Inference:
         self.dlib_model_path = str(self.root.joinpath(path))
         self.shape_predictor = dlib.shape_predictor(self.dlib_model_path)
 
-
         # store 5 vals, 0 (front) is most recent, -1 (end) is furthest away
         self.val_hist = deque([])
         pass
@@ -36,7 +35,7 @@ class Inference:
             self.val_hist.pop()
 
     def get_from_val_hist(self, amount):
-        return list(self.val_hist)[0 : amount]
+        return list(self.val_hist)[0:amount]
 
     def extrapolate_last_two(self):
         last_two = self.get_from_val_hist(2)
@@ -45,8 +44,10 @@ class Inference:
         if len(last_two) < 2 or last_two[0] is None or last_two[1] is None:
             return None
 
-        roll1, pitch1, yaw1, ear_left1, ear_right1, mar1, mdst1, left_iris1, right_iris1 = last_two[0]
-        roll2, pitch2, yaw2, ear_left2, ear_right2, mar2, mdst2, left_iris2, right_iris2 = last_two[1]
+        roll1, pitch1, yaw1, ear_left1, \
+            ear_right1, mar1, mdst1, left_iris1, right_iris1 = last_two[0]
+        roll2, pitch2, yaw2, ear_left2, \
+            ear_right2, mar2, mdst2, left_iris2, right_iris2 = last_two[1]
 
         roll_e = extrapolate(roll1[0], roll2[0])
         pitch_e = extrapolate(pitch1[0], pitch2[0])
@@ -57,8 +58,9 @@ class Inference:
         mdst_e = extrapolate(mdst1, mdst2)
         left_iris_e = [extrapolate(z[0], z[1]) for z in zip(left_iris1, left_iris2)]
         right_iris_e = [extrapolate(z[0], z[1]) for z in zip(right_iris1, right_iris2)]
-        
-        out = (np.array([roll_e]), np.array([pitch_e]), np.array([yaw_e]), ear_left_e, ear_right_e, mar_e, mdst_e, left_iris_e, right_iris_e)
+
+        out = (np.array([roll_e]), np.array([pitch_e]), np.array([yaw_e]),
+               ear_left_e, ear_right_e, mar_e, mdst_e, left_iris_e, right_iris_e)
         return out
 
     def get_face(self, detector, image):
