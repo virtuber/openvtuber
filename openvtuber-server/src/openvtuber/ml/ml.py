@@ -58,7 +58,7 @@ class Inference:
         left_iris_e = [extrapolate(z[0], z[1]) for z in zip(left_iris1, left_iris2)]
         right_iris_e = [extrapolate(z[0], z[1]) for z in zip(right_iris1, right_iris2)]
         
-        out = ([roll_e], [pitch_e], [yaw_e], ear_left_e, ear_right_e, mar_e, mdst_e, left_iris_e, right_iris_e)
+        out = (np.array([roll_e]), np.array([pitch_e]), np.array([yaw_e]), ear_left_e, ear_right_e, mar_e, mdst_e, left_iris_e, right_iris_e)
         return out
 
     def get_face(self, detector, image):
