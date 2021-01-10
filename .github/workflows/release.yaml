@@ -1,0 +1,86 @@
+name: release
+
+on: [push]
+#    tags:
+#  - 'v*'
+
+jobs:
+  test-server:
+    runs-on: self-hosted
+    name: Testing openvtuber server
+    strategy:
+      matrix:
+        python: ['3.8','3.9']
+    defaults:
+      run:
+        working-directory: openvtuber-server
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install test dependencies and script
+        run: pip install .[tests]
+
+      - name: Install dependencies and script
+        run: pip install -r requirements.txt
+
+      - name: Lint with flake8
+        run: flake8
+
+      - name: Run static type analyzer
+        run: mypy
+
+      - name: Test with pytest
+        run: pytest tests/
+
+
+  test-client:
+    runs-on: self-hosted
+    name: Testing openvtuber client
+    strategy:
+      matrix:
+        node: ['12']
+    defaults:
+      run:
+        working-directory: openvtuber-client
+    steps:
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Install dependencies and script
+        run: yarn
+
+      - name: Run TypeScript compiler
+        run: yarn run tsc
+
+      - name: Check linting with eslint
+        run: yarn run lint:check
+
+      - name: Check formatting with prettier
+        run: yarn run format:check
+
+      - name: Test
+        run: yarn run test
+
+  build-app:
+    runs-on: self-hosted
+    name: Releasing openvtuber
+    needs: [test-server, test-client]
+    steps:
+      - name: Build client
+        run: |
+          yarn install
+          yarn run build
+        working-directory: openvtuber-client
+
+      - name: Build server
+        run: |
+          pip3 install --upgrade pip setuptools wheel
+          python setup.py sdist bdist_wheel
+        working-directory: openvtuber-server
