@@ -22,6 +22,7 @@ q_right_iris1 = multiprocessing.Queue()
 q_right_iris2 = multiprocessing.Queue()
 q_right_iris3 = multiprocessing.Queue()
 
+start_time = time.perf_counter()
 
 def debug_init():
     p = Process(target=do_plot, args=plotter_args())
@@ -35,7 +36,7 @@ def debug_print(data):
         print(roll, pitch, yaw)
 
         # Telemetry update
-        q_times.put(time.perf_counter())
+        q_times.put(time.perf_counter_ns() - start_time)
         q_roll.put(roll[0])
         q_pitch.put(pitch[0])
         q_yaw.put(yaw[0])
@@ -53,7 +54,7 @@ def debug_print(data):
         q_right_iris3.put(right_iris[3])
 
         with open("debug.log", "a") as f:
-            f.write(",".join([str(time.perf_counter()),
+            f.write(",".join([str(time.perf_counter_ns() - start_time),
                               str(roll[0]), str(pitch[0]),
                               str(yaw[0]), str(ear_left),
                               str(ear_right), str(mar),
@@ -142,11 +143,11 @@ def do_plot(q_times, q_roll, q_pitch, q_yaw, q_ear_left, q_ear_right,
 
     def animate(i):
 
-        ax1.set_xlim([0, times[-1]])
-        ax2.set_xlim([0, times[-1]])
-        ax3.set_xlim([0, times[-1]])
-        ax4.set_xlim([0, times[-1]])
-        ax5.set_xlim([0, times[-1]])
+        ax1.set_xlim([0, max(times)])
+        ax2.set_xlim([0, max(times)])
+        ax3.set_xlim([0, max(times)])
+        ax4.set_xlim([0, max(times)])
+        ax5.set_xlim([0, max(times)])
 
         while not q_times.empty():
             times.append(q_times.get())
