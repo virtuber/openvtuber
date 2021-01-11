@@ -1,6 +1,7 @@
 import React, { useRef, FunctionComponent } from 'react';
 import { Canvas } from 'react-three-fiber';
 import VrmViewerImpl from '../vrm/VrmViewer';
+import NavBar from './NavBar';
 
 const MainView: FunctionComponent = () => {
   type vrmViewerImplType = React.ElementRef<typeof VrmViewerImpl>;
@@ -9,15 +10,7 @@ const MainView: FunctionComponent = () => {
 
   return (
     <>
-      <label htmlFor="vrm-picker">Pick VRM model</label>
-      <input
-        type="file"
-        accept=".vrm"
-        id="vrm-picker"
-        onChange={(e) => {
-          vrmRef.current?.handleFileChange(e);
-        }}
-      />
+      <NavBar vrmRef={vrmRef} />
       <Canvas>
         <VrmViewerImpl ref={vrmRef} />
       </Canvas>
