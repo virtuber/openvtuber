@@ -26,8 +26,8 @@ class Inference:
         self.shape_predictor = dlib.shape_predictor(self.dlib_model_path)
 
         self.no_face_count = 0
-        # store 5 vals, newest at end 
-        self.prev_boxes = deque(maxlen = 5)
+        # store 5 vals, newest at end
+        self.prev_boxes = deque(maxlen=5)
         pass
 
     def get_face(self, detector, image):
@@ -126,15 +126,16 @@ class Inference:
         pose_estimator = PoseEstimator(self.root, img_size=image.shape[:2])
         image = cv2.flip(image, 1)
 
-        if not self.evenFrame: # face dtect on odd frame
+        if not self.evenFrame:  # face dtect on odd frame
             facebox = self.get_face(self.face_detector, image)
             if facebox is not None:
                 self.no_face_count = 0
-        elif len(self.prev_boxes) > 1: # linear extrapolate
+        elif len(self.prev_boxes) > 1:  # linear extrapolate
             if self.no_face_count > 1:
                 facebox = None
             else:
-                facebox = self.prev_boxes[-1] + np.mean(np.diff(np.array(self.prev_boxes), axis = 0), axis = 0)[0]
+                facebox = self.prev_boxes[-1] + \
+                    np.mean(np.diff(np.array(self.prev_boxes), axis=0), axis=0)[0]
                 facebox = facebox.astype(int)
                 self.no_face_count += 1
         else:
