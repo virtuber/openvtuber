@@ -187,8 +187,6 @@ class Inference:
 
             out = (roll, pitch, yaw, ear_left, ear_right, mar, mdst, left_iris, right_iris)
 
-            # self.add_val_to_hist(out)
             return out
         else:
-            # self.add_val_to_hist(None)
             return None
