@@ -2,7 +2,7 @@ import cv2
 from rx import operators as op
 from openvtuber import stream, ml, web, control, utils
 from openvtuber.web.config import Configuration as config
-from openvtuber.debugger import Debugger 
+from openvtuber.debugger import Debugger
 import threading
 import websockets
 import asyncio
@@ -48,7 +48,6 @@ e.g. --cam=true or --cam=false")
         return
     else:
         cam = (cam == "true")
-
 
     utils.get_assets()
     inference = ml.Inference()

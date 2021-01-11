@@ -34,6 +34,7 @@ class Debugger:
             (roll, pitch, yaw, ear_left, ear_right,
                 mar, mdst, left_iris, right_iris) = data
             # print(roll, pitch, yaw)
+            print(data)
 
             # Telemetry update
             self.q_times.put(time.perf_counter() - self.start_time)
@@ -71,14 +72,13 @@ class Debugger:
         Returns plotter args as a tuple
         '''
         return (self.q_times, self.q_roll, self.q_pitch, self.q_yaw, self.q_ear_left,
-            self.q_ear_right, self.q_mar, self.q_mdst, self.q_left_iris0, self.q_left_iris1,
-            self.q_left_iris2, self.q_left_iris3, self.q_right_iris0, self.q_right_iris1,
-            self.q_right_iris2, self.q_right_iris3)
-
+                self.q_ear_right, self.q_mar, self.q_mdst, self.q_left_iris0, self.q_left_iris1,
+                self.q_left_iris2, self.q_left_iris3, self.q_right_iris0, self.q_right_iris1,
+                self.q_right_iris2, self.q_right_iris3)
 
     def do_plot(self, q_times, q_roll, q_pitch, q_yaw, q_ear_left, q_ear_right,
-            q_mar, q_mdst, q_left_iris0, q_left_iris1, q_left_iris2,
-            q_left_iris3, q_right_iris0, q_right_iris1, q_right_iris2, q_right_iris3):
+                q_mar, q_mdst, q_left_iris0, q_left_iris1, q_left_iris2,
+                q_left_iris3, q_right_iris0, q_right_iris1, q_right_iris2, q_right_iris3):
 
         times = [0]
         arr_roll = [0]
@@ -146,7 +146,6 @@ class Debugger:
             ax3.set_xlim([0, max(times)])
             ax4.set_xlim([0, max(times)])
             ax5.set_xlim([0, max(times)])
-
 
             while not q_times.empty():
                 times.append(q_times.get())
