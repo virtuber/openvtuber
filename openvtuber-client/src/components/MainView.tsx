@@ -2,6 +2,8 @@ import React, { useRef, FunctionComponent } from 'react';
 import { Canvas } from 'react-three-fiber';
 import VrmViewerImpl from '../vrm/VrmViewer';
 import NavBar from './NavBar';
+import RightBar from './RightBar';
+import './MainView.css';
 
 const MainView: FunctionComponent = () => {
   type vrmViewerImplType = React.ElementRef<typeof VrmViewerImpl>;
@@ -9,12 +11,15 @@ const MainView: FunctionComponent = () => {
   const vrmRef = useRef<vrmViewerImplType>(null);
 
   return (
-    <>
+    <div className="mainview">
       <NavBar vrmRef={vrmRef} />
-      <Canvas>
-        <VrmViewerImpl ref={vrmRef} />
-      </Canvas>
-    </>
+      <div className="mainview__content">
+        <Canvas className="mainview__canvas">
+          <VrmViewerImpl ref={vrmRef} />
+        </Canvas>
+        <RightBar />
+      </div>
+    </div>
   );
 };
 
