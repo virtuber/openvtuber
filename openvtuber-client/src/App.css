@@ -3,6 +3,14 @@ body {
   margin: 0;
   width: 100%;
   height: 100%;
+  font-size: 11px;
+  --white: #fff;
+  --light-gray: #e5e5e5;
+  --gray: #b3b3b3;
+  --dark-gray: #333;
+  --off-black: #2c2c2c;
+  --black: #000;
+  --accent: #fb18a0;
 }
 
 #root {
