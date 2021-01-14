@@ -1,4 +1,4 @@
-import openvtuber.config as config
+import openvtub-server.config
 
 @config.dataclass
 class Configuration:

@@ -1,12 +1,12 @@
 from dataclasses import dataclass
-#from openvtuber import web, control, stream, ml
+from openvtuber import web, control, stream, ml
 import yaml
 
 #Web config     
 
 @dataclass
 class Configuration:
-    #web: web.Configuration(ip_address = "127.0.0.1", port = 17701, static_files_dir = "openvtuber/client", ws_port = 42069)
+    web: web.Configuration(ip_address = "127.0.0.1", port = 17701, static_files_dir = "openvtuber/client", ws_port = 42069)
     #control : 
     pass
 
