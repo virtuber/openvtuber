@@ -1,5 +1,4 @@
-from .config import Configuration as config
-
+from openvtuber.web import Configuration as config
 from flask import Flask, send_from_directory
 from openvtuber import utils
 

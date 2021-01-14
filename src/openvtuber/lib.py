@@ -1,7 +1,8 @@
 import cv2
 from rx import operators as op
 from openvtuber import stream, ml, web, control, utils
-from openvtuber.web.config import Configuration as config
+from openvtuber.config import config  
+from openvtuber.web.config import Configuration as web_config
 import threading
 import websockets
 import asyncio
@@ -26,6 +27,7 @@ def send_data(data):
 
 
 def main():
+    config.read_config()
     utils.get_assets()
     inference = ml.Inference()
     web_thread = threading.Thread(target=web.run_web_server)
@@ -44,7 +46,7 @@ def main():
     control_stream.subscribe(stream.queue_control_data)  # push to queue
 
     start_server = websockets.serve(stream.websocket_handler,
-                                    config.ip_address, config.ws_port)
+                                    web_config.ip_address, web_config.ws_port)
 
     loop.run_until_complete(start_server)
     loop.run_forever()

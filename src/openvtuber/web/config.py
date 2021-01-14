@@ -1,9 +1,8 @@
-from dataclasses import dataclass
+import openvtuber.config as config
 
-
-@dataclass
+@config.dataclass
 class Configuration:
-    ip_address: str = "127.0.0.1"
-    port: int = 17701
-    static_files_dir: str = "openvtuber/client"
-    ws_port: int = 42069
+    ip_address: str = config.Configuration.ip_address
+    port: int = config.Configuration.port
+    static_files_dir: str = config.Configuration.static_files_dir
+    ws_port: int = config.Configuration.port
