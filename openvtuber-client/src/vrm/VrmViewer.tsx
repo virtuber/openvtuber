@@ -11,7 +11,7 @@ import Vrm from './Vrm';
 import Stars from '../components/Stars';
 
 type VrmViewerProps = {};
-type VrmViewerRefProps = {
+export type VrmViewerRefProps = {
   handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 const VrmViewer = forwardRef<VrmViewerRefProps, VrmViewerProps>((_, ref) => {

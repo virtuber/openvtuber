@@ -8,7 +8,17 @@ setup(
     packages=find_packages('src'),
     package_dir={'': 'src'},
     include_package_data=True,
-    install_requires=[],
+    install_requires=[
+        'dlib',
+        'numpy',
+        'opencv-python',
+        'rx',
+        'flask',
+        'protobuf',
+        'requests',
+        'websockets',
+        'click'
+    ],
     tests_require=['flake8', 'pytest-cov', 'mypy', 'pytest'],
     extras_require={
         'tests': ['flake8', 'pytest-cov', 'mypy', 'pytest'],
