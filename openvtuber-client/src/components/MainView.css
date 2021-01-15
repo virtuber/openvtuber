@@ -12,5 +12,5 @@
 }
 
 .mainview__canvas {
-  background-color: #000;
+  background-color: var(--black);
 }

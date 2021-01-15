@@ -1,0 +1,13 @@
+.rightbar {
+  height: auto;
+  border-bottom-style: solid;
+  border-width: 1px;
+  border-color: var(--light-gray);
+}
+.rightbar-section__title {
+  color: var(--dark-gray);
+  font-weight: 600;
+  line-height: 32px;
+  padding: 0 8px;
+  cursor: default;
+}
