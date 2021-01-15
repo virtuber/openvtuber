@@ -2,12 +2,12 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  width: 246px;
+  width: 328px;
   height: 100%;
   z-index: 2;
   border-left-style: solid;
   border-width: 1px;
-  border-color: #e5e5e5;
+  border-color: var(--light-gray);
 }
 
 .rightbar__switch {
@@ -18,20 +18,24 @@
   width: 100%;
   border-bottom-style: solid;
   border-width: 1px;
-  border-color: #e5e5e5;
+  border-color: var(--light-gray);
 }
 .rightbar__switch__text {
   padding: 0 8px;
   line-height: 40px;
-  color: #b3b3b3;
-  cursor: default;
-  font-size: 11px;
+  color: var(--gray);
+  cursor: pointer;
   font-weight: 500;
-  font-feature-settings: liga, cait;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .rightbar__switch__text-selected {
-  color: #333;
+  color: var(--dark-gray);
+  font-weight: 600;
+  cursor: default;
 }
 .rightbar__switch__text:hover {
-  color: #333;
+  color: var(--dark-gray);
 }
