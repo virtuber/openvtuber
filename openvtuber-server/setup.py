@@ -17,7 +17,8 @@ setup(
         'protobuf',
         'requests',
         'websockets',
-        'click'
+        'click',
+        'matplotlib'
     ],
     tests_require=['flake8', 'pytest-cov', 'mypy', 'pytest'],
     extras_require={
