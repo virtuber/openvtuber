@@ -20,7 +20,8 @@ setup(
         'requests',
         'websockets',
         'click',
-        'matplotlib'
+        'matplotlib',
+        'Cython'
     ],
     tests_require=['flake8', 'pytest-cov', 'mypy', 'pytest'],
     extras_require={

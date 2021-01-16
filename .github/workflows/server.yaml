@@ -23,11 +23,11 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
 
+      - name: Install Cython
+        run: pip install Cython
+
       - name: Install test dependencies and script
         run: pip install .[tests]
-      
-      - name: Install dependencies and script
-        run: pip install -r requirements.txt
 
       - name: Lint with flake8
         run: flake8
