@@ -2,8 +2,8 @@ import cv2
 import dlib
 import numpy as np
 from openvtuber import utils
-from .poseEstimator import PoseEstimator
-from .mlUtils import extrapolate
+from .pose_estimator import PoseEstimator
+from .ml_utils import extrapolate
 from collections import deque
 
 
