@@ -26,8 +26,6 @@ def send_data(data):
     future = asyncio.run_coroutine_threadsafe(stream.send_data_coro(data), loop)
     future.result()
 
-def test_out():
-    return 
 
 @click.command()
 @click.option('--debug', required=False, type=str, help='enable debug output', default="false")
@@ -82,8 +80,8 @@ e.g. --linear_extrap=true or --linear_extrap=false")
         ml_stream.subscribe(d.debug_print)
 
     # use filter with identity function, None values are filtered out
-    # control_stream = ml_stream.pipe(op.filter(lambda x: x), op.map(control.ml_to_vrm_state))
-    # control_stream.subscribe(stream.queue_control_data)  # push to queue
+    control_stream = ml_stream.pipe(op.filter(lambda x: x), op.map(control.ml_to_vrm_state))
+    control_stream.subscribe(stream.queue_control_data)  # push to queue
 
     start_server = websockets.serve(stream.websocket_handler,
                                     config.ip_address, config.ws_port)
