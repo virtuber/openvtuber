@@ -15,7 +15,7 @@ def infer(image):
 
 
 class Inference:
-    def __init__(self):
+    def __init__(self, noExtrapolation=True):
         self.camera_angle = 0
         self.face_detector = dlib.get_frontal_face_detector()
         self.root = utils.get_project_root()
@@ -26,8 +26,10 @@ class Inference:
         self.shape_predictor = dlib.shape_predictor(self.dlib_model_path)
 
         self.no_face_count = 0
+
         # store 5 vals, newest at end
         self.prev_boxes = deque(maxlen=5)
+        self.noExtrap = noExtrapolation
         pass
 
     def get_face(self, detector, image):
@@ -126,7 +128,7 @@ class Inference:
         pose_estimator = PoseEstimator(self.root, img_size=image.shape[:2])
         image = cv2.flip(image, 1)
 
-        if not self.evenFrame:  # face dtect on odd frame
+        if not self.evenFrame or self.noExtrap:  # face dtect on odd frame
             facebox = self.get_face(self.face_detector, image)
             if facebox is not None:
                 self.no_face_count = 0
