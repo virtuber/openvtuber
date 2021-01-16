@@ -9,6 +9,7 @@ type NavBarProps = {
 const NavBar: FunctionComponent<NavBarProps> = ({ vrmRef }: NavBarProps) => {
   return (
     <div className="navbar">
+      <div>{/* Put left content here*/}</div>
       <Upload
         className="navbar__upload"
         type="file"

@@ -1,0 +1,41 @@
+.rightbar {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 328px;
+  height: 100%;
+  z-index: 2;
+  border-left-style: solid;
+  border-width: 1px;
+  border-color: var(--light-gray);
+}
+
+.rightbar__switch {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  border-bottom-style: solid;
+  border-width: 1px;
+  border-color: var(--light-gray);
+}
+.rightbar__switch__text {
+  padding: 0 8px;
+  line-height: 40px;
+  color: var(--gray);
+  cursor: pointer;
+  font-weight: 500;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.rightbar__switch__text-selected {
+  color: var(--dark-gray);
+  font-weight: 600;
+  cursor: default;
+}
+.rightbar__switch__text:hover {
+  color: var(--dark-gray);
+}
