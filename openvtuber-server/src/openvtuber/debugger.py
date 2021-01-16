@@ -197,6 +197,6 @@ class Debugger:
             fig.canvas.draw_idle()
             return ()
 
-        ani = animation.FuncAnimation(fig, animate, blit=True)
+        ani = animation.FuncAnimation(fig, animate, blit=True)  # noqa: F841
 
         plt.show()

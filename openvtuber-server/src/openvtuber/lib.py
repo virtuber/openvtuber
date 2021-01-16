@@ -30,8 +30,8 @@ def send_data(data):
 @click.command()
 @click.option('--debug', required=False, type=str, help='enable debug output', default="false")
 @click.option('--cam', required=False, type=str, help='enable cam output', default="false")
-@click.option('--linear_extrap', required=False, type=str, 
-               help='uses linear extrapolation to speed up ml module', default="false")
+@click.option('--linear_extrap', required=False, type=str,
+              help='uses linear extrapolation to speed up ml module', default="false")
 @click.option('--config_path', required=False, type=str,
               help='filepath to config file for app', default=".")
 def main(debug, cam, linear_extrap, config_path):
