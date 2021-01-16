@@ -1,10 +1,12 @@
 from setuptools import setup, find_packages
+from Cython.Build import cythonize
 
 
 setup(
     name='openvtuber',
     version='0.1',
     url='https://github.com/virtuber/openvtuber',
+    ext_modules=cythonize(["**/*.pyx"]),
     packages=find_packages('src'),
     package_dir={'': 'src'},
     include_package_data=True,
