@@ -68,7 +68,9 @@ e.g. --linear_extrap=true or --linear_extrap=false")
 
     video = cv2.VideoCapture(0)
 
-    video_stream = stream.cv_videocapture(video)
+    s = stream.Stream()
+
+    video_stream = s.cv_videocapture(video)
     ml_stream = video_stream.pipe(op.map(inference.infer_image))
 
     if cam:
@@ -79,11 +81,12 @@ e.g. --linear_extrap=true or --linear_extrap=false")
         d = Debugger()
         ml_stream.subscribe(d.debug_print)
 
+
     # use filter with identity function, None values are filtered out
     control_stream = ml_stream.pipe(op.filter(lambda x: x), op.map(control.ml_to_vrm_state))
-    control_stream.subscribe(stream.queue_control_data)  # push to queue
+    control_stream.subscribe(s.queue_control_data)  # push to queue
 
-    start_server = websockets.serve(stream.websocket_handler,
+    start_server = websockets.serve(s.websocket_handler,
                                     config.ip_address, config.ws_port)
 
     loop.run_until_complete(start_server)
