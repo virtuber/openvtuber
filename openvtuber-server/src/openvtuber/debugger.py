@@ -26,8 +26,8 @@ class Debugger:
 
             with open("debug.log", "a") as f:
                 f.write(",".join([str(time.perf_counter_ns() - self.start_time),
-                                  str(roll[0]), str(pitch[0]),
-                                  str(yaw[0]), str(ear_left),
+                                  str(roll), str(pitch),
+                                  str(yaw), str(ear_left),
                                   str(ear_right), str(mar),
                                   str(mdst),
                                   str(left_iris[0]), str(left_iris[1]),

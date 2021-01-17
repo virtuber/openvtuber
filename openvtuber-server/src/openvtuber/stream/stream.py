@@ -28,7 +28,7 @@ class Stream():
             if self.queue:
                 # extra check to make sure queue is nonempty
                 encoded_data = self.control_to_protobuf(self.queue)
-                print(encoded_data)
+                # print(encoded_data)
                 # Remove this once we're happy with data egress
                 try:
                     await websocket.send(encoded_data)
