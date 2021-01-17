@@ -3,12 +3,12 @@ from cv2 import VideoCapture
 from openvtuber.protobufs import VrmStateMessage
 import asyncio
 
+
 class Stream():
     def __init__(self):
         self.queue = None
     # Bootleg queue of one variable
     # This is basically a stream except way worse
-
 
     def cv_videocapture(self, v: VideoCapture) -> Observable:
         FPS = 30
@@ -17,11 +17,9 @@ class Stream():
             op.filter(lambda data: data[0]),
             op.map(lambda data: data[1]))
 
-
     def queue_control_data(self, data):
         # global queue
         self.queue = data
-
 
     async def websocket_handler(self, websocket, path):
         # called when the client connects to the server
@@ -36,7 +34,6 @@ class Stream():
                     await websocket.send(encoded_data)
                 except Exception:
                     break  # upon termination of connection, break loop
-
 
     def control_to_protobuf(self, args) -> bytes:
         vsm = VrmStateMessage()

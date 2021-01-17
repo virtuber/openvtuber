@@ -81,7 +81,6 @@ e.g. --linear_extrap=true or --linear_extrap=false")
         d = Debugger()
         ml_stream.subscribe(d.debug_print)
 
-
     # use filter with identity function, None values are filtered out
     control_stream = ml_stream.pipe(op.filter(lambda x: x), op.map(control.ml_to_vrm_state))
     control_stream.subscribe(s.queue_control_data)  # push to queue
