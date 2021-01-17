@@ -7,3 +7,5 @@ protobuf
 requests
 websockets
 click
+matplotlib
+Cython
