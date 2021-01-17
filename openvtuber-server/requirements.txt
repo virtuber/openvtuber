@@ -7,4 +7,3 @@ protobuf
 requests
 websockets
 click
-cython
