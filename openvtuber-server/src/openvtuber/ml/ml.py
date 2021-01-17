@@ -209,7 +209,7 @@ class Inference:
             left_iris = [x_l, y_l, ll, lu]
             right_iris = [y_r, y_r, rl, ru]
 
-            out = (roll, pitch, yaw, ear_left, ear_right, mar, mdst, left_iris, right_iris)
+            out = (roll[0], pitch[0], yaw[0], ear_left, ear_right, mar, mdst, left_iris, right_iris)
 
             self.add_val_to_hist(out)
             return out
