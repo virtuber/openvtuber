@@ -1,0 +1,58 @@
+---
+name: Facial Detection, Tracking, and Landmarking
+route: /ml
+---
+
+# Facial Detection, Tracking and Landmarking
+
+The ML module is responsible for performing facial detection, tracking, and landmarking (in that order) on the the image input it recieves. Looking at the Inference class within the ml.py file, you can see there lies several functions, most of which are helpers or utility functions. The core logic is found within the infer_image function at the bottom. It takes in image and transforms it, producing a tuple containg various measurements about the face.
+
+## Infererence
+
+The inference process as several steps, the first step is the initialisation process. The inference module relies heavily on dlib for much of its actual core actions, many of which need prior initialisation or preperation of some sort.  
+
+The next part is where it actually takes in an image and begins the processing. It'll try and find a face in the image. If a face is not found, it won't go through with the next few steps. This part is done using dlib and is probably the slowest part of the algorithm. Although there are other choices available online of this part, dlib is one of the most well known and most used.
+
+If a face is found, it will take the cutout of the image that contains just the face and record it's position. This is done so that the algorithm does not have to perform facial detection on every frame. This is because by recording past frames, we can actually use linear extrapolation to predict future face locations. Since facial detection is the slowest part in this entire algorithm, by being able to skip it occasionally, you can see noticable performance boosts. In the case of the current implemntation, every second frame is skipped and replaced with this linear extrapolation approach.  
+
+Once a face has been detected, a cropped image of just the face is isolated and facial landmarking is performed. This increases the accuracy and speed of the facial landmarking procedure tremendously. This process also takes advantage of dlib's 68 points facial landmarking algorithm.  
+
+With the face landmarked, one can now use the points to calculate various metrics.
+
+This entire procedure can be seen outlined in the infer_image function at the bottom of the file.
+
+**infer_image(image)**  
+**Input**: 2d numpy array that represents an image  
+**Output**: tuple of elements
+ - roll
+ - pitch
+ - yaw
+ - ear_left
+ - ear_right
+ - mar
+ - mdst
+ - left_iris
+ - right_iris
+
+
+### Roll, Pitch, Yaw
+These refer to the orientation of the head (in degrees). All three measurements start at a base line where 0 degrees is the subject staring straight into the camera.
+
+### ear_left, ear_right
+ear or eye aspect ratio is a measurement of how open an eye is. Values usually range from 0 to 0.4 where 0 is closed and 0.4 is very open.
+
+### mar
+mar or mouth aspect ratio is a measurement of how open the mouth is. Values usually range from 0 to 1 (although it will sometimes cross 1) where 0 is closed and 1 is very open.
+
+### mdst
+mdst or mouth distance is a measure of the horizontal length of the mouth. (Think of it like a very wide smile versus a puckered kissing action). Values will usually range from 0.2 to 0.5 (although it may cross those bounderies on either side) where 0.2 is a very tight mouth and 0.5 is a very wide mouth.
+
+### left_iris, right_iris
+These two iris measurements not actually numbers but instead an array or collection of several other numbers.  
+
+The first two of which are the raw x and y coordinates of the iris in relation to the rest of the image. These two numbers are probably not going to be very useful for most cases except for debugging. The coordinate (0, 0) is the upper left hand of the image.  
+
+The next two of which are the left and up ratio values of the pupil. These represent how much to any direction the iris is pointing. The left ratio of the eye determines how much to the left the eye is pointing where 0 is very left and 1 is very right. The up ratio of the eye determines how upwards the eye is pointing where 0 is very down and 1 is very up.
+
+
+**\*Note**: In the event that no face is found, None is returned instead.
