@@ -6,27 +6,12 @@ import matplotlib.animation as animation
 
 
 class Debugger:
-    def __init__(self):
-        self.q_times = multiprocessing.Queue()
-        self.q_roll = multiprocessing.Queue()
-        self.q_pitch = multiprocessing.Queue()
-        self.q_yaw = multiprocessing.Queue()
-        self.q_ear_left = multiprocessing.Queue()
-        self.q_ear_right = multiprocessing.Queue()
-        self.q_mar = multiprocessing.Queue()
-        self.q_mdst = multiprocessing.Queue()
-        self.q_left_iris0 = multiprocessing.Queue()
-        self.q_left_iris1 = multiprocessing.Queue()
-        self.q_left_iris2 = multiprocessing.Queue()
-        self.q_left_iris3 = multiprocessing.Queue()
-        self.q_right_iris0 = multiprocessing.Queue()
-        self.q_right_iris1 = multiprocessing.Queue()
-        self.q_right_iris2 = multiprocessing.Queue()
-        self.q_right_iris3 = multiprocessing.Queue()
+    def __init__(self, graphtrim):
+        self.queue = multiprocessing.Queue()
 
         self.start_time = time.perf_counter()
 
-        self.p = Process(target=self.do_plot, args=self.plotter_args())
+        self.p = Process(target=self.do_plot, args=(self.queue, graphtrim))
         self.p.start()
 
     def debug_print(self, data):
@@ -34,25 +19,10 @@ class Debugger:
             (roll, pitch, yaw, ear_left, ear_right,
                 mar, mdst, left_iris, right_iris) = data
             # print(roll, pitch, yaw)
-            print(data)
+            # print(data)
 
             # Telemetry update
-            self.q_times.put(time.perf_counter() - self.start_time)
-            self.q_roll.put(roll[0])
-            self.q_pitch.put(pitch[0])
-            self.q_yaw.put(yaw[0])
-            self.q_ear_left.put(ear_left)
-            self.q_ear_right.put(ear_right)
-            self.q_mar.put(mar)
-            self.q_mdst.put(mdst)
-            self.q_left_iris0.put(left_iris[0])
-            self.q_left_iris1.put(left_iris[1])
-            self.q_left_iris2.put(left_iris[2])
-            self.q_left_iris3.put(left_iris[3])
-            self.q_right_iris0.put(right_iris[0])
-            self.q_right_iris1.put(right_iris[1])
-            self.q_right_iris2.put(right_iris[2])
-            self.q_right_iris3.put(right_iris[3])
+            self.queue.put((time.perf_counter() - self.start_time,) + data)
 
             with open("debug.log", "a") as f:
                 f.write(",".join([str(time.perf_counter_ns() - self.start_time),
@@ -64,21 +34,10 @@ class Debugger:
                                   str(left_iris[2]), str(left_iris[3]),
                                   str(right_iris[0]), str(right_iris[1]),
                                   str(right_iris[2]), str(right_iris[3])]) + "\n")
-        else:
-            print(None)
+        # else:
+        #     print(None)
 
-    def plotter_args(self):
-        '''
-        Returns plotter args as a tuple
-        '''
-        return (self.q_times, self.q_roll, self.q_pitch, self.q_yaw, self.q_ear_left,
-                self.q_ear_right, self.q_mar, self.q_mdst, self.q_left_iris0, self.q_left_iris1,
-                self.q_left_iris2, self.q_left_iris3, self.q_right_iris0, self.q_right_iris1,
-                self.q_right_iris2, self.q_right_iris3)
-
-    def do_plot(self, q_times, q_roll, q_pitch, q_yaw, q_ear_left, q_ear_right,
-                q_mar, q_mdst, q_left_iris0, q_left_iris1, q_left_iris2,
-                q_left_iris3, q_right_iris0, q_right_iris1, q_right_iris2, q_right_iris3):
+    def do_plot(self, queue, graphtrim):
 
         times = [0]
         arr_roll = [0]
@@ -99,25 +58,31 @@ class Debugger:
 
         # Initializing Plot
         fig = plt.figure("Telemetry", figsize=(12, 6))
+
         ax1 = fig.add_subplot(2, 3, (1, 2))
         ax1.set_title("Pitch/Yaw/Roll")
         ax1.set_ylim([-90, 90])
+        ax1.get_xaxis().set_visible(False)
 
         ax2 = fig.add_subplot(233)
         ax2.set_title("Ears")
         ax2.set_ylim([0, 1])
+        ax2.get_xaxis().set_visible(False)
 
         ax3 = fig.add_subplot(234)
         ax3.set_title("mar")
         ax3.set_ylim([0, 1])
+        ax3.get_xaxis().set_visible(False)
 
         ax4 = fig.add_subplot(235)
         ax4.set_title("mdst")
         ax4.set_ylim([0, 1])
+        ax4.get_xaxis().set_visible(False)
 
         ax5 = fig.add_subplot(236)
         ax5.set_title("Iris 2,3")
         ax5.set_ylim([0, 1])
+        ax5.get_xaxis().set_visible(False)
 
         series_roll, = ax1.plot([0], [0], label="Roll")
         series_pitch, = ax1.plot([0], [0], label="Pitch")
@@ -141,46 +106,41 @@ class Debugger:
         ax5.legend()
 
         def animate(i):
-            ax1.set_xlim([0, max(times)])
-            ax2.set_xlim([0, max(times)])
-            ax3.set_xlim([0, max(times)])
-            ax4.set_xlim([0, max(times)])
-            ax5.set_xlim([0, max(times)])
+            while not queue.empty():
+                (time, roll, pitch, yaw, ear_left, ear_right,
+                    mar, mdst, left_iris, right_iris) = queue.get()
+                times.append(time)
+                arr_roll.append(roll)
+                arr_yaw.append(yaw)
+                arr_pitch.append(pitch)
+                arr_ear_left.append(ear_left)
+                arr_ear_right.append(ear_right)
+                arr_mar.append(mar)
+                arr_mdst.append(mdst)
+                arr_left_iris0.append(left_iris[0])
+                arr_left_iris1.append(left_iris[1])
+                arr_left_iris2.append(left_iris[2])
+                arr_left_iris3.append(left_iris[3])
+                arr_right_iris0.append(right_iris[0])
+                arr_right_iris1.append(right_iris[1])
+                arr_right_iris2.append(right_iris[2])
+                arr_right_iris3.append(right_iris[3])
 
-            while not q_times.empty():
-                times.append(q_times.get())
-            while not q_roll.empty():
-                arr_roll.append(q_roll.get())
-            while not q_yaw.empty():
-                arr_yaw.append(q_yaw.get())
-            while not q_pitch.empty():
-                arr_pitch.append(q_pitch.get())
-            while not q_ear_left.empty():
-                arr_ear_left.append(q_ear_left.get())
-            while not q_ear_right.empty():
-                arr_ear_right.append(q_ear_right.get())
-            while not q_mar.empty():
-                arr_mar.append(q_mar.get())
-            while not q_mdst.empty():
-                arr_mdst.append(q_mdst.get())
+                if graphtrim:
+                    # trim to see only most recent data
+                    for arr in (times, arr_roll, arr_pitch, arr_yaw,
+                                arr_ear_left, arr_ear_right, arr_mar,
+                                arr_mdst, arr_left_iris0, arr_left_iris1,
+                                arr_left_iris2, arr_left_iris3, arr_right_iris0,
+                                arr_right_iris1, arr_right_iris2, arr_right_iris3):
+                        if len(arr) > 200:
+                            arr.pop(0)
 
-            while not q_left_iris0.empty():
-                arr_left_iris0.append(q_left_iris0.get())
-            while not q_left_iris1.empty():
-                arr_left_iris1.append(q_left_iris1.get())
-            while not q_left_iris2.empty():
-                arr_left_iris2.append(q_left_iris2.get())
-            while not q_left_iris3.empty():
-                arr_left_iris3.append(q_left_iris3.get())
-
-            while not q_right_iris0.empty():
-                arr_right_iris0.append(q_right_iris0.get())
-            while not q_right_iris1.empty():
-                arr_right_iris1.append(q_right_iris1.get())
-            while not q_right_iris2.empty():
-                arr_right_iris2.append(q_right_iris2.get())
-            while not q_right_iris3.empty():
-                arr_right_iris3.append(q_right_iris3.get())
+                ax1.set_xlim([min(times), max(times)])
+                ax2.set_xlim([min(times), max(times)])
+                ax3.set_xlim([min(times), max(times)])
+                ax4.set_xlim([min(times), max(times)])
+                ax5.set_xlim([min(times), max(times)])
 
             series_roll.set_data(times, arr_roll)
             series_pitch.set_data(times, arr_pitch)
@@ -194,9 +154,10 @@ class Debugger:
             series_right_iris2.set_data(times, arr_right_iris2)
             series_right_iris3.set_data(times, arr_right_iris3)
 
-            fig.canvas.draw_idle()
-            return ()
+            return (series_roll, series_pitch, series_yaw, series_ear_left, series_ear_right,
+                    series_mar, series_mdst, series_left_iris2, series_left_iris3,
+                    series_right_iris2, series_right_iris3)
 
-        ani = animation.FuncAnimation(fig, animate, blit=True)  # noqa: F841
+        ani = animation.FuncAnimation(fig, animate, blit=True, interval=10)  # noqa: F841
 
         plt.show()
