@@ -2,7 +2,7 @@ import cv2
 import dlib
 import numpy as np
 from openvtuber import utils
-from .poseEstimator import PoseEstimator
+from .pose_estimator import PoseEstimator
 # from .mlUtils import extrapolate
 from collections import deque
 
@@ -114,8 +114,8 @@ class Inference:
 
     def mouth_aspect_ration(self, mouth):
         mar = np.linalg.norm(mouth[1] - mouth[7]) + \
-                            np.linalg.norm(mouth[2] - mouth[6]) + \
-                            np.linalg.norm(mouth[3] - mouth[5])
+            np.linalg.norm(mouth[2] - mouth[6]) + \
+            np.linalg.norm(mouth[3] - mouth[5])
         mar /= (2*np.linalg.norm(mouth[0] - mouth[4]) + 1e-6)
         return mar
 
