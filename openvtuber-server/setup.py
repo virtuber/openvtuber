@@ -1,14 +1,28 @@
 from setuptools import setup, find_packages
+from Cython.Build import cythonize
 
 
 setup(
     name='openvtuber',
     version='0.1',
     url='https://github.com/virtuber/openvtuber',
+    ext_modules=cythonize(["**/*.pyx"]),
     packages=find_packages('src'),
     package_dir={'': 'src'},
     include_package_data=True,
-    install_requires=[],
+    install_requires=[
+        'dlib',
+        'numpy',
+        'opencv-python',
+        'rx',
+        'flask',
+        'protobuf',
+        'requests',
+        'websockets',
+        'click',
+        'matplotlib',
+        'Cython'
+    ],
     tests_require=['flake8', 'pytest-cov', 'mypy', 'pytest'],
     extras_require={
         'tests': ['flake8', 'pytest-cov', 'mypy', 'pytest'],
