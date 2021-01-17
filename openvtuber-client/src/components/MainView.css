@@ -1,0 +1,16 @@
+.mainview {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+.mainview__content {
+  display: flex;
+  flex-grow: 1;
+  position: relative;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.mainview__canvas {
+  background-color: var(--black);
+}
