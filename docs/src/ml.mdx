@@ -13,7 +13,7 @@ The inference process as several steps, the first step is the initialisation pro
 
 The next part is where it actually takes in an image and begins the processing. It'll try and find a face in the image. If a face is not found, it won't go through with the next few steps. This part is done using dlib and is probably the slowest part of the algorithm. Although there are other choices available online of this part, dlib is one of the most well known and most used.
 
-If a face is found, it will take the cutout of the image that contains just the face and record it's position. This is done so that the algorithm does not have to perform facial detection on every frame. This is because by recording past frames, we can actually use linear extrapolation to predict future face locations. Since facial detection is the slowest part in this entire algorithm, by being able to skip it occasionally, you can see noticeable performance boosts. In the case of the current implementation, every second frame is skipped and replaced with this linear extrapolation approach.  
+If a face is found, it will take the cut out of the image that contains just the face and record it's position. This is done so that the algorithm does not have to perform facial detection on every frame. This is because by recording past frames, we can actually use linear extrapolation to predict future face locations. Since facial detection is the slowest part in this entire algorithm, by being able to skip it occasionally, you can see noticeable performance boosts. In the case of the current implementation, every second frame is skipped and replaced with this linear extrapolation approach.  
 
 Once a face has been detected, a cropped image of just the face is isolated and facial landmarking is performed. This increases the accuracy and speed of the facial landmarking procedure tremendously. This process also takes advantage of an algorithm available through dlib that performs facial landmarking using 68 points.  
 
@@ -22,7 +22,7 @@ With the face landmarked, one can now use the points to calculate various metric
 This entire procedure can be seen outlined in the infer_image function at the bottom of the file.
 
 **infer_image(image)**  
-**Input**: 2d numpy array that represents an image  
+**Input**: 2D numpy array that represents an image  
 **Output**: tuple of elements
  - roll
  - pitch
