@@ -4,7 +4,7 @@ PBJS_PATH="$PROJECT_ROOT/openvtuber-client/node_modules/protobufjs/bin"
 CJS_TO_ESM_PATH="$PROJECT_ROOT/openvtuber-client/scripts"
 JS_OUT_DIR="$PROJECT_ROOT/openvtuber-client/src/protobufs"
 PY_OUT_DIR="$PROJECT_ROOT/openvtuber-server/src/openvtuber/protobufs"
-PROTO_PATH="$PROJECT_ROOT/openvtuber-server/src/openvtuber/protobufs"
+PROTO_PATH="$PROJECT_ROOT/proto"
 
 protoc \
         --python_out=${PY_OUT_DIR} \
