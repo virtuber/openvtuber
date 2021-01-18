@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "docz dev",
     "build": "docz build",
-    "style:check": "write-good ./src/*.mdx",
+    "style:check": "write-good ./src/*.mdx --no-adverb --no-weasel",
     "spell": "mdspell src/**/*.mdx -n -a",
     "spell:check": "mdspell src/**/*.mdx --report -n -a"
   },
