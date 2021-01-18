@@ -1,0 +1,56 @@
+name: deploy docs
+
+on:
+  push:
+    branches:
+    - master
+    paths:
+    - 'docs/**'
+    - '.github/workflows/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: docs
+    name: Building docs with node 12
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: Install dependencies and script
+        run: yarn
+
+      - name: Build
+        run: yarn run build
+
+      - name: Pushes to another repository
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        run: |
+          git config --global user.email "sdammobubbles@gmail.com"
+          git config --global user.name "seendsouza"
+          git clone --single-branch --branch main https://${API_TOKEN_GITHUB}@github.com/virtuber/docs.git
+
+          ls -la docs
+          TARGET_DIR=$(mktemp -d)
+          mv "docs/.git" "$TARGET_DIR"
+
+          echo "Copying contents to git repo"
+          cp -ra "./.docz/dist"/. "$TARGET_DIR"
+          cd "$TARGET_DIR"
+
+          echo "Adding git commit"
+          ORIGIN_COMMIT="https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
+          COMMIT_MESSAGE="See $ORIGIN_COMMIT"
+          git add .
+          git status
+          # git diff-index : to avoid doing the git commit failing if there are no changes to be commit
+          git diff-index --quiet HEAD || git commit --message "$COMMIT_MESSAGE"
+
+          echo "Pushing git commit"
+          git push origin --set-upstream main
