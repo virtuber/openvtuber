@@ -85,8 +85,8 @@ e.g. --linear_extrap=true or --linear_extrap=false")
     ml_stream = video_stream.pipe(op.map(inference.infer_image))
 
     if cam:
-        grey_stream = video_stream.pipe(op.map(ml.infer))
-        grey_stream.subscribe(show)
+        vid_stream = video_stream.pipe(op.map(ml.display))
+        vid_stream.subscribe(show)
 
     if debug:
         d = Debugger(graphtrim)
