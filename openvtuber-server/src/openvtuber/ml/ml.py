@@ -3,11 +3,10 @@ import dlib
 import numpy as np
 from openvtuber import utils
 from .pose_estimator import PoseEstimator
-# from .mlUtils import extrapolate
 from collections import deque
 
 
-def infer(image):
+def display(image):
     """
     default infer place holder, output video stream
     """
@@ -157,18 +156,6 @@ class Inference:
             pose = list(R) + list(T)
 
             pose += [(ll+rl)/2.0, (lu+ru)/2.0]
-
-            """
-            if error > 100:
-                pose_estimator = PoseEstimator(img_size=sample_frame.shape[:2])
-
-            else:
-                steady_pose = []
-                pose_np = np.array(pose).flatten()
-                for value, ps_stb in  zip(pose_np, pose_stabilizers):
-                    ps_stb.update([value])
-                    steady_poes.append(ps_stb.state[0])
-            """
 
             # everything is in degrees
             roll = np.clip(-(180+np.degrees(pose[2])), -50, 50)
