@@ -7,6 +7,7 @@ import threading
 import websockets
 import asyncio
 import click
+import multiprocessing
 
 
 loop = asyncio.get_event_loop()
@@ -116,4 +117,5 @@ e.g. --linear_extrap=true or --linear_extrap=false")
 
 
 if __name__ == '__main__':  # pragma: no cover
+    multiprocessing.freeze_support()
     main()
