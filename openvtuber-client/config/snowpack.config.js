@@ -2,8 +2,8 @@
 const path = require('path');
 module.exports = {
   mount: {
-    public: { url: '/', static: false },
-    src: { url: '/dist' },
+    '../public': { url: '/', static: false },
+    '../src': { url: '/dist' },
   },
   plugins: [
     '@snowpack/plugin-react-refresh',
@@ -19,30 +19,13 @@ module.exports = {
       },
     ],
   ],
-  install: [
-    /* ... */
-  ],
-  installOptions: {
+  optimize: {
     treeshake: true,
-  },
-  devOptions: {
-    /* ... */
+    minify: true,
+    target: 'es2018',
   },
   buildOptions: {
     clean: true,
     out: '../openvtuber-server/src/openvtuber/client',
-    /* ... */
-  },
-  proxy: {
-    /* ... */
-  },
-  alias: {
-    /* ... */
-  },
-  experiments: {
-    optimize: {
-      minify: true,
-      target: 'es2018',
-    },
   },
 };
