@@ -94,7 +94,16 @@ e.g. --linear_extrap=true or --linear_extrap=false")
 
     # use filter with identity function, None values are filtered out
     control_stream = ml_stream.pipe(op.filter(lambda x: x), op.map(control.ml_to_vrm_state))
-    control_stream.subscribe(s.queue_control_data)  # push to queue
+    # control_stream.subscribe(s.queue_control_data)  # push to queue
+
+    out_filter = control.OutputFilter()
+
+    """
+    if you change what is being filtered, make sure to go into filter.py
+    and to modify the exclusion set accordingly
+    """
+    filter_stream = control_stream.pipe(op.map(out_filter.get_filtered_val))
+    filter_stream.subscribe(s.queue_control_data)
 
     start_server = websockets.serve(s.websocket_handler,
                                     config.ip_address, config.ws_port)
