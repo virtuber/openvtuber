@@ -27,5 +27,8 @@ setup(
     extras_require={
         'tests': ['flake8', 'pytest-cov', 'mypy', 'pytest'],
     },
-    classifiers=["Programming Language :: Python :: 3", "Operating System :: OS Independent"]
+    classifiers=["Programming Language :: Python :: 3", "Operating System :: OS Independent"],
+    entry_points={
+        'console_scripts': ['openvtuber = openvtuber.lib:main']
+    },
 )
