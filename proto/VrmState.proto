@@ -1,14 +1,24 @@
 syntax = "proto3";
 message VrmStateMessage {
-  float blinkLeftValue = 1;
-  float blinkRightValue = 2;
-  float headRotationX = 3;
-  float headRotationY = 4;
-  float jawRotationX = 5;
-  float jawRotationY = 6;
-  float lookAtX = 7;
-  float lookAtY = 8;
-  float lookAtZ = 9;
-  float neckRotationX = 10;
-  float neckRotationY = 11;
+  float aValue = 1;
+  float angryValue = 2;
+  float blinkLeftValue = 3;
+  float blinkRightValue = 4;
+  float eValue = 5;
+  float funValue = 6;
+  float headRotationX = 7;
+  float headRotationY = 8;
+  float iValue = 9;
+  float jawRotationX = 10;
+  float jawRotationY = 11;
+  float joyValue = 12;
+  float lookAtX = 13;
+  float lookAtY = 14;
+  float lookAtZ = 15;
+  float neckRotationX = 16;
+  float neckRotationY = 17;
+  float neutralValue = 18;
+  float oValue = 19;
+  float sorrowValue = 20;
+  float uValue = 21;
 }

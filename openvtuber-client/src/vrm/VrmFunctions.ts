@@ -4,8 +4,7 @@ import { Vector3 } from 'three';
 import type { VRM } from '@pixiv/three-vrm';
 import type { VrmState } from '../types';
 
-/**
- * Updates VRM with new state.
+/** Updates VRM with new state.
  */
 export const updateVrm = (vrm: VRM, state: VrmState, delta: number): void => {
   if (vrm.humanoid) {
@@ -65,7 +64,18 @@ export const updateVrm = (vrm: VRM, state: VrmState, delta: number): void => {
   if (vrm.blendShapeProxy) {
     vrm.blendShapeProxy.setValue('blink_l', state.blinkLeftValue);
     vrm.blendShapeProxy.setValue('blink_r', state.blinkRightValue);
-    vrm.blendShapeProxy.setValue('fun', 0.5);
+
+    vrm.blendShapeProxy.setValue('a', state.aValue);
+    vrm.blendShapeProxy.setValue('e', state.eValue);
+    vrm.blendShapeProxy.setValue('i', state.iValue);
+    vrm.blendShapeProxy.setValue('o', state.oValue);
+    vrm.blendShapeProxy.setValue('u', state.uValue);
+
+    vrm.blendShapeProxy.setValue('angry', state.angryValue);
+    vrm.blendShapeProxy.setValue('fun', state.funValue);
+    vrm.blendShapeProxy.setValue('joy', state.joyValue);
+    vrm.blendShapeProxy.setValue('neutral', state.neutralValue);
+    vrm.blendShapeProxy.setValue('sorrow', state.sorrowValue);
   }
   if (vrm.lookAt) {
     vrm.lookAt.lookAt(new Vector3(state.lookAtX, state.lookAtY, state.lookAtZ));
