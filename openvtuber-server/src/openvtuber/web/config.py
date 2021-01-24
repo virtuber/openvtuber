@@ -1,6 +1,7 @@
-import openvtub-server.config
+from dataclasses import dataclass
+import openvtuber.config as config
 
-@config.dataclass
+@dataclass
 class Configuration:
     ip_address: str = config.Configuration.ip_address
     port: int = config.Configuration.port

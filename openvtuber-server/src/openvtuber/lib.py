@@ -1,7 +1,7 @@
 import cv2
 from rx import operators as op
 from openvtuber import stream, ml, web, control, utils
-from openvtuber.web.config import Configuration as config
+from .config import Configuration as config
 import threading
 import websockets
 import asyncio

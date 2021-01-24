@@ -2,7 +2,6 @@ from dataclasses import dataclass
 from openvtuber import web, control, stream, ml
 import yaml
 
-#Web config     
 
 @dataclass
 class Configuration:
@@ -12,17 +11,31 @@ class Configuration:
 
 
 
+#Read the configuration file specified by the path parameter
+def read_config(path : str):
+    try:
+        if not path.endswith(".yaml"):
+            print("ERROR!!\n \
+Invalid configuration file type provided, please provide a .yaml file")
+            return
+        with open(f'{path}', "r") as file:
+            config = yaml.full_load(file)
 
-def read_config():
-    with open(r"src/openvtuber/config/test.yaml") as file:
-        config = yaml.full_load(file)
+        for module, items in config.items():
+            print(module, ":", items)
 
-    for module, items in config.items():
-        print(module, ":", items)
+    except:
+        print("ERROR!!\n \
+path provided is invalid please provide a valid,\n \
+e.g. \"openvtuber-server/src/openvtuber/config/test.yaml\"")
+
+   
+
 
 
 if __name__ == "__main__":
-    read_config()
+    read_config("openvtuber-server/src/openvtuber/config/test.yaml")
+    
 
 
 
