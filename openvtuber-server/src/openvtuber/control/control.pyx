@@ -34,17 +34,20 @@ def ml_to_vrm_state(*args):
         mouth_distance, left_iris, right_iris = args[0]
     # x_l, y_l, ll, lu = left_iris
     # x_r, y_r, rl, ru = right_iris
-    blinkLeftValue = 0
-    blinkRightValue = 0
-    headRotationX = 0
-    headRotationY = 0
+    aValue = 0
+    angryValue = 0
+    eValue = 0
+    funValue = 0
+    iValue = 0
     jawRotationX = 0
     jawRotationY = 0
-    lookAtX = 0
-    lookAtY = 0
-    lookAtZ = 0
+    joyValue = 0
     neckRotationX = 0
     neckRotationY = 0
+    neutralValue = 0
+    oValue = 0
+    sorrowValue = 0
+    uValue = 0
 
     blinkLeftValue = 1 - set_blink(eye_aspect_ratio_left)
     blinkRightValue = 1 - set_blink(eye_aspect_ratio_right)
@@ -58,10 +61,12 @@ def ml_to_vrm_state(*args):
 
     lookAtX = set_gaze_left(left_iris, right_iris)
     lookAtY = set_gaze_up(left_iris, right_iris)
+    lookAtZ = 0
 
     headRotationX = set_head_rotation(pitch*math.pi/180)
     headRotationY = set_head_rotation(-yaw*math.pi/180)
     # jawRotationY = set_jaw_rotation_Y(mouth_distance, mouth_aspect_ratio)
 
-    return (blinkLeftValue, blinkRightValue, headRotationX, headRotationY, jawRotationX,
-            jawRotationY, lookAtX, lookAtY, lookAtZ, neckRotationX, neckRotationY)
+    return (aValue, angryValue, blinkLeftValue, blinkRightValue, eValue, funValue, headRotationX,
+            headRotationY, iValue, jawRotationX, jawRotationY, joyValue, lookAtX, lookAtY, lookAtZ,
+            neckRotationX, neckRotationY, neutralValue, oValue, sorrowValue, uValue)
