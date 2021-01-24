@@ -2,12 +2,11 @@ import cv2
 import dlib
 import numpy as np
 from openvtuber import utils
-from .poseEstimator import PoseEstimator
-from .mlUtils import extrapolate
+from .pose_estimator import PoseEstimator
 from collections import deque
 
 
-def infer(image):
+def display(image):
     """
     default infer place holder, output video stream
     """
@@ -15,7 +14,7 @@ def infer(image):
 
 
 class Inference:
-    def __init__(self):
+    def __init__(self, noExtrapolation=True):
         self.camera_angle = 0
         self.face_detector = dlib.get_frontal_face_detector()
         self.root = utils.get_project_root()
@@ -25,43 +24,12 @@ class Inference:
         self.dlib_model_path = str(self.root.joinpath(path))
         self.shape_predictor = dlib.shape_predictor(self.dlib_model_path)
 
-        # store 5 vals, 0 (front) is most recent, -1 (end) is furthest away
-        self.val_hist = deque([])
+        self.no_face_count = 0
+
+        # store 5 vals, newest at end
+        self.prev_boxes = deque(maxlen=5)
+        self.noExtrap = noExtrapolation
         pass
-
-    def add_val_to_hist(self, val):
-        self.val_hist.appendleft(val)
-        if len(self.val_hist) > 5:
-            self.val_hist.pop()
-
-    def get_from_val_hist(self, amount):
-        return list(self.val_hist)[0:amount]
-
-    def extrapolate_last_two(self):
-        last_two = self.get_from_val_hist(2)
-
-        # can't use iter here becaues of nested values for iris
-        if len(last_two) < 2 or last_two[0] is None or last_two[1] is None:
-            return None
-
-        roll1, pitch1, yaw1, ear_left1, \
-            ear_right1, mar1, mdst1, left_iris1, right_iris1 = last_two[0]
-        roll2, pitch2, yaw2, ear_left2, \
-            ear_right2, mar2, mdst2, left_iris2, right_iris2 = last_two[1]
-
-        roll_e = extrapolate(roll1[0], roll2[0])
-        pitch_e = extrapolate(pitch1[0], pitch2[0])
-        yaw_e = extrapolate(yaw1[0], yaw2[0])
-        ear_left_e = extrapolate(ear_left1, ear_left2)
-        ear_right_e = extrapolate(ear_right1, ear_right2)
-        mar_e = extrapolate(mar1, mar2)
-        mdst_e = extrapolate(mdst1, mdst2)
-        left_iris_e = [extrapolate(z[0], z[1]) for z in zip(left_iris1, left_iris2)]
-        right_iris_e = [extrapolate(z[0], z[1]) for z in zip(right_iris1, right_iris2)]
-
-        out = (np.array([roll_e]), np.array([pitch_e]), np.array([yaw_e]),
-               ear_left_e, ear_right_e, mar_e, mdst_e, left_iris_e, right_iris_e)
-        return out
 
     def get_face(self, detector, image):
         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -145,8 +113,8 @@ class Inference:
 
     def mouth_aspect_ration(self, mouth):
         mar = np.linalg.norm(mouth[1] - mouth[7]) + \
-                            np.linalg.norm(mouth[2] - mouth[6]) + \
-                            np.linalg.norm(mouth[3] - mouth[5])
+            np.linalg.norm(mouth[2] - mouth[6]) + \
+            np.linalg.norm(mouth[3] - mouth[5])
         mar /= (2*np.linalg.norm(mouth[0] - mouth[4]) + 1e-6)
         return mar
 
@@ -154,19 +122,29 @@ class Inference:
         return np.linalg.norm(mouth[0] - mouth[4])
 
     def infer_image(self, image):
-        """
-        if self.evenFrame:
-            self.evenFrame = False
-            return self.extrapolate_last_two()
-
-        self.evenFrame = True
-        """
+        self.evenFrame = not self.evenFrame
 
         pose_estimator = PoseEstimator(self.root, img_size=image.shape[:2])
         image = cv2.flip(image, 1)
-        facebox = self.get_face(self.face_detector, image)
+
+        if not self.evenFrame or self.noExtrap:  # face dtect on odd frame
+            facebox = self.get_face(self.face_detector, image)
+            if facebox is not None:
+                self.no_face_count = 0
+        elif len(self.prev_boxes) > 1:  # linear extrapolate
+            if self.no_face_count > 1:
+                facebox = None
+            else:
+                facebox = self.prev_boxes[-1] + \
+                    np.mean(np.diff(np.array(self.prev_boxes), axis=0), axis=0)[0]
+                facebox = facebox.astype(int)
+                self.no_face_count += 1
+        else:
+            facebox = None
 
         if facebox is not None:
+            self.prev_boxes.append(facebox)
+
             face = dlib.rectangle(left=facebox[0], top=facebox[1],
                                   right=facebox[2], bottom=facebox[3])
             marks = self.shape_to_np(self.shape_predictor(image, face))
@@ -178,18 +156,6 @@ class Inference:
             pose = list(R) + list(T)
 
             pose += [(ll+rl)/2.0, (lu+ru)/2.0]
-
-            """
-            if error > 100:
-                pose_estimator = PoseEstimator(img_size=sample_frame.shape[:2])
-
-            else:
-                steady_pose = []
-                pose_np = np.array(pose).flatten()
-                for value, ps_stb in  zip(pose_np, pose_stabilizers):
-                    ps_stb.update([value])
-                    steady_poes.append(ps_stb.state[0])
-            """
 
             # everything is in degrees
             roll = np.clip(-(180+np.degrees(pose[2])), -50, 50)
@@ -209,10 +175,8 @@ class Inference:
             left_iris = [x_l, y_l, ll, lu]
             right_iris = [y_r, y_r, rl, ru]
 
-            out = (roll, pitch, yaw, ear_left, ear_right, mar, mdst, left_iris, right_iris)
+            out = (roll[0], pitch[0], yaw[0], ear_left, ear_right, mar, mdst, left_iris, right_iris)
 
-            self.add_val_to_hist(out)
             return out
         else:
-            self.add_val_to_hist(None)
             return None

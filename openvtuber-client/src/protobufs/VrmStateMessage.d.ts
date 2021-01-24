@@ -2,11 +2,23 @@ import * as $protobuf from "protobufjs";
 /** Properties of a VrmStateMessage. */
 export interface IVrmStateMessage {
 
+    /** VrmStateMessage aValue */
+    aValue?: (number|null);
+
+    /** VrmStateMessage angryValue */
+    angryValue?: (number|null);
+
     /** VrmStateMessage blinkLeftValue */
     blinkLeftValue?: (number|null);
 
     /** VrmStateMessage blinkRightValue */
     blinkRightValue?: (number|null);
+
+    /** VrmStateMessage eValue */
+    eValue?: (number|null);
+
+    /** VrmStateMessage funValue */
+    funValue?: (number|null);
 
     /** VrmStateMessage headRotationX */
     headRotationX?: (number|null);
@@ -14,11 +26,17 @@ export interface IVrmStateMessage {
     /** VrmStateMessage headRotationY */
     headRotationY?: (number|null);
 
+    /** VrmStateMessage iValue */
+    iValue?: (number|null);
+
     /** VrmStateMessage jawRotationX */
     jawRotationX?: (number|null);
 
     /** VrmStateMessage jawRotationY */
     jawRotationY?: (number|null);
+
+    /** VrmStateMessage joyValue */
+    joyValue?: (number|null);
 
     /** VrmStateMessage lookAtX */
     lookAtX?: (number|null);
@@ -34,6 +52,18 @@ export interface IVrmStateMessage {
 
     /** VrmStateMessage neckRotationY */
     neckRotationY?: (number|null);
+
+    /** VrmStateMessage neutralValue */
+    neutralValue?: (number|null);
+
+    /** VrmStateMessage oValue */
+    oValue?: (number|null);
+
+    /** VrmStateMessage sorrowValue */
+    sorrowValue?: (number|null);
+
+    /** VrmStateMessage uValue */
+    uValue?: (number|null);
 }
 
 /** Represents a VrmStateMessage. */
@@ -45,11 +75,23 @@ export class VrmStateMessage implements IVrmStateMessage {
      */
     constructor(properties?: IVrmStateMessage);
 
+    /** VrmStateMessage aValue. */
+    public aValue: number;
+
+    /** VrmStateMessage angryValue. */
+    public angryValue: number;
+
     /** VrmStateMessage blinkLeftValue. */
     public blinkLeftValue: number;
 
     /** VrmStateMessage blinkRightValue. */
     public blinkRightValue: number;
+
+    /** VrmStateMessage eValue. */
+    public eValue: number;
+
+    /** VrmStateMessage funValue. */
+    public funValue: number;
 
     /** VrmStateMessage headRotationX. */
     public headRotationX: number;
@@ -57,11 +99,17 @@ export class VrmStateMessage implements IVrmStateMessage {
     /** VrmStateMessage headRotationY. */
     public headRotationY: number;
 
+    /** VrmStateMessage iValue. */
+    public iValue: number;
+
     /** VrmStateMessage jawRotationX. */
     public jawRotationX: number;
 
     /** VrmStateMessage jawRotationY. */
     public jawRotationY: number;
+
+    /** VrmStateMessage joyValue. */
+    public joyValue: number;
 
     /** VrmStateMessage lookAtX. */
     public lookAtX: number;
@@ -77,6 +125,18 @@ export class VrmStateMessage implements IVrmStateMessage {
 
     /** VrmStateMessage neckRotationY. */
     public neckRotationY: number;
+
+    /** VrmStateMessage neutralValue. */
+    public neutralValue: number;
+
+    /** VrmStateMessage oValue. */
+    public oValue: number;
+
+    /** VrmStateMessage sorrowValue. */
+    public sorrowValue: number;
+
+    /** VrmStateMessage uValue. */
+    public uValue: number;
 
     /**
      * Creates a new VrmStateMessage instance using the specified properties.

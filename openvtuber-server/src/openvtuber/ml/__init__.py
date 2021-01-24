@@ -1,4 +1,4 @@
-from .ml import infer, Inference
+from .ml import display, Inference
 
 
-__all__ = ['infer', 'Inference', ]
+__all__ = ['display', 'Inference', ]
