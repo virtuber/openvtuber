@@ -26,6 +26,6 @@ module.exports = {
   },
   buildOptions: {
     clean: true,
-    out: '../openvtuber-server/src/openvtuber/client',
+    out: '../../openvtuber-server/src/openvtuber/client',
   },
 };
