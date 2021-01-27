@@ -25,7 +25,8 @@ module.exports = {
     target: 'es2018',
   },
   buildOptions: {
+    baseUrl: '/openvtuber',
     clean: true,
-    out: '../openvtuber-server/src/openvtuber/client',
+    out: '../../openvtuber-server/src/openvtuber/client',
   },
 };
