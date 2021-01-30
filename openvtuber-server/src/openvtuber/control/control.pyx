@@ -32,6 +32,7 @@ def set_jaw_rotation_Y(mouth_aspect_ratio, mouth_distance):
 # have fun messing around with these values
 # i created these using the debug and guess and check
 def set_mouth_state(mar, mdst):
+    """
     if mdst > 0.22:
         if mar > 0.425:
             return (1, 0, 0, 0, 0)
@@ -46,6 +47,16 @@ def set_mouth_state(mar, mdst):
             return (0, 0, 0, 0, 1)
         else:
             return (0, 0, 1, 0, 0)
+    """
+
+    out_mar = max_min_lim(mar/0.7, 0, 1)
+    out_mdst = max_min_lim((mdst - 0.21)/0.35, 0, 1)
+
+    return (out_mar, 0, 0, out_mdst, 0)
+
+
+def max_min_lim(val, min_val, max_val):
+    return max(min(val, max_val), min_val)
 
 
 def ml_to_vrm_state(*args):
