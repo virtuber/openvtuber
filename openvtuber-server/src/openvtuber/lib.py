@@ -1,3 +1,4 @@
+from _typeshed import AnyPath
 import cv2
 from rx import operators as op
 from openvtuber import stream, ml, web, control, utils
@@ -36,7 +37,7 @@ def send_data(data):
 @click.option('--cam', required=False, type=str, help='enable cam output', default="false")
 @click.option('--linear_extrap', required=False, type=str,
               help='uses linear extrapolation to speed up ml module', default="false")
-@click.option('--config_path', required=False, type=str,
+@click.option('--config', required=False, type=AnyPath,
               help='filepath to config file for app', default="")
 def main(debug, cam, linear_extrap, config_path, graphtrim):
     if debug != "false" and debug != "true":
@@ -70,6 +71,7 @@ e.g. --linear_extrap=true or --linear_extrap=false")
         return
     else:
         linear_extrap = (linear_extrap == "true")
+    
     
     config.read_config(config_path)
     utils.get_assets()
@@ -108,7 +110,7 @@ e.g. --linear_extrap=true or --linear_extrap=false")
     filter_stream.subscribe(s.queue_control_data)
 
     start_server = websockets.serve(s.websocket_handler,
-                                    config.ip_address, config.ws_port)
+                                    config.web.ip_address, config.web.ws_port)
 
     loop.run_until_complete(start_server)
     loop.run_forever()
