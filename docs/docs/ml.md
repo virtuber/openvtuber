@@ -1,9 +1,7 @@
 ---
-name: Facial Detection, Tracking, and Landmarking
-route: /ml
+id: ml
+title: Facial Detection, Tracking, and Landmarking
 ---
-
-# Facial Detection, Tracking and Landmarking
 
 The ML module performs facial detection, tracking, and landmarking (in that order) on the image input it receives. One can find all the functions related to image and facial processing in the Inference class in `ml.py`. The core logic is within the infer_image function at the bottom. It takes an image and transforms it, producing a tuple containing measurements about the face.  
 
