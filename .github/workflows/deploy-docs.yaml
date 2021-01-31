@@ -32,16 +32,20 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         run: |
+          TARGET_DIR=$(mktemp -d)
+          SOURCE_DIR=$(mktemp -d)
+
+          echo "Copying contents to git repo"
+          cp -ra "./build"/. "$TARGET_DIR"
+
+          cd $SOURCE_DIR
           git config --global user.email "sdammobubbles@gmail.com"
           git config --global user.name "seendsouza"
           git clone --single-branch --branch main https://${API_TOKEN_GITHUB}@github.com/virtuber/docs.git
 
           ls -la docs
-          TARGET_DIR=$(mktemp -d)
-          mv "docs/.git" "$TARGET_DIR"
+          mv "$SOURCE_DIR/docs/.git" "$TARGET_DIR"
 
-          echo "Copying contents to git repo"
-          cp -ra "./build"/. "$TARGET_DIR"
           cd "$TARGET_DIR"
 
           echo "Adding git commit"
