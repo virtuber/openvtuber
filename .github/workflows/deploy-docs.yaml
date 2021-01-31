@@ -41,7 +41,7 @@ jobs:
           mv "docs/.git" "$TARGET_DIR"
 
           echo "Copying contents to git repo"
-          cp -ra "./.docz/dist"/. "$TARGET_DIR"
+          cp -ra "./build"/. "$TARGET_DIR"
           cd "$TARGET_DIR"
 
           echo "Adding git commit"
