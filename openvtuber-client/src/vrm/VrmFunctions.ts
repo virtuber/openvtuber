@@ -32,6 +32,7 @@ export const updateVrm = (vrm: VRM, state: VrmState, delta: number): void => {
     if (head) {
       head.rotation.x = state.headRotationX;
       head.rotation.y = state.headRotationY;
+      head.rotation.z = state.headRotationZ;
     }
 
     if (jaw) {
@@ -44,12 +45,14 @@ export const updateVrm = (vrm: VRM, state: VrmState, delta: number): void => {
     }
 
     if (leftShoulder) {
-      leftShoulder.rotation.y = Math.PI / 3;
-      leftShoulder.rotation.x = Math.PI / 2;
+      leftShoulder.rotation.y = 0; //Math.PI / 3;
+      leftShoulder.rotation.x = 0; //Math.PI / 2;
+      leftShoulder.rotation.z = 0; //Math.PI;
     }
     if (rightShoulder) {
-      rightShoulder.rotation.y = -Math.PI / 3;
-      rightShoulder.rotation.x = Math.PI / 2;
+      rightShoulder.rotation.y = 0; //-Math.PI / 3;
+      rightShoulder.rotation.x = 0; // Math.PI / 2;
+      rightShoulder.rotation.z = 0; // -Math.PI / 5;
     }
 
     if (chest) {
@@ -57,8 +60,9 @@ export const updateVrm = (vrm: VRM, state: VrmState, delta: number): void => {
       chest.rotation.y = 0;
     }
     if (upperChest) {
-      upperChest.rotation.x = 0;
-      upperChest.rotation.y = 0;
+      upperChest.rotation.x = state.upperChestX;
+      upperChest.rotation.y = state.upperChestY;
+      upperChest.rotation.z = state.upperChestZ;
     }
   }
   if (vrm.blendShapeProxy) {
