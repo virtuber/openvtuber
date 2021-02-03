@@ -19,6 +19,7 @@ $root.VrmStateMessage = function () {
    * @property {number|null} [funValue] VrmStateMessage funValue
    * @property {number|null} [headRotationX] VrmStateMessage headRotationX
    * @property {number|null} [headRotationY] VrmStateMessage headRotationY
+   * @property {number|null} [headRotationZ] VrmStateMessage headRotationZ
    * @property {number|null} [iValue] VrmStateMessage iValue
    * @property {number|null} [jawRotationX] VrmStateMessage jawRotationX
    * @property {number|null} [jawRotationY] VrmStateMessage jawRotationY
@@ -31,6 +32,9 @@ $root.VrmStateMessage = function () {
    * @property {number|null} [neutralValue] VrmStateMessage neutralValue
    * @property {number|null} [oValue] VrmStateMessage oValue
    * @property {number|null} [sorrowValue] VrmStateMessage sorrowValue
+   * @property {number|null} [upperChestX] VrmStateMessage upperChestX
+   * @property {number|null} [upperChestY] VrmStateMessage upperChestY
+   * @property {number|null} [upperChestZ] VrmStateMessage upperChestZ
    * @property {number|null} [uValue] VrmStateMessage uValue
    */
 
@@ -110,6 +114,14 @@ $root.VrmStateMessage = function () {
    */
 
   VrmStateMessage.prototype.headRotationY = 0;
+  /**
+   * VrmStateMessage headRotationZ.
+   * @member {number} headRotationZ
+   * @memberof VrmStateMessage
+   * @instance
+   */
+
+  VrmStateMessage.prototype.headRotationZ = 0;
   /**
    * VrmStateMessage iValue.
    * @member {number} iValue
@@ -207,6 +219,30 @@ $root.VrmStateMessage = function () {
 
   VrmStateMessage.prototype.sorrowValue = 0;
   /**
+   * VrmStateMessage upperChestX.
+   * @member {number} upperChestX
+   * @memberof VrmStateMessage
+   * @instance
+   */
+
+  VrmStateMessage.prototype.upperChestX = 0;
+  /**
+   * VrmStateMessage upperChestY.
+   * @member {number} upperChestY
+   * @memberof VrmStateMessage
+   * @instance
+   */
+
+  VrmStateMessage.prototype.upperChestY = 0;
+  /**
+   * VrmStateMessage upperChestZ.
+   * @member {number} upperChestZ
+   * @memberof VrmStateMessage
+   * @instance
+   */
+
+  VrmStateMessage.prototype.upperChestZ = 0;
+  /**
    * VrmStateMessage uValue.
    * @member {number} uValue
    * @memberof VrmStateMessage
@@ -263,45 +299,57 @@ $root.VrmStateMessage = function () {
     if (message.headRotationY != null && Object.hasOwnProperty.call(message, "headRotationY")) writer.uint32(
     /* id 8, wireType 5 =*/
     69).float(message.headRotationY);
-    if (message.iValue != null && Object.hasOwnProperty.call(message, "iValue")) writer.uint32(
+    if (message.headRotationZ != null && Object.hasOwnProperty.call(message, "headRotationZ")) writer.uint32(
     /* id 9, wireType 5 =*/
-    77).float(message.iValue);
-    if (message.jawRotationX != null && Object.hasOwnProperty.call(message, "jawRotationX")) writer.uint32(
+    77).float(message.headRotationZ);
+    if (message.iValue != null && Object.hasOwnProperty.call(message, "iValue")) writer.uint32(
     /* id 10, wireType 5 =*/
-    85).float(message.jawRotationX);
-    if (message.jawRotationY != null && Object.hasOwnProperty.call(message, "jawRotationY")) writer.uint32(
+    85).float(message.iValue);
+    if (message.jawRotationX != null && Object.hasOwnProperty.call(message, "jawRotationX")) writer.uint32(
     /* id 11, wireType 5 =*/
-    93).float(message.jawRotationY);
-    if (message.joyValue != null && Object.hasOwnProperty.call(message, "joyValue")) writer.uint32(
+    93).float(message.jawRotationX);
+    if (message.jawRotationY != null && Object.hasOwnProperty.call(message, "jawRotationY")) writer.uint32(
     /* id 12, wireType 5 =*/
-    101).float(message.joyValue);
-    if (message.lookAtX != null && Object.hasOwnProperty.call(message, "lookAtX")) writer.uint32(
+    101).float(message.jawRotationY);
+    if (message.joyValue != null && Object.hasOwnProperty.call(message, "joyValue")) writer.uint32(
     /* id 13, wireType 5 =*/
-    109).float(message.lookAtX);
-    if (message.lookAtY != null && Object.hasOwnProperty.call(message, "lookAtY")) writer.uint32(
+    109).float(message.joyValue);
+    if (message.lookAtX != null && Object.hasOwnProperty.call(message, "lookAtX")) writer.uint32(
     /* id 14, wireType 5 =*/
-    117).float(message.lookAtY);
-    if (message.lookAtZ != null && Object.hasOwnProperty.call(message, "lookAtZ")) writer.uint32(
+    117).float(message.lookAtX);
+    if (message.lookAtY != null && Object.hasOwnProperty.call(message, "lookAtY")) writer.uint32(
     /* id 15, wireType 5 =*/
-    125).float(message.lookAtZ);
-    if (message.neckRotationX != null && Object.hasOwnProperty.call(message, "neckRotationX")) writer.uint32(
+    125).float(message.lookAtY);
+    if (message.lookAtZ != null && Object.hasOwnProperty.call(message, "lookAtZ")) writer.uint32(
     /* id 16, wireType 5 =*/
-    133).float(message.neckRotationX);
-    if (message.neckRotationY != null && Object.hasOwnProperty.call(message, "neckRotationY")) writer.uint32(
+    133).float(message.lookAtZ);
+    if (message.neckRotationX != null && Object.hasOwnProperty.call(message, "neckRotationX")) writer.uint32(
     /* id 17, wireType 5 =*/
-    141).float(message.neckRotationY);
-    if (message.neutralValue != null && Object.hasOwnProperty.call(message, "neutralValue")) writer.uint32(
+    141).float(message.neckRotationX);
+    if (message.neckRotationY != null && Object.hasOwnProperty.call(message, "neckRotationY")) writer.uint32(
     /* id 18, wireType 5 =*/
-    149).float(message.neutralValue);
-    if (message.oValue != null && Object.hasOwnProperty.call(message, "oValue")) writer.uint32(
+    149).float(message.neckRotationY);
+    if (message.neutralValue != null && Object.hasOwnProperty.call(message, "neutralValue")) writer.uint32(
     /* id 19, wireType 5 =*/
-    157).float(message.oValue);
-    if (message.sorrowValue != null && Object.hasOwnProperty.call(message, "sorrowValue")) writer.uint32(
+    157).float(message.neutralValue);
+    if (message.oValue != null && Object.hasOwnProperty.call(message, "oValue")) writer.uint32(
     /* id 20, wireType 5 =*/
-    165).float(message.sorrowValue);
-    if (message.uValue != null && Object.hasOwnProperty.call(message, "uValue")) writer.uint32(
+    165).float(message.oValue);
+    if (message.sorrowValue != null && Object.hasOwnProperty.call(message, "sorrowValue")) writer.uint32(
     /* id 21, wireType 5 =*/
-    173).float(message.uValue);
+    173).float(message.sorrowValue);
+    if (message.upperChestX != null && Object.hasOwnProperty.call(message, "upperChestX")) writer.uint32(
+    /* id 22, wireType 5 =*/
+    181).float(message.upperChestX);
+    if (message.upperChestY != null && Object.hasOwnProperty.call(message, "upperChestY")) writer.uint32(
+    /* id 23, wireType 5 =*/
+    189).float(message.upperChestY);
+    if (message.upperChestZ != null && Object.hasOwnProperty.call(message, "upperChestZ")) writer.uint32(
+    /* id 24, wireType 5 =*/
+    197).float(message.upperChestZ);
+    if (message.uValue != null && Object.hasOwnProperty.call(message, "uValue")) writer.uint32(
+    /* id 25, wireType 5 =*/
+    205).float(message.uValue);
     return writer;
   };
   /**
@@ -373,54 +421,70 @@ $root.VrmStateMessage = function () {
           break;
 
         case 9:
-          message.iValue = reader.float();
+          message.headRotationZ = reader.float();
           break;
 
         case 10:
-          message.jawRotationX = reader.float();
+          message.iValue = reader.float();
           break;
 
         case 11:
-          message.jawRotationY = reader.float();
+          message.jawRotationX = reader.float();
           break;
 
         case 12:
-          message.joyValue = reader.float();
+          message.jawRotationY = reader.float();
           break;
 
         case 13:
-          message.lookAtX = reader.float();
+          message.joyValue = reader.float();
           break;
 
         case 14:
-          message.lookAtY = reader.float();
+          message.lookAtX = reader.float();
           break;
 
         case 15:
-          message.lookAtZ = reader.float();
+          message.lookAtY = reader.float();
           break;
 
         case 16:
-          message.neckRotationX = reader.float();
+          message.lookAtZ = reader.float();
           break;
 
         case 17:
-          message.neckRotationY = reader.float();
+          message.neckRotationX = reader.float();
           break;
 
         case 18:
-          message.neutralValue = reader.float();
+          message.neckRotationY = reader.float();
           break;
 
         case 19:
-          message.oValue = reader.float();
+          message.neutralValue = reader.float();
           break;
 
         case 20:
-          message.sorrowValue = reader.float();
+          message.oValue = reader.float();
           break;
 
         case 21:
+          message.sorrowValue = reader.float();
+          break;
+
+        case 22:
+          message.upperChestX = reader.float();
+          break;
+
+        case 23:
+          message.upperChestY = reader.float();
+          break;
+
+        case 24:
+          message.upperChestZ = reader.float();
+          break;
+
+        case 25:
           message.uValue = reader.float();
           break;
 
@@ -468,6 +532,7 @@ $root.VrmStateMessage = function () {
     if (message.funValue != null && message.hasOwnProperty("funValue")) if (typeof message.funValue !== "number") return "funValue: number expected";
     if (message.headRotationX != null && message.hasOwnProperty("headRotationX")) if (typeof message.headRotationX !== "number") return "headRotationX: number expected";
     if (message.headRotationY != null && message.hasOwnProperty("headRotationY")) if (typeof message.headRotationY !== "number") return "headRotationY: number expected";
+    if (message.headRotationZ != null && message.hasOwnProperty("headRotationZ")) if (typeof message.headRotationZ !== "number") return "headRotationZ: number expected";
     if (message.iValue != null && message.hasOwnProperty("iValue")) if (typeof message.iValue !== "number") return "iValue: number expected";
     if (message.jawRotationX != null && message.hasOwnProperty("jawRotationX")) if (typeof message.jawRotationX !== "number") return "jawRotationX: number expected";
     if (message.jawRotationY != null && message.hasOwnProperty("jawRotationY")) if (typeof message.jawRotationY !== "number") return "jawRotationY: number expected";
@@ -480,6 +545,9 @@ $root.VrmStateMessage = function () {
     if (message.neutralValue != null && message.hasOwnProperty("neutralValue")) if (typeof message.neutralValue !== "number") return "neutralValue: number expected";
     if (message.oValue != null && message.hasOwnProperty("oValue")) if (typeof message.oValue !== "number") return "oValue: number expected";
     if (message.sorrowValue != null && message.hasOwnProperty("sorrowValue")) if (typeof message.sorrowValue !== "number") return "sorrowValue: number expected";
+    if (message.upperChestX != null && message.hasOwnProperty("upperChestX")) if (typeof message.upperChestX !== "number") return "upperChestX: number expected";
+    if (message.upperChestY != null && message.hasOwnProperty("upperChestY")) if (typeof message.upperChestY !== "number") return "upperChestY: number expected";
+    if (message.upperChestZ != null && message.hasOwnProperty("upperChestZ")) if (typeof message.upperChestZ !== "number") return "upperChestZ: number expected";
     if (message.uValue != null && message.hasOwnProperty("uValue")) if (typeof message.uValue !== "number") return "uValue: number expected";
     return null;
   };
@@ -504,6 +572,7 @@ $root.VrmStateMessage = function () {
     if (object.funValue != null) message.funValue = Number(object.funValue);
     if (object.headRotationX != null) message.headRotationX = Number(object.headRotationX);
     if (object.headRotationY != null) message.headRotationY = Number(object.headRotationY);
+    if (object.headRotationZ != null) message.headRotationZ = Number(object.headRotationZ);
     if (object.iValue != null) message.iValue = Number(object.iValue);
     if (object.jawRotationX != null) message.jawRotationX = Number(object.jawRotationX);
     if (object.jawRotationY != null) message.jawRotationY = Number(object.jawRotationY);
@@ -516,6 +585,9 @@ $root.VrmStateMessage = function () {
     if (object.neutralValue != null) message.neutralValue = Number(object.neutralValue);
     if (object.oValue != null) message.oValue = Number(object.oValue);
     if (object.sorrowValue != null) message.sorrowValue = Number(object.sorrowValue);
+    if (object.upperChestX != null) message.upperChestX = Number(object.upperChestX);
+    if (object.upperChestY != null) message.upperChestY = Number(object.upperChestY);
+    if (object.upperChestZ != null) message.upperChestZ = Number(object.upperChestZ);
     if (object.uValue != null) message.uValue = Number(object.uValue);
     return message;
   };
@@ -543,6 +615,7 @@ $root.VrmStateMessage = function () {
       object.funValue = 0;
       object.headRotationX = 0;
       object.headRotationY = 0;
+      object.headRotationZ = 0;
       object.iValue = 0;
       object.jawRotationX = 0;
       object.jawRotationY = 0;
@@ -555,6 +628,9 @@ $root.VrmStateMessage = function () {
       object.neutralValue = 0;
       object.oValue = 0;
       object.sorrowValue = 0;
+      object.upperChestX = 0;
+      object.upperChestY = 0;
+      object.upperChestZ = 0;
       object.uValue = 0;
     }
 
@@ -566,6 +642,7 @@ $root.VrmStateMessage = function () {
     if (message.funValue != null && message.hasOwnProperty("funValue")) object.funValue = options.json && !isFinite(message.funValue) ? String(message.funValue) : message.funValue;
     if (message.headRotationX != null && message.hasOwnProperty("headRotationX")) object.headRotationX = options.json && !isFinite(message.headRotationX) ? String(message.headRotationX) : message.headRotationX;
     if (message.headRotationY != null && message.hasOwnProperty("headRotationY")) object.headRotationY = options.json && !isFinite(message.headRotationY) ? String(message.headRotationY) : message.headRotationY;
+    if (message.headRotationZ != null && message.hasOwnProperty("headRotationZ")) object.headRotationZ = options.json && !isFinite(message.headRotationZ) ? String(message.headRotationZ) : message.headRotationZ;
     if (message.iValue != null && message.hasOwnProperty("iValue")) object.iValue = options.json && !isFinite(message.iValue) ? String(message.iValue) : message.iValue;
     if (message.jawRotationX != null && message.hasOwnProperty("jawRotationX")) object.jawRotationX = options.json && !isFinite(message.jawRotationX) ? String(message.jawRotationX) : message.jawRotationX;
     if (message.jawRotationY != null && message.hasOwnProperty("jawRotationY")) object.jawRotationY = options.json && !isFinite(message.jawRotationY) ? String(message.jawRotationY) : message.jawRotationY;
@@ -578,6 +655,9 @@ $root.VrmStateMessage = function () {
     if (message.neutralValue != null && message.hasOwnProperty("neutralValue")) object.neutralValue = options.json && !isFinite(message.neutralValue) ? String(message.neutralValue) : message.neutralValue;
     if (message.oValue != null && message.hasOwnProperty("oValue")) object.oValue = options.json && !isFinite(message.oValue) ? String(message.oValue) : message.oValue;
     if (message.sorrowValue != null && message.hasOwnProperty("sorrowValue")) object.sorrowValue = options.json && !isFinite(message.sorrowValue) ? String(message.sorrowValue) : message.sorrowValue;
+    if (message.upperChestX != null && message.hasOwnProperty("upperChestX")) object.upperChestX = options.json && !isFinite(message.upperChestX) ? String(message.upperChestX) : message.upperChestX;
+    if (message.upperChestY != null && message.hasOwnProperty("upperChestY")) object.upperChestY = options.json && !isFinite(message.upperChestY) ? String(message.upperChestY) : message.upperChestY;
+    if (message.upperChestZ != null && message.hasOwnProperty("upperChestZ")) object.upperChestZ = options.json && !isFinite(message.upperChestZ) ? String(message.upperChestZ) : message.upperChestZ;
     if (message.uValue != null && message.hasOwnProperty("uValue")) object.uValue = options.json && !isFinite(message.uValue) ? String(message.uValue) : message.uValue;
     return object;
   };
