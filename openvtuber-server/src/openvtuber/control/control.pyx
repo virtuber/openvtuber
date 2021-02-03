@@ -93,8 +93,13 @@ def ml_to_vrm_state(*args):
 
     headRotationX = set_head_rotation(pitch*math.pi/180)
     headRotationY = set_head_rotation(-yaw*math.pi/180)
+    headRotationZ = set_head_rotation(-roll*math.pi/180)
     # jawRotationY = set_jaw_rotation_Y(mouth_distance, mouth_aspect_ratio)
 
+    upperChestX = 0;
+    upperChestY = 0;
+    upperChestZ = 0;
+
     return (aValue, angryValue, blinkLeftValue, blinkRightValue, eValue, funValue, headRotationX,
-            headRotationY, iValue, jawRotationX, jawRotationY, joyValue, lookAtX, lookAtY, lookAtZ,
-            neckRotationX, neckRotationY, neutralValue, oValue, sorrowValue, uValue)
+            headRotationY, headRotationZ, iValue, jawRotationX, jawRotationY, joyValue, lookAtX, lookAtY, lookAtZ,
+            neckRotationX, neckRotationY, neutralValue, oValue, sorrowValue, upperChestX, upperChestY, upperChestZ, uValue)
