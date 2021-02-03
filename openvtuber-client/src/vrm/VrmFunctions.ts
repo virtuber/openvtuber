@@ -45,8 +45,8 @@ export const updateVrm = (vrm: VRM, state: VrmState, delta: number): void => {
     }
 
     if (leftShoulder) {
-      leftShoulder.rotation.y = 0;//Math.PI / 3;
-      leftShoulder.rotation.x = 0;//Math.PI / 2;
+      leftShoulder.rotation.y = 0; //Math.PI / 3;
+      leftShoulder.rotation.x = 0; //Math.PI / 2;
       leftShoulder.rotation.z = 0; //Math.PI;
     }
     if (rightShoulder) {
