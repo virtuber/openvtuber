@@ -2,10 +2,12 @@ dlib
 numpy
 opencv-python
 rx
-flask
 protobuf
 requests
 websockets
 click
 matplotlib
 Cython
+fastapi
+uvicorn
+aiofiles
