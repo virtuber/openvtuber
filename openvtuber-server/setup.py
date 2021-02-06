@@ -15,13 +15,15 @@ setup(
         'numpy',
         'opencv-python',
         'rx',
-        'flask',
         'protobuf',
         'requests',
         'websockets',
         'click',
         'matplotlib',
-        'Cython'
+        'Cython',
+        'fastapi',
+        'uvicorn',
+        'aiofiles'
     ],
     tests_require=['flake8', 'pytest-cov', 'mypy', 'pytest'],
     extras_require={
