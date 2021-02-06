@@ -10,3 +10,4 @@ matplotlib
 Cython
 fastapi
 uvicorn
+aiofiles
