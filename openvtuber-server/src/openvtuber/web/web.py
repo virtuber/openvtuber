@@ -9,7 +9,7 @@ app = FastAPI()
 
 root = utils.get_project_root()
 abspath = root.joinpath(config.static_files_dir)
-app.mount("/openvtuber", StaticFiles(directory=abspath), name="openvtuber-fastAPI")
+app.mount("/openvtuber", StaticFiles(directory=str(abspath)), name="openvtuber-fastAPI")
 
 
 def run_web_server():
