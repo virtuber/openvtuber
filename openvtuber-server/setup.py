@@ -21,6 +21,8 @@ setup(
         'click',
         'matplotlib',
         'Cython',
+        'torch',
+        'torchvision',
         'fastapi',
         'uvicorn',
         'aiofiles'

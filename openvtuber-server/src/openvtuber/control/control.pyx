@@ -61,7 +61,7 @@ def max_min_lim(val, min_val, max_val):
 
 def ml_to_vrm_state(*args):
     roll, pitch, yaw, eye_aspect_ratio_left, eye_aspect_ratio_right, mouth_aspect_ratio, \
-        mouth_distance, left_iris, right_iris = args[0]
+        mouth_distance, left_iris, right_iris, posenet_keypoints, posenet_score = args[0]
     # x_l, y_l, ll, lu = left_iris
     # x_r, y_r, rl, ru = right_iris
 
