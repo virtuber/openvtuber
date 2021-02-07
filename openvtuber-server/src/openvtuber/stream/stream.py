@@ -38,8 +38,9 @@ class Stream():
     def control_to_protobuf(self, args) -> bytes:
         vsm = VrmStateMessage()
         vsm.aValue, vsm.angryValue, vsm.blinkLeftValue, vsm.blinkRightValue, \
-            vsm.eValue, vsm.funValue, vsm.headRotationX, vsm.headRotationY, vsm.iValue, \
-            vsm.jawRotationX, vsm.jawRotationY, vsm.joyValue, vsm.lookAtX, vsm.lookAtY, \
-            vsm.lookAtZ, vsm.neckRotationX, vsm.neckRotationY, vsm.neutralValue, \
-            vsm.oValue, vsm.sorrowValue, vsm.uValue = map(float, args)
+            vsm.eValue, vsm.funValue, vsm.headRotationX, vsm.headRotationY, vsm.headRotationZ, \
+            vsm.iValue, vsm.jawRotationX, vsm.jawRotationY, vsm.joyValue, vsm.lookAtX, \
+            vsm.lookAtY, vsm.lookAtZ, vsm.neckRotationX, vsm.neckRotationY, vsm.neutralValue, \
+            vsm.oValue, vsm.sorrowValue, vsm.upperChestX, vsm.upperChestY, vsm.upperChestZ, \
+            vsm.uValue = map(float, args)
         return vsm.SerializeToString()

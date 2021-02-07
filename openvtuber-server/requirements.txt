@@ -2,7 +2,6 @@ dlib
 numpy
 opencv-python
 rx
-flask
 protobuf
 requests
 websockets
@@ -11,3 +10,6 @@ matplotlib
 Cython
 torch
 torchvision
+fastapi
+uvicorn
+aiofiles
