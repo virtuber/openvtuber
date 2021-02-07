@@ -21,7 +21,9 @@ setup(
         'websockets',
         'click',
         'matplotlib',
-        'Cython'
+        'Cython',
+        'torch',
+        'torchvision'
     ],
     tests_require=['flake8', 'pytest-cov', 'mypy', 'pytest'],
     extras_require={

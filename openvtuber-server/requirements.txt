@@ -9,3 +9,5 @@ websockets
 click
 matplotlib
 Cython
+torch
+torchvision
