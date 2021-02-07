@@ -26,6 +26,9 @@ export interface IVrmStateMessage {
     /** VrmStateMessage headRotationY */
     headRotationY?: (number|null);
 
+    /** VrmStateMessage headRotationZ */
+    headRotationZ?: (number|null);
+
     /** VrmStateMessage iValue */
     iValue?: (number|null);
 
@@ -61,6 +64,15 @@ export interface IVrmStateMessage {
 
     /** VrmStateMessage sorrowValue */
     sorrowValue?: (number|null);
+
+    /** VrmStateMessage upperChestX */
+    upperChestX?: (number|null);
+
+    /** VrmStateMessage upperChestY */
+    upperChestY?: (number|null);
+
+    /** VrmStateMessage upperChestZ */
+    upperChestZ?: (number|null);
 
     /** VrmStateMessage uValue */
     uValue?: (number|null);
@@ -99,6 +111,9 @@ export class VrmStateMessage implements IVrmStateMessage {
     /** VrmStateMessage headRotationY. */
     public headRotationY: number;
 
+    /** VrmStateMessage headRotationZ. */
+    public headRotationZ: number;
+
     /** VrmStateMessage iValue. */
     public iValue: number;
 
@@ -134,6 +149,15 @@ export class VrmStateMessage implements IVrmStateMessage {
 
     /** VrmStateMessage sorrowValue. */
     public sorrowValue: number;
+
+    /** VrmStateMessage upperChestX. */
+    public upperChestX: number;
+
+    /** VrmStateMessage upperChestY. */
+    public upperChestY: number;
+
+    /** VrmStateMessage upperChestZ. */
+    public upperChestZ: number;
 
     /** VrmStateMessage uValue. */
     public uValue: number;

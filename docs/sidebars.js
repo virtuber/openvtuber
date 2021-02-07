@@ -1,5 +1,5 @@
 module.exports = {
   someSidebar: {
-    openvtuber: ["getting-started", "ml"],
+    openvtuber: ["getting-started", "ml", "docker"],
   },
 };

@@ -7,6 +7,7 @@ export interface VrmState {
   funValue: number;
   headRotationX: number;
   headRotationY: number;
+  headRotationZ: number;
   iValue: number;
   jawRotationX: number;
   jawRotationY: number;
@@ -19,5 +20,8 @@ export interface VrmState {
   neutralValue: number;
   oValue: number;
   sorrowValue: number;
+  upperChestX: number;
+  upperChestY: number;
+  upperChestZ: number;
   uValue: number;
 }

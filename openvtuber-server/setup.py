@@ -15,7 +15,6 @@ setup(
         'numpy',
         'opencv-python',
         'rx',
-        'flask',
         'protobuf',
         'requests',
         'websockets',
@@ -23,7 +22,10 @@ setup(
         'matplotlib',
         'Cython',
         'torch',
-        'torchvision'
+        'torchvision',
+        'fastapi',
+        'uvicorn',
+        'aiofiles'
     ],
     tests_require=['flake8', 'pytest-cov', 'mypy', 'pytest'],
     extras_require={
