@@ -7,6 +7,7 @@ class TestArgMax2d:
         input = torch.LongTensor(
             [[[1],
               [2]],
+
              [[0],
               [3]]])
         result = argmax2d(input)
@@ -17,12 +18,15 @@ class TestArgMax2d:
         input = torch.LongTensor([[[1],
                                    [2],
                                    [0]],
+
                                   [[3],
                                    [4],
                                    [-1]],
+
                                   [[2],
                                    [9],
                                    [6]]])
+
         input2 = torch.Tensor([[[0.5],
                                 [0.2],
                                 [0.9]],
@@ -65,6 +69,7 @@ class TestArgMax2d:
                                [[0.6],
                                 [-0.11],
                                 [1.4]]])
+
         input3 = torch.Tensor([[[4],
                                 [0.2],
                                 [0.8]],
@@ -76,6 +81,7 @@ class TestArgMax2d:
                                [[0.3],
                                 [11],
                                 [0.6]]])
+
         input = torch.cat((input1, input2, input3), 2)
 
         result = argmax2d(input)
