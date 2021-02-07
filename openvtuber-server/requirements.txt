@@ -8,6 +8,8 @@ websockets
 click
 matplotlib
 Cython
+torch
+torchvision
 fastapi
 uvicorn
 aiofiles

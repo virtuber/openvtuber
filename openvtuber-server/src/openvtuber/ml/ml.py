@@ -3,6 +3,7 @@ import dlib
 import numpy as np
 from openvtuber import utils
 from .pose_estimator import PoseEstimator
+from .posenet import PoseNet
 from collections import deque
 
 
@@ -29,6 +30,7 @@ class Inference:
         # store 5 vals, newest at end
         self.prev_boxes = deque(maxlen=5)
         self.noExtrap = noExtrapolation
+        self.posenet = PoseNet()
         pass
 
     def get_face(self, detector, image):
@@ -174,8 +176,10 @@ class Inference:
 
             left_iris = [x_l, y_l, ll, lu]
             right_iris = [y_r, y_r, rl, ru]
+            posenet_keypoints, posenet_score = self.posenet.estimate_single_pose(image)
 
-            out = (roll[0], pitch[0], yaw[0], ear_left, ear_right, mar, mdst, left_iris, right_iris)
+            out = (roll[0], pitch[0], yaw[0], ear_left, ear_right, mar, mdst,
+                   left_iris, right_iris, posenet_keypoints, posenet_score)
 
             return out
         else:
