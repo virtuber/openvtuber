@@ -19,7 +19,6 @@ setup(
         'requests',
         'websockets',
         'click',
-        'matplotlib',
         'Cython',
         'torch',
         'torchvision',
