@@ -48,7 +48,7 @@ class PoseNet(object):
             y, x, part, score = args
             keypoint_y = y * scale[0]
             keypoint_x = x * scale[1]
-            return (keypoint_y, keypoint_x, part, score)
+            return (keypoint_y, keypoint_x, part, score.item())
         keypoints = tuple(map(multiply_by_scale, keypoints))
 
-        return (keypoints, score)
+        return (keypoints, score.item())
