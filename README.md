@@ -19,4 +19,5 @@ We currently only support VRM (.vrm) characters.
   * openvtuber-server - processes camera data to control a VTuber character
   * proto - holds .proto files for message interchange
   * scripts - various helper 
+  * telemetry - telemetry stack for debugging purposes
 
