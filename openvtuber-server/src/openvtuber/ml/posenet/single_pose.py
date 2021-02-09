@@ -19,18 +19,18 @@ def get_offset_point(y: int, x: int, keypoint: int, offsets):
     return (out_y, out_x)
 
 
-def get_offset_vectors(heatmap_coords, offsets):
+def get_offset_vectors(heatmap_coords, offsets, device):
     result = []
     for keypoint in range(Constants.num_keypoints):
         heatmap_y = heatmap_coords[keypoint][0].item()
         heatmap_x = heatmap_coords[keypoint][1].item()
         y, x = get_offset_point(heatmap_y, heatmap_x, keypoint, offsets)
         result.append([y, x])
-    return torch.tensor(result)
+    return torch.tensor(result, device=device)
 
 
-def get_offset_points(heatmap_coords, output_stride, offsets):
-    offset_vectors = get_offset_vectors(heatmap_coords, offsets)
+def get_offset_points(heatmap_coords, output_stride, offsets, device):
+    offset_vectors = get_offset_vectors(heatmap_coords, offsets, device)
     return torch.add(torch.mul(heatmap_coords, output_stride), offset_vectors)
 
 
@@ -45,7 +45,7 @@ def get_points_confidence(heatmap_scores, heatmap_coords):
     return result
 
 
-def decode_single_pose(heatmap_scores, offsets, output_stride: int):
+def decode_single_pose(heatmap_scores, offsets, output_stride: int, device):
     """Detects a single pose and finds its parts from part scores and offset vectors.
 
     It returns a single pose detection. It works as follows:
@@ -63,7 +63,7 @@ def decode_single_pose(heatmap_scores, offsets, output_stride: int):
     """
     heatmap_values = argmax2d(heatmap_scores)
 
-    offset_points = get_offset_points(heatmap_values, output_stride, offsets)
+    offset_points = get_offset_points(heatmap_values, output_stride, offsets, device)
     keypoint_confidence = get_points_confidence(heatmap_scores, heatmap_values)
 
     total_score = sum(keypoint_confidence)

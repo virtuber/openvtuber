@@ -38,17 +38,17 @@ class PoseNet(object):
     def estimate_single_pose(self, image):
         img, scale = preprocess_image(image)
         with torch.no_grad():
-            input = torch.Tensor(img, device=self.device)
+            input = torch.tensor(img, device=self.device)
             heatmap_scores, offsets, displacement_fwd, displacement_bwd = self.model(input)
             keypoints, score = decode_single_pose(
-                heatmap_scores.squeeze(0).permute(2, 1, 0),
-                offsets.squeeze(0).permute(2, 1, 0), self.output_stride)
+                heatmap_scores.squeeze(0).permute(1, 2, 0),
+                offsets.squeeze(0).permute(1, 2, 0), self.output_stride, self.device)
 
         def multiply_by_scale(args):
             y, x, part, score = args
             keypoint_y = y * scale[0]
             keypoint_x = x * scale[1]
-            return (keypoint_y, keypoint_x, part, score)
+            return (keypoint_y, keypoint_x, part, score.item())
         keypoints = tuple(map(multiply_by_scale, keypoints))
 
-        return (keypoints, score)
+        return (keypoints, score.item())
