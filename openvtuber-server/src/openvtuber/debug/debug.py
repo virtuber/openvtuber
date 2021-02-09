@@ -1,4 +1,5 @@
 from urllib import request
+from urllib.error import URLError
 from typing import Tuple, Any
 from functools import reduce
 import time
@@ -12,7 +13,7 @@ def send_telemetry(args):
     req = request.Request(url, data=data)
     try:
         request.urlopen(req)
-    except Exception:
+    except URLError:
         print("Failed telemetry request")
 
 
