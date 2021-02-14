@@ -14,7 +14,7 @@ def get_assets():
     abspath = root.joinpath("openvtuber/assets")
     base_url = "https://storage.googleapis.com/openvtuber/assets/"
     files = ["deploy.prototxt", "model.txt", "res10_300x300_ssd_iter_140000.caffemodel",
-             "shape_predictor_68_face_landmarks.dat"]
+             "shape_predictor_68_face_landmarks.dat", "mobilenet_v1_101.pth"]
     if not abspath.exists():
         abspath.mkdir()
         for file in files:

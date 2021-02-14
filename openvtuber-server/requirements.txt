@@ -2,10 +2,13 @@ dlib
 numpy
 opencv-python
 rx
-flask
 protobuf
 requests
 websockets
 click
-matplotlib
 Cython
+torch
+torchvision
+fastapi
+uvicorn
+aiofiles

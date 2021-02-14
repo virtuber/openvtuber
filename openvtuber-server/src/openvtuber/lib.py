@@ -1,8 +1,8 @@
 import cv2
 from rx import operators as op
 from openvtuber import stream, ml, web, control, utils
-from .config import Configuration as config
-from .debugger import Debugger
+from openvtuber.web.config import Configuration as config
+from openvtuber.debug import send_telemetry
 import threading
 import websockets
 import asyncio
@@ -30,9 +30,6 @@ def send_data(data):
 
 @click.command()
 @click.option('--debug', required=False, type=str, help='enable debug output', default="false")
-@click.option('--graphtrim', required=False, type=str,
-              help='trims graph to 200 most recent datapoints, like a scrolling window',
-              default="false")
 @click.option('--cam', required=False, type=str, help='enable cam output', default="false")
 @click.option('--linear_extrap', required=False, type=str,
               help='uses linear extrapolation to speed up ml module', default="false")
@@ -46,14 +43,6 @@ e.g. --debug=true or --debug=false")
         return
     else:
         debug = (debug == "true")
-
-    if graphtrim != "false" and graphtrim != "true":
-        print("ERROR!!\n \
-graphtrim flag must be equal 'true' or 'false',\n \
-e.g. --graphtrim=true or --graphtrim=false")
-        return
-    else:
-        graphtrim = (graphtrim == "true")
 
     if cam != "false" and cam != "true":
         print("ERROR!!\n \
@@ -91,11 +80,11 @@ e.g. --linear_extrap=true or --linear_extrap=false")
         vid_stream.subscribe(show)
 
     if debug:
-        d = Debugger(graphtrim)
-        ml_stream.subscribe(d.debug_print)
+        ml_stream.pipe(op.filter(lambda x: x)).subscribe(send_telemetry)
 
     # use filter with identity function, None values are filtered out
-    control_stream = ml_stream.pipe(op.filter(lambda x: x), op.map(control.ml_to_vrm_state))
+    control_stream = ml_stream.pipe(
+        op.filter(lambda x: x), op.map(control.ml_to_vrm_state))
     # control_stream.subscribe(s.queue_control_data)  # push to queue
 
     out_filter = control.OutputFilter()

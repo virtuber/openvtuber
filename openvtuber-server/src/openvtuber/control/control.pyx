@@ -61,7 +61,7 @@ def max_min_lim(val, min_val, max_val):
 
 def ml_to_vrm_state(*args):
     roll, pitch, yaw, eye_aspect_ratio_left, eye_aspect_ratio_right, mouth_aspect_ratio, \
-        mouth_distance, left_iris, right_iris = args[0]
+        mouth_distance, left_iris, right_iris, posenet_keypoints, posenet_score = args[0]
     # x_l, y_l, ll, lu = left_iris
     # x_r, y_r, rl, ru = right_iris
 
@@ -93,8 +93,14 @@ def ml_to_vrm_state(*args):
 
     headRotationX = set_head_rotation(pitch*math.pi/180)
     headRotationY = set_head_rotation(-yaw*math.pi/180)
+    headRotationZ = set_head_rotation(-roll*math.pi/180)
     # jawRotationY = set_jaw_rotation_Y(mouth_distance, mouth_aspect_ratio)
 
+    upperChestX = 0
+    upperChestY = 0
+    upperChestZ = 0
+
     return (aValue, angryValue, blinkLeftValue, blinkRightValue, eValue, funValue, headRotationX,
-            headRotationY, iValue, jawRotationX, jawRotationY, joyValue, lookAtX, lookAtY, lookAtZ,
-            neckRotationX, neckRotationY, neutralValue, oValue, sorrowValue, uValue)
+            headRotationY, headRotationZ, iValue, jawRotationX, jawRotationY, joyValue, lookAtX,
+            lookAtY, lookAtZ, neckRotationX, neckRotationY, neutralValue, oValue, sorrowValue,
+            upperChestX, upperChestY, upperChestZ, uValue)

@@ -15,6 +15,7 @@ const initialVrmState: VrmState = {
   funValue: 0,
   headRotationX: 0,
   headRotationY: 0,
+  headRotationZ: 0,
   iValue: 0,
   jawRotationX: 0,
   jawRotationY: 0,
@@ -27,6 +28,9 @@ const initialVrmState: VrmState = {
   neutralValue: 0,
   oValue: 0,
   sorrowValue: 0,
+  upperChestX: 0,
+  upperChestY: 0,
+  upperChestZ: 0,
   uValue: 0,
 };
 
