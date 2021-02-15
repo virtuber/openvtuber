@@ -1,13 +1,13 @@
 import math
 from collections import deque
-from numpy import diff, polyfit, mean, median
+
 
 class Control:
     def __init__(self):
         self.left_shoulder_x_hist = deque(maxlen=5)
         self.right_shoulder_x_hist = deque(maxlen=5)
 
-    def set_blink(self,eye_aspect_ratio):
+    def set_blink(self, eye_aspect_ratio):
         # average human eye aspect ratio is assumed to be 0.25
         if eye_aspect_ratio < 0.19:
             eye_aspect_ratio = 0
@@ -62,10 +62,14 @@ class Control:
         """
         output angle is in radians
         0 degrees is facing forward, pi/2 is facing either left or right
+
+        currently utilises head and shouler ratio to calculate how much a head has
+        turned. This is a constant that is set below, may need to be tweeked depending
+        on the person.
         """
         actual_head_shoulder_ratio = 3.5
 
-        if None in (pose_dict["leftShoulder"], pose_dict["rightShoulder"]): #, pose_dict["rightEar"], pose_dict["leftEar"]):
+        if None in (pose_dict["leftShoulder"], pose_dict["rightShoulder"]):
             return (0, 0, 0)
 
         x_diff_shoulder = pose_dict["leftShoulder"][1] - pose_dict["rightShoulder"][1]
@@ -83,11 +87,16 @@ class Control:
         roll, pitch, yaw = head_angles
         actual_head_dist = eye_dist / (math.cos(yaw * math.pi/180))
         apparent_head_shoulder_ratio = shoulder_dist / actual_head_dist
-        apparent_actual_shoulder_ratio = self.max_min_lim(apparent_head_shoulder_ratio / actual_head_shoulder_ratio, 0, 1)
+        apparent_actual_shoulder_ratio = apparent_head_shoulder_ratio / actual_head_shoulder_ratio
 
+        # limit to between 0 and 1 so that it works with acos
+        apparent_actual_shoulder_ratio = self.max_min_lim(apparent_actual_shoulder_ratio, 0, 1)
+
+        # use head position to determine shoulder direction
+        # pretty scuffed but can't think of a better way for now
         shoulder_sign = -1 if yaw > 0 else 1
-        shoulder_angle = shoulder_sign * math.acos(apparent_actual_shoulder_ratio) # * 180 / math.pi
-        shoulder_tilt = math.atan(y_diff_shoulder / x_diff_shoulder) # * 180 / math.pi
+        shoulder_angle = shoulder_sign * math.acos(apparent_actual_shoulder_ratio)
+        shoulder_tilt = math.atan(y_diff_shoulder / x_diff_shoulder)
 
         return (0, shoulder_angle, shoulder_tilt)
 
@@ -96,14 +105,19 @@ class Control:
 
         # yaw is turn left-right
         roll, pitch, yaw, eye_aspect_ratio_left, eye_aspect_ratio_right, mouth_aspect_ratio, \
-        mouth_distance, left_iris, right_iris, posenet_keypoints, posenet_score = args[0]
+            mouth_distance, left_iris, right_iris, posenet_keypoints, posenet_score = args[0]
     # x_l, y_l, ll, lu = left_iris
         # x_r, y_r, rl, ru = right_iris
 
-        posenet_keypoints_dict = {kp[2] : (kp[:2] if kp[3] > filter_limit else None) for kp in posenet_keypoints}
-        upperChestX, upperChestY, upperChestZ = self.calc_shoulder_angle(posenet_keypoints_dict, [roll, pitch, yaw], left_iris, right_iris)
+        posenet_keypoints_dict = {kp[2]: (kp[:2] if kp[3] > filter_limit else None)
+                                  for kp in posenet_keypoints}
+        upperChestX, upperChestY, upperChestZ = self.calc_shoulder_angle(posenet_keypoints_dict,
+                                                                         [roll, pitch, yaw],
+                                                                         left_iris,
+                                                                         right_iris)
 
-        aValue, iValue, uValue, eValue, oValue = self.set_mouth_state(mouth_aspect_ratio, mouth_distance)
+        aValue, iValue, uValue, eValue, oValue = self.set_mouth_state(mouth_aspect_ratio,
+                                                                      mouth_distance)
 
         angryValue = 0
         funValue = 0
@@ -134,7 +148,7 @@ class Control:
         headRotationZ = self.set_head_rotation(-roll*math.pi/180)
         # jawRotationY = set_jaw_rotation_Y(mouth_distance, mouth_aspect_ratio)
 
-        return (aValue, angryValue, blinkLeftValue, blinkRightValue, eValue, funValue, headRotationX,
-                headRotationY, headRotationZ, iValue, jawRotationX, jawRotationY, joyValue, lookAtX,
-                lookAtY, lookAtZ, neckRotationX, neckRotationY, neutralValue, oValue, sorrowValue,
-                upperChestX, upperChestY, upperChestZ, uValue)
+        return (aValue, angryValue, blinkLeftValue, blinkRightValue, eValue, funValue,
+                headRotationX, headRotationY, headRotationZ, iValue, jawRotationX, jawRotationY,
+                joyValue, lookAtX, lookAtY, lookAtZ, neckRotationX, neckRotationY, neutralValue,
+                oValue, sorrowValue, upperChestX, upperChestY, upperChestZ, uValue)
