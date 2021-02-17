@@ -164,9 +164,6 @@ class Inference:
             pitch = np.clip(-(np.degrees(pose[1])) - self.camera_angle, -40, 40)
             yaw = np.clip(-(np.degrees(pose[0])), -50, 50)
 
-            # returns min of left and right eye, so currently cannot wink
-            # min_ear = min(eye_aspect_ratio(marks[36:42]), eye_aspect_ratio(marks[42:48]))
-
             # code has been fixed, ear has been split into left and right
             ear_left = self.eye_aspect_ratio(marks[36:42])
             ear_right = self.eye_aspect_ratio(marks[42:48])
@@ -175,7 +172,7 @@ class Inference:
             mdst = self.mouth_distance(marks[60:68])/(facebox[2] - facebox[0])
 
             left_iris = [x_l, y_l, ll, lu]
-            right_iris = [y_r, y_r, rl, ru]
+            right_iris = [x_r, y_r, rl, ru]
             posenet_keypoints, posenet_score = self.posenet.estimate_single_pose(image)
 
             out = (roll[0], pitch[0], yaw[0], ear_left, ear_right, mar, mdst,
