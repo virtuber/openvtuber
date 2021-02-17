@@ -12,3 +12,4 @@ torchvision
 fastapi
 uvicorn
 aiofiles
+pytorch-lightning
