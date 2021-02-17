@@ -1,6 +1,7 @@
 import cv2
 from rx import operators as op
 from openvtuber import stream, ml, web, control, utils
+from openvtuber.stream import cv_videocapture
 from openvtuber.web.config import Configuration as config
 from openvtuber.debug import send_telemetry
 import threading
@@ -71,7 +72,7 @@ e.g. --linear_extrap=true or --linear_extrap=false")
 
     s = stream.Stream()
 
-    video_stream = s.cv_videocapture(video)
+    video_stream = cv_videocapture(video)
     ml_stream = video_stream.pipe(op.map(inference.infer_image))
 
     ctrl = control.Control()
