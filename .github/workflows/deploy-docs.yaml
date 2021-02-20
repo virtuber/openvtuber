@@ -41,7 +41,7 @@ jobs:
           cd $SOURCE_DIR
           git config --global user.email "sdammobubbles@gmail.com"
           git config --global user.name "seendsouza"
-          git clone --single-branch --branch main https://${API_TOKEN_GITHUB}@github.com/virtuber/virtuber.github.io.git docs
+          git clone --single-branch --branch main https://${API_TOKEN_GITHUB}@github.com/virtuber/docs.git
 
           ls -la docs
           mv "$SOURCE_DIR/docs/.git" "$TARGET_DIR"

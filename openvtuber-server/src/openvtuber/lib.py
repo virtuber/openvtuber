@@ -1,7 +1,6 @@
 import cv2
 from rx import operators as op
 from openvtuber import stream, ml, web, control, utils
-from openvtuber.stream import cv_videocapture
 from openvtuber.web.config import Configuration as config
 from openvtuber.debug import send_telemetry
 import threading
@@ -73,10 +72,8 @@ e.g. --linear_extrap=true or --linear_extrap=false")
 
     s = stream.Stream()
 
-    video_stream = cv_videocapture(video)
+    video_stream = s.cv_videocapture(video)
     ml_stream = video_stream.pipe(op.map(inference.infer_image))
-
-    ctrl = control.Control()
 
     if cam:
         vid_stream = video_stream.pipe(op.map(ml.display))
@@ -87,7 +84,7 @@ e.g. --linear_extrap=true or --linear_extrap=false")
 
     # use filter with identity function, None values are filtered out
     control_stream = ml_stream.pipe(
-        op.filter(lambda x: x), op.map(ctrl.ml_to_vrm_state))
+        op.filter(lambda x: x), op.map(control.ml_to_vrm_state))
     # control_stream.subscribe(s.queue_control_data)  # push to queue
 
     out_filter = control.OutputFilter()

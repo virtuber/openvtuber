@@ -24,8 +24,7 @@ setup(
         'torchvision',
         'fastapi',
         'uvicorn',
-        'aiofiles',
-        'pytorch-lightning'
+        'aiofiles'
     ],
     tests_require=['flake8', 'pytest-cov', 'mypy', 'pytest'],
     extras_require={

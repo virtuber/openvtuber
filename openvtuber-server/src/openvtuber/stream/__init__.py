@@ -1,4 +1,4 @@
-from .stream import Stream, cv_videocapture
+from .stream import Stream
 
 
-__all__ = ['Stream', 'cv_videocapture']
+__all__ = ['Stream']
