@@ -1,6 +1,6 @@
 module.exports = {
-  title: "openvtuber docs",
-  tagline: "openvtuber developer documentation",
+  title: "openvtuber",
+  tagline: "Become a VTuber with just a camera",
   url: "https://virtuber.github.io",
   baseUrl: "/",
   onBrokenLinks: "throw",
@@ -10,7 +10,7 @@ module.exports = {
   projectName: "openvtuber", // Usually your repo name.
   themeConfig: {
     navbar: {
-      title: "openvtuber docs",
+      title: "openvtuber",
       logo: {
         alt: "My Site Logo",
         src: "img/logo.svg",
