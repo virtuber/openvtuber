@@ -1,5 +1,6 @@
 {
   "homepage": "/openvtuber/",
+  "license": "GPL-3.0",
   "scripts": {
     "start": "snowpack dev --config config/snowpack.config.js",
     "build": "snowpack build --config config/snowpack.config.js",
