@@ -17,7 +17,8 @@ def get_assets():
              "shape_predictor_68_face_landmarks.dat", "mobilenet_v1_101.pth"]
     if not abspath.exists():
         abspath.mkdir()
-        for file in files:
+    for file in files:
+        if not abspath.joinpath(file).exists():
             url = base_url + file
             r = requests.get(url)
             with open(abspath.joinpath(file), "wb") as f:
