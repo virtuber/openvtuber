@@ -5,6 +5,7 @@ from openvtuber import utils
 from .pose_estimator import PoseEstimator
 from .posenet import PoseNet
 from collections import deque
+from multiprocessing import Process, Queue
 
 
 def display(image):
@@ -12,6 +13,75 @@ def display(image):
     default infer place holder, output video stream
     """
     return cv2.flip(image, 1)
+
+
+def infer_face(self, q: Queue, output: Queue):
+
+    while True:
+        image = q.get(block=True)
+        self.evenFrame = not self.evenFrame
+
+        pose_estimator = PoseEstimator(self.root, img_size=image.shape[:2])
+        image = cv2.flip(image, 1)
+
+        if not self.evenFrame or self.noExtrap:  # face dtect on odd frame
+            facebox = self.get_face(self.face_detector, image)
+            if facebox is not None:
+                self.no_face_count = 0
+        elif len(self.prev_boxes) > 1:  # linear extrapolate
+            if self.no_face_count > 1:
+                facebox = None
+            else:
+                facebox = self.prev_boxes[-1] + \
+                    np.mean(np.diff(np.array(self.prev_boxes), axis=0), axis=0)[0]
+                facebox = facebox.astype(int)
+                self.no_face_count += 1
+        else:
+            facebox = None
+
+        if facebox is not None:
+            self.prev_boxes.append(facebox)
+
+            face = dlib.rectangle(left=facebox[0], top=facebox[1],
+                                right=facebox[2], bottom=facebox[3])
+            marks = self.shape_to_np(self.shape_predictor(image, face))
+
+            x_l, y_l, ll, lu = self.detect_iris(image, marks, "left")
+            x_r, y_r, rl, ru = self.detect_iris(image, marks, "right")
+
+            error, R, T = pose_estimator.solve_pose_by_68_points(marks)
+            pose = list(R) + list(T)
+
+            pose += [(ll+rl)/2.0, (lu+ru)/2.0]
+
+            # everything is in degrees
+            roll = np.clip(-(180+np.degrees(pose[2])), -50, 50)
+            pitch = np.clip(-(np.degrees(pose[1])) - self.camera_angle, -40, 40)
+            yaw = np.clip(-(np.degrees(pose[0])), -50, 50)
+
+            # code has been fixed, ear has been split into left and right
+            ear_left = self.eye_aspect_ratio(marks[36:42])
+            ear_right = self.eye_aspect_ratio(marks[42:48])
+
+            mar = self.mouth_aspect_ration(marks[60:68])
+            mdst = self.mouth_distance(marks[60:68])/(facebox[2] - facebox[0])
+
+            left_iris = [x_l, y_l, ll, lu]
+            right_iris = [x_r, y_r, rl, ru]
+
+            out = (roll[0], pitch[0], yaw[0], ear_left, ear_right, mar, mdst,
+                left_iris, right_iris)
+
+            output.put(out)
+        else:
+            output.put(None)
+
+
+def infer_body(self, q: Queue, output):
+
+    while True:
+        posenet_keypoints, posenet_score = self.posenet.estimate_single_pose(q.get(block=True))
+        output.put((posenet_keypoints, posenet_score))
 
 
 class Inference:
@@ -31,6 +101,18 @@ class Inference:
         self.prev_boxes = deque(maxlen=5)
         self.noExtrap = noExtrapolation
         self.posenet = PoseNet()
+
+        self.imagequeuef = Queue()
+        self.imagequeueb = Queue()
+
+        self.facequeue = Queue()
+        p1 = Process(target=infer_face, args=(self, self.imagequeuef, self.facequeue))
+
+        self.bodyqueue = Queue()
+        p2 = Process(target=infer_body, args=(self, self.imagequeueb, self.bodyqueue))
+
+        p1.start()
+        p2.start()
         pass
 
     def get_face(self, detector, image):
@@ -124,60 +206,16 @@ class Inference:
         return np.linalg.norm(mouth[0] - mouth[4])
 
     def infer_image(self, image):
-        self.evenFrame = not self.evenFrame
 
-        pose_estimator = PoseEstimator(self.root, img_size=image.shape[:2])
-        image = cv2.flip(image, 1)
+        # Send image into conn.
+        self.imagequeueb.put(image)
+        self.imagequeuef.put(image)
 
-        if not self.evenFrame or self.noExtrap:  # face dtect on odd frame
-            facebox = self.get_face(self.face_detector, image)
-            if facebox is not None:
-                self.no_face_count = 0
-        elif len(self.prev_boxes) > 1:  # linear extrapolate
-            if self.no_face_count > 1:
-                facebox = None
-            else:
-                facebox = self.prev_boxes[-1] + \
-                    np.mean(np.diff(np.array(self.prev_boxes), axis=0), axis=0)[0]
-                facebox = facebox.astype(int)
-                self.no_face_count += 1
-        else:
-            facebox = None
+        # Block until frames are done
+        face_result = self.facequeue.get(block=True)
+        body_result = self.bodyqueue.get(block=True)
 
-        if facebox is not None:
-            self.prev_boxes.append(facebox)
-
-            face = dlib.rectangle(left=facebox[0], top=facebox[1],
-                                  right=facebox[2], bottom=facebox[3])
-            marks = self.shape_to_np(self.shape_predictor(image, face))
-
-            x_l, y_l, ll, lu = self.detect_iris(image, marks, "left")
-            x_r, y_r, rl, ru = self.detect_iris(image, marks, "right")
-
-            error, R, T = pose_estimator.solve_pose_by_68_points(marks)
-            pose = list(R) + list(T)
-
-            pose += [(ll+rl)/2.0, (lu+ru)/2.0]
-
-            # everything is in degrees
-            roll = np.clip(-(180+np.degrees(pose[2])), -50, 50)
-            pitch = np.clip(-(np.degrees(pose[1])) - self.camera_angle, -40, 40)
-            yaw = np.clip(-(np.degrees(pose[0])), -50, 50)
-
-            # code has been fixed, ear has been split into left and right
-            ear_left = self.eye_aspect_ratio(marks[36:42])
-            ear_right = self.eye_aspect_ratio(marks[42:48])
-
-            mar = self.mouth_aspect_ration(marks[60:68])
-            mdst = self.mouth_distance(marks[60:68])/(facebox[2] - facebox[0])
-
-            left_iris = [x_l, y_l, ll, lu]
-            right_iris = [x_r, y_r, rl, ru]
-            posenet_keypoints, posenet_score = self.posenet.estimate_single_pose(image)
-
-            out = (roll[0], pitch[0], yaw[0], ear_left, ear_right, mar, mdst,
-                   left_iris, right_iris, posenet_keypoints, posenet_score)
-
-            return out
+        if face_result is not None:
+            return face_result + body_result
         else:
             return None
