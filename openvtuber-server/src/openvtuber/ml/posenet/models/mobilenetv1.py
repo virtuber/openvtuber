@@ -159,6 +159,4 @@ class MobileNetV1(pl.LightningModule):
         x = self.features(x)
         heatmap = torch.sigmoid(self.heatmap(x))
         offset = self.offset(x)
-        displacement_fwd = self.displacement_fwd(x)
-        displacement_bwd = self.displacement_bwd(x)
-        return heatmap, offset, displacement_fwd, displacement_bwd
+        return heatmap, offset
