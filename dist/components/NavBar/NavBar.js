@@ -1,0 +1,1 @@
+import a from"../../../_snowpack/pkg/react.js";import n from"./Upload.js";import"./NavBar.css.proxy.js";var o=r=>{var{vrmRef:t}=r;return a.createElement("div",{className:"navbar"},a.createElement("div",null),a.createElement(n,{className:"navbar__upload",type:"file",accept:".vrm",onChange:l=>{var e;(e=t.current)===null||e===void 0||e.handleFileChange(l)}}))};export default o;
