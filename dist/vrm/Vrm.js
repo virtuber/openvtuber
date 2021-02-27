@@ -1,1 +1,0 @@
-import a from"../../_snowpack/pkg/react.js";import{useFrame as o}from"../../_snowpack/pkg/react-three-fiber.js";import{updateVrm as s}from"./VrmFunctions.js";import{useVrmStore as p}from"../utils/store.js";var i=e=>{var{vrm:r}=e;return o((c,t)=>{var m=p.getState().vrmState;s(r,m,t)}),a.createElement("primitive",{object:r.scene})};export default i;

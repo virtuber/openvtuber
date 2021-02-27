@@ -1,1 +1,0 @@
-import e from"../../../_snowpack/pkg/react.js";var p=a=>{var{type:t,accept:c,onChange:n,className:r}=a;return e.createElement(e.Fragment,null,e.createElement("input",{className:r,type:t,accept:c,onChange:n}))};export default p;
