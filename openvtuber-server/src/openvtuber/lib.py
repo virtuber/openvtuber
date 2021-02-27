@@ -36,7 +36,8 @@ def send_data(data):
               help='uses linear extrapolation to speed up ml module', default="false")
 @click.option('--config_path', required=False, type=str,
               help='filepath to config file for app', default=".")
-def main(debug, cam, linear_extrap, config_path):
+@click.option('--enable_body', required=False, type=str, help='enable body tracking', default="true")
+def main(debug, cam, linear_extrap, config_path, enable_body):
     if debug != "false" and debug != "true":
         print("ERROR!!\n \
 debug flag must be equal 'true' or 'false',\n \
@@ -61,8 +62,16 @@ e.g. --linear_extrap=true or --linear_extrap=false")
     else:
         linear_extrap = (linear_extrap == "true")
 
+    if enable_body != "false" and enable_body != "true":
+        print("ERROR!!\n \
+enable_body flag must be equal 'true' or 'false',\n \
+e.g. --enable_body=true or --enable_body=false")
+    else:
+        enable_body = (enable_body == "true")
+        
+
     utils.get_assets()
-    inference = ml.Inference(linear_extrap)
+    inference = ml.Inference(enable_body, linear_extrap)
     web_thread = threading.Thread(target=web.run_web_server)
     web_thread.daemon = True  # makes thread die when main is interrupted.
     # Now you don't need to spam ctrl c 37 times in a row
@@ -75,7 +84,7 @@ e.g. --linear_extrap=true or --linear_extrap=false")
     video_stream = cv_videocapture(video)
     ml_stream = video_stream.pipe(op.map(inference.infer_image))
 
-    ctrl = control.Control()
+    ctrl = control.Control(enable_body)
 
     if cam:
         vid_stream = video_stream.pipe(op.map(ml.display))

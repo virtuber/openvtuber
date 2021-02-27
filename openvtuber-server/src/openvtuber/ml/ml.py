@@ -15,7 +15,7 @@ def display(image):
 
 
 class Inference:
-    def __init__(self, noExtrapolation=True):
+    def __init__(self, enable_body, noExtrapolation=True):
         self.camera_angle = 0
         self.face_detector = dlib.get_frontal_face_detector()
         self.root = utils.get_project_root()
@@ -30,6 +30,7 @@ class Inference:
         # store 5 vals, newest at end
         self.prev_boxes = deque(maxlen=5)
         self.noExtrap = noExtrapolation
+        self.enable_body = enable_body
         self.posenet = PoseNet()
         pass
 

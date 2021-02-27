@@ -3,9 +3,11 @@ from collections import deque
 
 
 class Control:
-    def __init__(self):
+    def __init__(self, enable_body: bool):
         self.left_shoulder_x_hist = deque(maxlen=5)
         self.right_shoulder_x_hist = deque(maxlen=5)
+
+        self.enable_body = enable_body
 
     def set_blink(self, eye_aspect_ratio):
         # average human eye aspect ratio is assumed to be 0.25
@@ -109,12 +111,15 @@ class Control:
     # x_l, y_l, ll, lu = left_iris
         # x_r, y_r, rl, ru = right_iris
 
-        posenet_keypoints_dict = {kp[2]: (kp[:2] if kp[3] > filter_limit else None)
-                                  for kp in posenet_keypoints}
-        upperChestX, upperChestY, upperChestZ = self.calc_shoulder_angle(posenet_keypoints_dict,
-                                                                         [roll, pitch, yaw],
-                                                                         left_iris,
-                                                                         right_iris)
+        if self.enable_body:
+            posenet_keypoints_dict = {kp[2]: (kp[:2] if kp[3] > filter_limit else None)
+                                      for kp in posenet_keypoints}
+            upperChestX, upperChestY, upperChestZ = self.calc_shoulder_angle(posenet_keypoints_dict,
+                                                                             [roll, pitch, yaw],
+                                                                             left_iris,
+                                                                             right_iris)
+        else:
+            upperChestX, upperChestY, upperChestZ = 0, 0, 0
 
         aValue, iValue, uValue, eValue, oValue = self.set_mouth_state(mouth_aspect_ratio,
                                                                       mouth_distance)
