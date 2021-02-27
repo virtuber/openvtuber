@@ -8,7 +8,7 @@ on:
 
 jobs:
   test-server:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     name: Testing openvtuber server
     strategy:
       matrix:
@@ -40,7 +40,7 @@ jobs:
         run: pytest tests/
 
   test-client:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     name: Testing openvtuber client
     strategy:
       matrix:
@@ -70,7 +70,7 @@ jobs:
         run: yarn run test
 
   build-app:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     name: Releasing openvtuber
     needs: [test-server, test-client]
     steps:
