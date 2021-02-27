@@ -8,7 +8,7 @@ from .face_utils import (shape_to_np, detect_iris,
 
 
 class FaceInference:
-    def __init__(self, noExtrapolation):
+    def __init__(self, no_extrapolation):
         self.no_face_count = 0
 
         self.camera_angle = 0
@@ -19,7 +19,7 @@ class FaceInference:
         self.dlib_model_path = str(self.root.joinpath(path))
         self.shape_predictor = dlib.shape_predictor(self.dlib_model_path)
 
-        self.noExtrap = noExtrapolation
+        self.no_extrap = no_extrapolation
 
     def get_face(self, detector, image):
         image = cvtColor(image, COLOR_BGR2GRAY)
@@ -35,8 +35,8 @@ class FaceInference:
         y2 = box.bottom()
         return [x1, y1, x2, y2]
 
-    def get_facebox(self, image, evenFrame, prev_boxes):
-        if not evenFrame or self.noExtrap:  # face dtect on odd frame
+    def get_facebox(self, image, even_frame, prev_boxes):
+        if not even_frame or self.no_extrap:  # face dtect on odd frame
             facebox = self.get_face(self.face_detector, image)
             if facebox is not None:
                 self.no_face_count = 0

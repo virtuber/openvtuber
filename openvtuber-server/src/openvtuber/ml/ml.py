@@ -12,22 +12,22 @@ def display(image):
 
 
 class Inference:
-    def __init__(self, noExtrapolation=True):
-        self.evenFrame = True
+    def __init__(self, no_extrapolation=True):
+        self.even_frame = True
         self.no_face_count = 0
 
         self.posenet = PoseNet()
-        self.face_infer = FaceInference(noExtrapolation)
+        self.face_infer = FaceInference(no_extrapolation)
 
         # store 5 vals, newest at end
         self.prev_boxes = deque(maxlen=5)
-        self.noExtrap = noExtrapolation
+        self.no_extrap = no_extrapolation
         pass
 
     def infer_image(self, image):
-        self.evenFrame = not self.evenFrame
+        self.even_frame = not self.even_frame
         image = flip(image, 1)
-        facebox = self.face_infer.get_facebox(image, self.evenFrame, self.prev_boxes)
+        facebox = self.face_infer.get_facebox(image, self.even_frame, self.prev_boxes)
 
         if facebox is not None:
             self.prev_boxes.append(facebox)
