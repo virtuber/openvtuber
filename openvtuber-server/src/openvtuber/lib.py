@@ -1,6 +1,6 @@
 import cv2
 from rx import operators as op
-from openvtuber import stream, ml, web, control, utils
+from openvtuber import stream, ml, web, control, utils, data_filter
 from openvtuber.stream import cv_videocapture
 from openvtuber.web.config import Configuration as config
 from openvtuber.debug import send_telemetry
@@ -89,7 +89,7 @@ e.g. --linear_extrap=true or --linear_extrap=false")
         op.filter(lambda x: x), op.map(ctrl.ml_to_vrm_state))
     # control_stream.subscribe(s.queue_control_data)  # push to queue
 
-    out_filter = control.OutputFilter()
+    out_filter = data_filter.OutputFilter()
 
     """
     if you change what is being filtered, make sure to go into filter.py
