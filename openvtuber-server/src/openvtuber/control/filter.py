@@ -11,7 +11,7 @@ class OutputFilter:
         # usually you would probably want to avoid filtering
         # things like blinking or other rapid movements.
         # You may also need to change tests
-        self.exclusion_set = set([2, 3])
+        self.exclusion_set = {2, 3}
 
     def median_filter(self, item_full):
         """
