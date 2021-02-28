@@ -3,7 +3,7 @@ from collections import deque
 
 
 class Control:
-    def __init__(self, enable_body: bool):
+    def __init__(self, enable_body):
         self.left_shoulder_x_hist = deque(maxlen=5)
         self.right_shoulder_x_hist = deque(maxlen=5)
 
