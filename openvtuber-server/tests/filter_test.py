@@ -1,5 +1,5 @@
 import pytest
-from openvtuber.datafilter import OutputFilter
+from openvtuber.data_filter import OutputFilter
 
 
 @pytest.mark.lib
