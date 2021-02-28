@@ -2,7 +2,7 @@ module.exports = {
   title: "openvtuber",
   tagline: "Become a VTuber with just a camera",
   url: "https://virtuber.github.io",
-  baseUrl: "/docs/",
+  baseUrl: "/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",

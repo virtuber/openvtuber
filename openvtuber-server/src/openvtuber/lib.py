@@ -1,6 +1,7 @@
 import cv2
 from rx import operators as op
-from openvtuber import stream, ml, web, control, utils
+from openvtuber import stream, ml, web, control, utils, data_filter
+from openvtuber.stream import cv_videocapture
 from openvtuber.web.config import Configuration as config
 from openvtuber.debug import send_telemetry
 import threading
@@ -34,8 +35,8 @@ def send_data(data):
 @click.option('--linear_extrap', required=False, type=str,
               help='uses linear extrapolation to speed up ml module', default="false")
 @click.option('--config_path', required=False, type=str,
-              help='filepath to config file for app', default="")
-def main(debug, cam, linear_extrap, config_path, graphtrim):
+              help='filepath to config file for app', default=".")
+def main(debug, cam, linear_extrap, config_path):
     if debug != "false" and debug != "true":
         print("ERROR!!\n \
 debug flag must be equal 'true' or 'false',\n \
@@ -59,8 +60,7 @@ e.g. --linear_extrap=true or --linear_extrap=false")
         return
     else:
         linear_extrap = (linear_extrap == "true")
-    
-    config = config.read_config(config_path)
+
     utils.get_assets()
     inference = ml.Inference(linear_extrap)
     web_thread = threading.Thread(target=web.run_web_server)
@@ -72,8 +72,10 @@ e.g. --linear_extrap=true or --linear_extrap=false")
 
     s = stream.Stream()
 
-    video_stream = s.cv_videocapture(video)
+    video_stream = cv_videocapture(video)
     ml_stream = video_stream.pipe(op.map(inference.infer_image))
+
+    ctrl = control.Control()
 
     if cam:
         vid_stream = video_stream.pipe(op.map(ml.display))
@@ -84,10 +86,10 @@ e.g. --linear_extrap=true or --linear_extrap=false")
 
     # use filter with identity function, None values are filtered out
     control_stream = ml_stream.pipe(
-        op.filter(lambda x: x), op.map(control.ml_to_vrm_state))
+        op.filter(lambda x: x), op.map(ctrl.ml_to_vrm_state))
     # control_stream.subscribe(s.queue_control_data)  # push to queue
 
-    out_filter = control.OutputFilter()
+    out_filter = data_filter.OutputFilter()
 
     """
     if you change what is being filtered, make sure to go into filter.py
@@ -97,7 +99,7 @@ e.g. --linear_extrap=true or --linear_extrap=false")
     filter_stream.subscribe(s.queue_control_data)
 
     start_server = websockets.serve(s.websocket_handler,
-                                    config.web.ip_address, config.web.ws_port)
+                                    config.ip_address, config.ws_port)
 
     loop.run_until_complete(start_server)
     loop.run_forever()

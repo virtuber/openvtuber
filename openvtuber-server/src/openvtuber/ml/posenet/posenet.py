@@ -39,7 +39,7 @@ class PoseNet(object):
         img, scale = preprocess_image(image)
         with torch.no_grad():
             input = torch.tensor(img, device=self.device)
-            heatmap_scores, offsets, displacement_fwd, displacement_bwd = self.model(input)
+            heatmap_scores, offsets = self.model(input)
             keypoints, score = decode_single_pose(
                 heatmap_scores.squeeze(0).permute(1, 2, 0),
                 offsets.squeeze(0).permute(1, 2, 0), self.output_stride, self.device)

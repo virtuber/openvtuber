@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import pytorch_lightning as pl
 
 from collections import OrderedDict
 
@@ -44,7 +45,7 @@ def _get_padding(kernel_size, stride, dilation):
     return padding
 
 
-class InputConv(nn.Module):
+class InputConv(pl.LightningModule):
     def __init__(self, inp, outp, k=3, stride=1, dilation=1):
         super(InputConv, self).__init__()
         self.conv = nn.Conv2d(
@@ -54,7 +55,7 @@ class InputConv(nn.Module):
         return F.relu6(self.conv(x))
 
 
-class SeparableConv(nn.Module):
+class SeparableConv(pl.LightningModule):
     def __init__(self, inp, outp, k=3, stride=1, dilation=1):
         super(SeparableConv, self).__init__()
         self.depthwise = nn.Conv2d(
@@ -127,7 +128,7 @@ MOBILE_NET_V1_50 = [
 ]
 
 
-class MobileNetV1(nn.Module):
+class MobileNetV1(pl.LightningModule):
 
     def __init__(self, model_id, output_stride=16):
         super(MobileNetV1, self).__init__()
@@ -158,6 +159,4 @@ class MobileNetV1(nn.Module):
         x = self.features(x)
         heatmap = torch.sigmoid(self.heatmap(x))
         offset = self.offset(x)
-        displacement_fwd = self.displacement_fwd(x)
-        displacement_bwd = self.displacement_bwd(x)
-        return heatmap, offset, displacement_fwd, displacement_bwd
+        return heatmap, offset

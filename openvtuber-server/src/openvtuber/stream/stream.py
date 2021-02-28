@@ -4,18 +4,19 @@ from openvtuber.protobufs import VrmStateMessage
 import asyncio
 
 
+def cv_videocapture(v: VideoCapture) -> Observable:
+    FPS = 30
+    return interval(1 / FPS).pipe(
+        op.map(lambda _: v.read()),
+        op.filter(lambda data: data[0]),
+        op.map(lambda data: data[1]))
+
+
 class Stream():
     def __init__(self):
         self.queue = None
     # Bootleg queue of one variable
     # This is basically a stream except way worse
-
-    def cv_videocapture(self, v: VideoCapture) -> Observable:
-        FPS = 30
-        return interval(1 / FPS).pipe(
-            op.map(lambda _: v.read()),
-            op.filter(lambda data: data[0]),
-            op.map(lambda data: data[1]))
 
     def queue_control_data(self, data):
         # global queue

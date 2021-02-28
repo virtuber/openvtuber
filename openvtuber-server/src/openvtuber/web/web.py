@@ -1,4 +1,5 @@
 from .config import Configuration as config
+
 import uvicorn
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
