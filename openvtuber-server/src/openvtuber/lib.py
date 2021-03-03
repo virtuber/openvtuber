@@ -2,7 +2,7 @@ import cv2
 from rx import operators as op
 from openvtuber import stream, ml, web, control, utils, data_filter
 from openvtuber.stream import cv_videocapture
-from openvtuber.web.config import Configuration as config
+from openvtuber.config import Configuration as config
 from openvtuber.debug import send_telemetry
 import threading
 import websockets
@@ -100,7 +100,7 @@ e.g. --linear_extrap=true or --linear_extrap=false")
     filter_stream.subscribe(s.queue_control_data)
 
     start_server = websockets.serve(s.websocket_handler,
-                                    config.ip_address, config.ws_port)
+                                    config.web.ip_address, config.web.ws_port)
 
     loop.run_until_complete(start_server)
     loop.run_forever()
