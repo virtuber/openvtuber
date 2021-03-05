@@ -12,7 +12,7 @@ def display(image):
 
 
 class Inference:
-    def __init__(self, no_extrapolation=True):
+    def __init__(self, enable_body, no_extrapolation=True):
         self.even_frame = True
         self.no_face_count = 0
 
@@ -22,6 +22,7 @@ class Inference:
         # store 5 vals, newest at end
         self.prev_boxes = deque(maxlen=5)
         self.no_extrap = no_extrapolation
+        self.enable_body = enable_body
         pass
 
     def infer_image(self, image):
@@ -31,12 +32,16 @@ class Inference:
 
         if facebox is not None:
             self.prev_boxes.append(facebox)
-            (roll, pitch, yaw, ear_left, ear_right, mar, mdst, left_iris, right_iris) \
-                = self.face_infer.infer(image, facebox)
-            posenet_keypoints, posenet_score = self.posenet.estimate_single_pose(image)
 
-            out = (roll, pitch, yaw, ear_left, ear_right, mar, mdst,
-                   left_iris, right_iris, posenet_keypoints, posenet_score)
+            if self.enable_body:
+                (roll, pitch, yaw, ear_left, ear_right, mar, mdst, left_iris, right_iris) \
+                    = self.face_infer.infer(image, facebox)
+                posenet_keypoints, posenet_score = self.posenet.estimate_single_pose(image)
+
+                out = (roll, pitch, yaw, ear_left, ear_right, mar, mdst,
+                       left_iris, right_iris, posenet_keypoints, posenet_score)
+            else:
+                out = self.face_infer.infer(image, facebox)
 
             return out
         else:

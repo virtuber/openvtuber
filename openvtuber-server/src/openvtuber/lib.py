@@ -29,6 +29,15 @@ def send_data(data):
     future.result()
 
 
+def handle_bool_cmd_arg(arg, error):
+    if arg != "false" and arg != "true":
+        print(error)
+        print("Value defaulting to false")
+        return False
+    else:
+        return (arg == "true")
+
+
 @click.command()
 @click.option('--debug', required=False, type=str, help='enable debug output', default="false")
 @click.option('--cam', required=False, type=str, help='enable cam output', default="false")
@@ -36,34 +45,28 @@ def send_data(data):
               help='uses linear extrapolation to speed up ml module', default="false")
 @click.option('--config', required=False, type=str,
               help='filepath to config file for app', default="")
-def main(debug, cam, linear_extrap, config_path):
-    if debug != "false" and debug != "true":
-        print("ERROR!!\n \
+@click.option('--enable_body', required=False, type=str,
+              help='enable body tracking', default="true")
+def main(debug, cam, linear_extrap, config_path, enable_body):
+    debug = handle_bool_cmd_arg(debug, "ERROR!!\n \
 debug flag must be equal 'true' or 'false',\n \
 e.g. --debug=true or --debug=false")
-        return
-    else:
-        debug = (debug == "true")
 
-    if cam != "false" and cam != "true":
-        print("ERROR!!\n \
+    cam = handle_bool_cmd_arg(cam, "ERROR!!\n \
 cam flag must be equal 'true' or 'false',\n \
 e.g. --cam=true or --cam=false")
-        return
-    else:
-        cam = (cam == "true")
 
-    if linear_extrap != "false" and linear_extrap != "true":
-        print("ERROR!!\n \
+    linear_extrap = handle_bool_cmd_arg(linear_extrap, "ERROR!!\n \
 linear_extrap flag must be equal 'true' or 'false',\n \
 e.g. --linear_extrap=true or --linear_extrap=false")
-        return
-    else:
-        linear_extrap = (linear_extrap == "true")
+
+    enable_body = handle_bool_cmd_arg(enable_body, "ERROR!!\n \
+enable_body flag must be equal 'true' or 'false',\n \
+e.g. --enable_body=true or --enable_body=false")
 
     config = config.read_config(config_path)
     utils.get_assets()
-    inference = ml.Inference(linear_extrap)
+    inference = ml.Inference(enable_body, linear_extrap)
     web_thread = threading.Thread(target=web.run_web_server)
     web_thread.daemon = True  # makes thread die when main is interrupted.
     # Now you don't need to spam ctrl c 37 times in a row
@@ -76,7 +79,7 @@ e.g. --linear_extrap=true or --linear_extrap=false")
     video_stream = cv_videocapture(video)
     ml_stream = video_stream.pipe(op.map(inference.infer_image))
 
-    ctrl = control.Control()
+    ctrl = control.Control(enable_body)
 
     if cam:
         vid_stream = video_stream.pipe(op.map(ml.display))
