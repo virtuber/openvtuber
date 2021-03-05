@@ -23,11 +23,18 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
 
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/setup.py') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
       - name: Install Cython
-        run: pip install Cython
+        run: pip install Cython --upgrade --upgrade-strategy eager
 
       - name: Install test dependencies and script
-        run: pip install .[tests]
+        run: pip install .[tests] --upgrade --upgrade-strategy eager
 
       - name: Lint with flake8
         run: flake8
