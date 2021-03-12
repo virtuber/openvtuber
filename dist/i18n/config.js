@@ -1,0 +1,1 @@
+import n from"../../_snowpack/pkg/i18next.js";import t from"./en/translation.json.proxy.js";import{initReactI18next as o}from"../../_snowpack/pkg/react-i18next.js";export var resources={en:{translation:t}};n.use(o).init({lng:"en",resources});
