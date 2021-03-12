@@ -2,12 +2,19 @@ name: server
 
 on:
   push:
-    paths:
-    - 'openvtuber-server/**'
-    - '.github/workflows/**'
 
 jobs:
-  build:
+  pre-test:
+    runs-on: ubuntu-latest
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@master
+        with:
+          paths: '["openvtuber-server/**", ".github/workflows/server.yml"]'
+
+  test:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -15,7 +22,7 @@ jobs:
     strategy:
       matrix:
         python: ['3.8', '3.9']
-    name: Testing openvtuber with python ${{ matrix.python }}
+    name: Testing openvtuber's server with python ${{ matrix.python }}
     steps:
       - uses: actions/checkout@v2
       - name: Setup python
