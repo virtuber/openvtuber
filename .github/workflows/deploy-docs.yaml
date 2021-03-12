@@ -9,7 +9,7 @@ on:
     - '.github/workflows/deploy-docs.yml'
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     defaults:
       run:

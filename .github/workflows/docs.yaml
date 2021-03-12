@@ -4,7 +4,7 @@ on:
   push:
 
 jobs:
-  pre-build:
+  pre-lint:
     runs-on: ubuntu-latest
     outputs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
@@ -13,7 +13,7 @@ jobs:
         uses: fkirc/skip-duplicate-actions@master
         with:
           paths: '["docs/**", ".github/workflows/docs.yml"]'
-  build:
+  lint:
     runs-on: ubuntu-latest
     defaults:
       run:

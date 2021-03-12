@@ -4,7 +4,7 @@ on:
   push:
 
 jobs:
-  pre-build:
+  pre-test:
     runs-on: ubuntu-latest
     outputs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
@@ -15,7 +15,7 @@ jobs:
           paths: '["openvtuber-client/**", ".github/workflows/client.yml"]'
 
 
-  build:
+  test:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -23,7 +23,7 @@ jobs:
     strategy:
       matrix:
         node: ['12']
-    name: Testing openvtuber with node ${{ matrix.node }}
+    name: Testing openvtuber's client with node ${{ matrix.node }}
     steps:
       - uses: actions/checkout@v2
       - name: Setup node

@@ -4,7 +4,7 @@ on:
   push:
 
 jobs:
-  pre-build:
+  pre-test:
     runs-on: ubuntu-latest
     outputs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
@@ -13,12 +13,12 @@ jobs:
         uses: fkirc/skip-duplicate-actions@master
         with:
           paths: '["openvtuber-mobile-client/**", ".github/workflows/mobile.yml"]'
-  build:
+  test:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: openvtuber-mobile-client
-    name: Testing openvtuber with Dart
+    name: Testing openvtuber's mobile client with Dart
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v1
