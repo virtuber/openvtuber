@@ -2,11 +2,17 @@ name: mobile
 
 on:
   push:
-    paths:
-    - 'openvtuber-mobile-client/**'
-    - '.github/workflows/**'
 
 jobs:
+  pre-build:
+    runs-on: ubuntu-latest
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@master
+        with:
+          paths: '["openvtuber-mobile-client/**", ".github/workflows/mobile.yml"]'
   build:
     runs-on: ubuntu-latest
     defaults:

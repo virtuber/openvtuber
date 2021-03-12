@@ -6,7 +6,6 @@ on:
     - master
     paths:
     - 'openvtuber-client/**'
-    - '.github/workflows/**'
 
 jobs:
   build:
