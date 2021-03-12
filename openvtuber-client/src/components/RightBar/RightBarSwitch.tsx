@@ -1,5 +1,7 @@
 import React, { FunctionComponent, Dispatch, SetStateAction } from 'react';
 import './RightBar.css';
+import '../../i18n/config';
+import { useTranslation } from 'react-i18next';
 
 type RightBarSwitchProps = {
   tab: string;
@@ -12,6 +14,7 @@ const RightBarSwitch: FunctionComponent<RightBarSwitchProps> = ({
 }: RightBarSwitchProps) => {
   const SELECTED = 'rightbar__switch__text-selected';
   const UNSELECTED = '';
+  const { t } = useTranslation();
   return (
     <div className="rightbar__switch">
       <div
@@ -20,7 +23,7 @@ const RightBarSwitch: FunctionComponent<RightBarSwitchProps> = ({
         }`}
         onClick={() => setTab('Design')}
       >
-        Design
+        {t('rightbar.design')}
       </div>
       <div
         className={`rightbar__switch__text ${
@@ -28,7 +31,7 @@ const RightBarSwitch: FunctionComponent<RightBarSwitchProps> = ({
         }`}
         onClick={() => setTab('Settings')}
       >
-        Settings
+        {t('rightbar.settings')}
       </div>
     </div>
   );
