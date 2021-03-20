@@ -10,6 +10,7 @@ body {
   --dark-gray: #333;
   --off-black: #2c2c2c;
   --black: #000;
+  --blue: #18a0fb;
   --accent: #fb18a0;
 }
 

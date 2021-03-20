@@ -1,0 +1,1 @@
+import t from"../../../../_snowpack/pkg/react.js";import"./RightBarGridContainer.css.proxy.js";var e=r=>{var{children:a}=r;return t.createElement("div",{className:"right-bar-grid-container"},a)};export default e;
