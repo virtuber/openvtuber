@@ -2,12 +2,20 @@ name: client
 
 on:
   push:
-    paths:
-    - 'openvtuber-client/**'
-    - '.github/workflows/**'
 
 jobs:
-  build:
+  pre-test:
+    runs-on: ubuntu-latest
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@master
+        with:
+          paths: '["openvtuber-client/**", ".github/workflows/client.yml"]'
+
+
+  test:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -15,7 +23,7 @@ jobs:
     strategy:
       matrix:
         node: ['12']
-    name: Testing openvtuber with node ${{ matrix.node }}
+    name: Testing openvtuber's client with node ${{ matrix.node }}
     steps:
       - uses: actions/checkout@v2
       - name: Setup node

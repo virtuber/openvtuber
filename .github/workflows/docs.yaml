@@ -2,12 +2,18 @@ name: docs
 
 on:
   push:
-    paths:
-    - 'docs/**'
-    - '.github/workflows/**'
 
 jobs:
-  build:
+  pre-lint:
+    runs-on: ubuntu-latest
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@master
+        with:
+          paths: '["docs/**", ".github/workflows/docs.yml"]'
+  lint:
     runs-on: ubuntu-latest
     defaults:
       run:

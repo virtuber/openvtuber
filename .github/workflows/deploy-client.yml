@@ -6,10 +6,9 @@ on:
     - master
     paths:
     - 'openvtuber-client/**'
-    - '.github/workflows/**'
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     defaults:
       run:
