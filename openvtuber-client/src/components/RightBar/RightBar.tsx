@@ -2,6 +2,8 @@ import React, { FunctionComponent, useState } from 'react';
 import RightBarSwitch from './RightBarSwitch';
 import BackgroundPicker from './BackgroundPicker';
 import RightBarSection from './RightBarSection';
+import RightBarKVField from './RightBarKVField';
+import RightBarGridContainer from './RightBarGridContainer';
 import './RightBar.css';
 import '../../i18n/config';
 import { useTranslation } from 'react-i18next';
@@ -15,6 +17,10 @@ const RightBar: FunctionComponent = () => {
       {tab === 'Design' && (
         <RightBarSection name={t('rightbar.background')}>
           <BackgroundPicker />
+          <RightBarGridContainer>
+            <RightBarKVField type="number" label={'X'} />
+            <RightBarKVField type="number" label={'Y'} />
+          </RightBarGridContainer>
         </RightBarSection>
       )}
     </div>
