@@ -1,2 +1,2 @@
-import BackgroundPicker from './BackgroundPicker'
-export default BackgroundPicker
+import BackgroundPicker from './BackgroundPicker';
+export default BackgroundPicker;

@@ -1,2 +1,2 @@
-import RightBarGridContainer from './RightBarGridContainer'
+import RightBarGridContainer from './RightBarGridContainer';
 export default RightBarGridContainer;

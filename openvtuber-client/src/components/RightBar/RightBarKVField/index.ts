@@ -1,2 +1,2 @@
-import RightBarKVField from './RightBarKVField'
-export default RightBarKVField
+import RightBarKVField from './RightBarKVField';
+export default RightBarKVField;
