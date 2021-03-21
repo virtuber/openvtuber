@@ -2,7 +2,7 @@ import React, { FunctionComponent, ReactNode } from 'react';
 import './RightBarGridContainer.css';
 
 type RightBarGridContainerProps = {
-  children: ReactNode;
+  children?: ReactNode;
 };
 
 const RightBarGridContainer: FunctionComponent<RightBarGridContainerProps> = ({
