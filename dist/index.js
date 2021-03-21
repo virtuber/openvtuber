@@ -1,1 +1,0 @@
-const n={};import*as t from"../_snowpack/env.js";n.env=t;import e from"../_snowpack/pkg/react.js";import o from"../_snowpack/pkg/react-dom.js";import r from"./App.js";import"./index.css.proxy.js";o.render(e.createElement(e.StrictMode,null,e.createElement(r,null)),document.getElementById("root"));
