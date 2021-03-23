@@ -1,23 +1,23 @@
 import { useEffect, useRef, useState } from 'react';
 import { useThree } from 'react-three-fiber';
-import THREEVRM from '@pixiv/three-vrm';
+import { VRM } from '@pixiv/three-vrm';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 type UseVrmReturn = {
-  vrm: THREEVRM.VRM | undefined;
+  vrm: VRM | undefined;
   loadVrm: (url: string) => void;
 };
 
 const useVrm = (): UseVrmReturn => {
   const { camera } = useThree();
   const { current: loader } = useRef(new GLTFLoader());
-  const [vrm, setVrm] = useState<THREEVRM.VRM>();
+  const [vrm, setVrm] = useState<VRM>();
 
   const loadVrm = (url: string) => {
     loader.load(
       url,
       async (gltf) => {
-        const vrm = await THREEVRM.VRM.from(gltf);
+        const vrm = await VRM.from(gltf);
         vrm.scene.rotation.y = Math.PI;
         setVrm(vrm);
       },

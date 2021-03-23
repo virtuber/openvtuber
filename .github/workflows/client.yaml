@@ -44,5 +44,5 @@ jobs:
         run: yarn run format:check
 
       - name: Test
-        run: yarn run test
+        run: yarn run test:ci
 

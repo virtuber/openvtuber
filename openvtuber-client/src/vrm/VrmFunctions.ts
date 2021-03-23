@@ -1,4 +1,4 @@
-import THREEVRM from '@pixiv/three-vrm';
+import { VRMSchema } from '@pixiv/three-vrm';
 import { Vector3 } from 'three';
 
 import type { VRM } from '@pixiv/three-vrm';
@@ -8,27 +8,19 @@ import type { VrmState } from '../types';
  */
 export const updateVrm = (vrm: VRM, state: VrmState, delta: number): void => {
   if (vrm.humanoid) {
-    const chest = vrm.humanoid.getBoneNode(
-      THREEVRM.VRMSchema.HumanoidBoneName.Chest,
-    );
+    const chest = vrm.humanoid.getBoneNode(VRMSchema.HumanoidBoneName.Chest);
     const upperChest = vrm.humanoid.getBoneNode(
-      THREEVRM.VRMSchema.HumanoidBoneName.UpperChest,
+      VRMSchema.HumanoidBoneName.UpperChest,
     );
     const leftShoulder = vrm.humanoid.getBoneNode(
-      THREEVRM.VRMSchema.HumanoidBoneName.LeftShoulder,
+      VRMSchema.HumanoidBoneName.LeftShoulder,
     );
     const rightShoulder = vrm.humanoid.getBoneNode(
-      THREEVRM.VRMSchema.HumanoidBoneName.RightShoulder,
+      VRMSchema.HumanoidBoneName.RightShoulder,
     );
-    const neck = vrm.humanoid.getBoneNode(
-      THREEVRM.VRMSchema.HumanoidBoneName.Neck,
-    );
-    const head = vrm.humanoid.getBoneNode(
-      THREEVRM.VRMSchema.HumanoidBoneName.Head,
-    );
-    const jaw = vrm.humanoid.getBoneNode(
-      THREEVRM.VRMSchema.HumanoidBoneName.Jaw,
-    );
+    const neck = vrm.humanoid.getBoneNode(VRMSchema.HumanoidBoneName.Neck);
+    const head = vrm.humanoid.getBoneNode(VRMSchema.HumanoidBoneName.Head);
+    const jaw = vrm.humanoid.getBoneNode(VRMSchema.HumanoidBoneName.Jaw);
     if (head) {
       head.rotation.x = state.headRotationX;
       head.rotation.y = state.headRotationY;
