@@ -15,10 +15,12 @@ class Configuration:
             try:
                 with open(config_path, 'r') as file:
                     data = yaml.full_load(file)
-                self.web = web.Configuration(data[0]['web']['ip_address'], data[0]['web']
-                                             ['port'], data[0]['web']['static_files_dir'], data[0]['web']['ws_port'])
-            except:
-                print("ERROR!!\nConfiguration file could not be opened. \nDefault values will be used")
+                self.web = web.Configuration(data[0]['web']['ip_address'], data[0]['web']['port'],
+                                             data[0]['web']['static_files_dir'], data[0]['web']
+                                             ['ws_port'])
+            except IOError:
+                print("ERROR!!\nConfiguration file could not be opened. \n\
+                    Default values will be used")
         else:
             print("ERROR!!\n\
             Path provided is invalid please provide a valid path to a .yaml file,\n\
