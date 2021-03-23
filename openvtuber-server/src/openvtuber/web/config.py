@@ -1,8 +1,9 @@
 from dataclasses import dataclass
 
+
 @dataclass
 class Configuration():
-    ip_address: str 
+    ip_address: str
     port: int
     static_files_dir: str
     ws_port: int

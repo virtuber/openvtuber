@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from openvtuber import utils
 
+
 def run_web_server(config):
     app = FastAPI()
     root = utils.get_project_root()
