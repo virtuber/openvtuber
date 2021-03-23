@@ -6,10 +6,6 @@ import yaml
 @dataclass()
 class Configuration:
     web = web.Configuration(ip_address = "127.0.0.1", port = 17701, static_files_dir = "openvtuber/client", ws_port = 42069)
-    #control_config : control.Configuration(ADD IN DEFAULT VALUES ONCE A CONFIGURATION IS CREATED)
-    #stream_config :  
-    #ml_config : 
-    #stream_config :  
 
     def __init__(self, config_path):
         """
