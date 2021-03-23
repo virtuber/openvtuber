@@ -21,6 +21,6 @@ class Configuration:
                 print("ERROR!!\nConfiguration file could not be opened. \nDefault values will be used")
         else:
             print("ERROR!!\n\
-            Path provided is invalid please provide a valid path to a .yaml file,\\n\
+            Path provided is invalid please provide a valid path to a .yaml file,\n\
             e.g. --config_path=\"openvtuber-server/src/openvtuber/config/test.yaml\" \n\
             Default values will be used.")
