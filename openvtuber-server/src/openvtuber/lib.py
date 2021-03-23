@@ -65,7 +65,6 @@ enable_body flag must be equal 'true' or 'false',\n \
 e.g. --enable_body=true or --enable_body=false")
 
     config_data = config(config_path)
-    print(config_data.web)
     utils.get_assets()
     inference = ml.Inference(enable_body, linear_extrap)
     web_thread = threading.Thread(target=web.run_web_server(config_data))
