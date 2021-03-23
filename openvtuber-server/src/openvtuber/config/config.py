@@ -3,7 +3,7 @@ from os import path
 from openvtuber import web
 import yaml
 
-@dataclass(unsafe_hash=True)
+@dataclass()
 class Configuration:
     web = web.Configuration(ip_address = "127.0.0.1", port = 17701, static_files_dir = "openvtuber/client", ws_port = 42069)
     #control_config : control.Configuration(ADD IN DEFAULT VALUES ONCE A CONFIGURATION IS CREATED)
