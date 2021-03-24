@@ -2,8 +2,14 @@ from dataclasses import dataclass
 
 
 @dataclass
-class Configuration:
-    ip_address: str = "127.0.0.1"
-    port: int = 17701
-    static_files_dir: str = "openvtuber/client"
-    ws_port: int = 42069
+class Configuration():
+    ip_address: str
+    port: int
+    static_files_dir: str
+    ws_port: int
+
+    def __init__(self, ip_address, port, static_files_dir, ws_port):
+        self.ip_address = ip_address
+        self.port = port
+        self.static_files_dir = static_files_dir
+        self.ws_port = ws_port

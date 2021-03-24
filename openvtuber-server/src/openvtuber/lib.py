@@ -1,8 +1,9 @@
+import platform
 import cv2
 from rx import operators as op
-from openvtuber import stream, ml, web, control, utils, data_filter
+from openvtuber import web, stream, ml, control, utils, data_filter
+from openvtuber.config import Configuration as config
 from openvtuber.stream import cv_videocapture
-from openvtuber.web.config import Configuration as config
 from openvtuber.debug import send_telemetry
 import threading
 import websockets
@@ -44,7 +45,7 @@ def handle_bool_cmd_arg(arg, error):
 @click.option('--linear_extrap', required=False, type=str,
               help='uses linear extrapolation to speed up ml module', default="false")
 @click.option('--config_path', required=False, type=str,
-              help='filepath to config file for app', default=".")
+              help='filepath to config file for app', default="")
 @click.option('--enable_body', required=False, type=str,
               help='enable body tracking', default="true")
 def main(debug, cam, linear_extrap, config_path, enable_body):
@@ -64,14 +65,18 @@ e.g. --linear_extrap=true or --linear_extrap=false")
 enable_body flag must be equal 'true' or 'false',\n \
 e.g. --enable_body=true or --enable_body=false")
 
+    config_data = config(config_path)
     utils.get_assets()
     inference = ml.Inference(enable_body, linear_extrap)
-    web_thread = threading.Thread(target=web.run_web_server)
+    web_thread = threading.Thread(target=web.run_web_server, args=(config_data,))
     web_thread.daemon = True  # makes thread die when main is interrupted.
     # Now you don't need to spam ctrl c 37 times in a row
     web_thread.start()
 
-    video = cv2.VideoCapture(0)
+    if platform.system() == 'Windows':
+        video = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+    else:
+        video = cv2.VideoCapture(0)
 
     s = stream.Stream()
 
@@ -102,7 +107,7 @@ e.g. --enable_body=true or --enable_body=false")
     filter_stream.subscribe(s.queue_control_data)
 
     start_server = websockets.serve(s.websocket_handler,
-                                    config.ip_address, config.ws_port)
+                                    config_data.web.ip_address, config_data.web.ws_port)
 
     loop.run_until_complete(start_server)
     loop.run_forever()
