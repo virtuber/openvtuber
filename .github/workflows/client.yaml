@@ -16,6 +16,7 @@ jobs:
 
 
   test:
+    needs: pre-test
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -26,23 +27,30 @@ jobs:
     name: Testing openvtuber's client with node ${{ matrix.node }}
     steps:
       - uses: actions/checkout@v2
+        if: ${{ needs.pre-test.outputs.should_skip != 'true' }}
       - name: Setup node
+        if: ${{ needs.pre-test.outputs.should_skip != 'true' }}
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
 
       - name: Install dependencies and script
+        if: ${{ needs.pre-test.outputs.should_skip != 'true' }}
         run: yarn
 
       - name: Run TypeScript compiler
+        if: ${{ needs.pre-test.outputs.should_skip != 'true' }}
         run: yarn run tsc
 
       - name: Check linting with eslint
+        if: ${{ needs.pre-test.outputs.should_skip != 'true' }}
         run: yarn run lint:check
 
       - name: Check formatting with prettier
+        if: ${{ needs.pre-test.outputs.should_skip != 'true' }}
         run: yarn run format:check
 
       - name: Test
+        if: ${{ needs.pre-test.outputs.should_skip != 'true' }}
         run: yarn run test:ci
 
