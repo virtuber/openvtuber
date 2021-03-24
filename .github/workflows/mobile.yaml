@@ -14,6 +14,8 @@ jobs:
         with:
           paths: '["openvtuber-mobile-client/**", ".github/workflows/mobile.yml"]'
   test:
+    needs: pre-test
+    if: ${{ needs.pre-test.outputs.should_skip != 'true' }}
     runs-on: ubuntu-latest
     defaults:
       run:
