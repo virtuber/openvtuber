@@ -15,6 +15,7 @@ jobs:
           paths: '["openvtuber-server/**", ".github/workflows/server.yml"]'
 
   test:
+    needs: pre-test
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -25,12 +26,15 @@ jobs:
     name: Testing openvtuber's server with python ${{ matrix.python }}
     steps:
       - uses: actions/checkout@v2
+        if: ${{ needs.pre-test.outputs.should_skip != 'true' }}
       - name: Setup python
         uses: actions/setup-python@v2
+        if: ${{ needs.pre-test.outputs.should_skip != 'true' }}
         with:
           python-version: ${{ matrix.python }}
 
       - uses: actions/cache@v2
+        if: ${{ needs.pre-test.outputs.should_skip != 'true' }}
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('**/setup.py') }}
@@ -38,16 +42,21 @@ jobs:
             ${{ runner.os }}-pip-
 
       - name: Install Cython
+        if: ${{ needs.pre-test.outputs.should_skip != 'true' }}
         run: pip install Cython --upgrade --upgrade-strategy eager
 
       - name: Install test dependencies and script
+        if: ${{ needs.pre-test.outputs.should_skip != 'true' }}
         run: pip install .[tests] --upgrade --upgrade-strategy eager
 
       - name: Lint with flake8
+        if: ${{ needs.pre-test.outputs.should_skip != 'true' }}
         run: flake8
       
       - name: Run static type analyzer
+        if: ${{ needs.pre-test.outputs.should_skip != 'true' }}
         run: mypy
       
       - name: Test with pytest
+        if: ${{ needs.pre-test.outputs.should_skip != 'true' }}
         run: pytest tests/
