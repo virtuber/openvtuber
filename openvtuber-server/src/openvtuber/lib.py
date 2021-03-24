@@ -76,7 +76,7 @@ e.g. --enable_body=true or --enable_body=false")
     if platform.system() == 'Windows':
         video = cv2.VideoCapture(0, cv2.CAP_DSHOW)
     else:
-        video = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+        video = cv2.VideoCapture(0)
 
     s = stream.Stream()
 
