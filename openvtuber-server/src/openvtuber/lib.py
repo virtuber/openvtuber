@@ -1,3 +1,4 @@
+import platform
 import cv2
 from rx import operators as op
 from openvtuber import web, stream, ml, control, utils, data_filter
@@ -67,12 +68,15 @@ e.g. --enable_body=true or --enable_body=false")
     config_data = config(config_path)
     utils.get_assets()
     inference = ml.Inference(enable_body, linear_extrap)
-    web_thread = threading.Thread(target=web.run_web_server(config_data))
+    web_thread = threading.Thread(target=web.run_web_server, args=(config_data,))
     web_thread.daemon = True  # makes thread die when main is interrupted.
     # Now you don't need to spam ctrl c 37 times in a row
     web_thread.start()
 
-    video = cv2.VideoCapture(0)
+    if platform.system() == 'Windows':
+        video = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+    else:
+        video = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
     s = stream.Stream()
 
