@@ -1,12 +1,16 @@
 import { VRMSchema } from '@pixiv/three-vrm';
-import { Vector3 } from 'three';
-
+import type { Vector3 } from 'three';
 import type { VRM } from '@pixiv/three-vrm';
 import type { VrmState } from '../types';
 
 /** Updates VRM with new state.
  */
-export const updateVrm = (vrm: VRM, state: VrmState, delta: number): void => {
+export const updateVrm = (
+  vrm: VRM,
+  state: VrmState,
+  delta: number,
+  lookAtVec: Vector3,
+): void => {
   if (vrm.humanoid) {
     const chest = vrm.humanoid.getBoneNode(VRMSchema.HumanoidBoneName.Chest);
     const upperChest = vrm.humanoid.getBoneNode(
@@ -74,7 +78,9 @@ export const updateVrm = (vrm: VRM, state: VrmState, delta: number): void => {
     vrm.blendShapeProxy.setValue('sorrow', state.sorrowValue);
   }
   if (vrm.lookAt) {
-    vrm.lookAt.lookAt(new Vector3(state.lookAtX, state.lookAtY, state.lookAtZ));
+    vrm.lookAt.lookAt(
+      lookAtVec.set(state.lookAtX, state.lookAtY, state.lookAtZ),
+    );
   }
   vrm.update(delta);
 };
