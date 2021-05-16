@@ -1,5 +1,5 @@
 import React, { useRef, FunctionComponent } from 'react';
-import { Canvas } from 'react-three-fiber';
+import { Canvas } from '@react-three/fiber';
 import VrmViewerImpl from '../vrm/VrmViewer';
 import NavBar from './NavBar';
 import RightBar from './RightBar';

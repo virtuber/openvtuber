@@ -1,11 +1,11 @@
 import React, {
-  useLayoutEffect,
   useImperativeHandle,
+  useState,
   forwardRef,
-  MutableRefObject,
   Suspense,
+  useLayoutEffect,
 } from 'react';
-import { useThree, useResource, useFrame, Camera } from 'react-three-fiber';
+import { useThree, useFrame } from '@react-three/fiber';
 import useVrm from './useVrm';
 import Vrm from './Vrm';
 import Stars from '../components/Stars';
@@ -15,7 +15,7 @@ export type VrmViewerRefProps = {
   handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 const VrmViewer = forwardRef<VrmViewerRefProps, VrmViewerProps>((_, ref) => {
-  const { aspect, setDefaultCamera } = useThree();
+  const { size, set } = useThree();
   const { vrm, loadVrm } = useVrm();
 
   useImperativeHandle(ref, () => ({
@@ -27,20 +27,19 @@ const VrmViewer = forwardRef<VrmViewerRefProps, VrmViewerProps>((_, ref) => {
       }
     },
   }));
-
-  const perspectiveRef = useResource() as MutableRefObject<Camera>;
-
-  useLayoutEffect(() => void setDefaultCamera(perspectiveRef.current), [
-    perspectiveRef,
-    setDefaultCamera,
-  ]);
-  useFrame(() => perspectiveRef.current.updateMatrixWorld());
+  const [perspectiveCameraRef, setPerspectiveCameraRef] =
+    useState<THREE.PerspectiveCamera>(null!);
+  useFrame(() => perspectiveCameraRef.updateMatrixWorld());
+  useLayoutEffect(
+    () => void set({ camera: perspectiveCameraRef }),
+    [perspectiveCameraRef, set],
+  );
 
   return (
     <>
       <perspectiveCamera
-        ref={perspectiveRef}
-        aspect={aspect}
+        ref={setPerspectiveCameraRef}
+        aspect={size.width / size.height}
         focus={10}
         fov={50}
         position={[0, 1.25, 1]}
