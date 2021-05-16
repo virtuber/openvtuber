@@ -50,9 +50,9 @@ jobs:
         if: ${{ needs.pre-test.outputs.should_skip != 'true' }}
         run: yarn run format:check
 
-        # - name: Unit Test
-        #   if: ${{ needs.pre-test.outputs.should_skip != 'true' }}
-        #   run: yarn run test:ci
+      - name: Unit Test
+        if: ${{ needs.pre-test.outputs.should_skip != 'true' }}
+        run: yarn run test:ci
 
       - name: Integration Test
         if: ${{ needs.pre-test.outputs.should_skip != 'true' }}
