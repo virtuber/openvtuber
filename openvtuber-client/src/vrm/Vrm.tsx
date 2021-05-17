@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import { useFrame } from 'react-three-fiber';
+import { useFrame } from '@react-three/fiber';
 import { Vector3 } from 'three';
 import { updateVrm } from './VrmFunctions';
 import { useVrmStore } from '../utils/store';
