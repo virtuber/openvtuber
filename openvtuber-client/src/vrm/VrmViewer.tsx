@@ -28,12 +28,13 @@ const VrmViewer = forwardRef<VrmViewerRefProps, VrmViewerProps>((_, ref) => {
     },
   }));
   const [perspectiveCameraRef, setPerspectiveCameraRef] =
-    useState<THREE.PerspectiveCamera>(null!);
-  useFrame(() => perspectiveCameraRef.updateMatrixWorld());
-  useLayoutEffect(
-    () => void set({ camera: perspectiveCameraRef }),
-    [perspectiveCameraRef, set],
-  );
+    useState<THREE.PerspectiveCamera | null>(null);
+  useFrame(() => perspectiveCameraRef?.updateMatrixWorld());
+  useLayoutEffect(() => {
+    if (perspectiveCameraRef) {
+      return set({ camera: perspectiveCameraRef });
+    }
+  }, [perspectiveCameraRef, set]);
 
   return (
     <>
