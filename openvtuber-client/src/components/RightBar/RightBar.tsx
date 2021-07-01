@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useRef } from 'react';
 import RightBarSwitch from './RightBarSwitch';
 import BackgroundPicker from './BackgroundPicker';
 import RightBarSection from './RightBarSection';
@@ -11,15 +11,20 @@ import { useTranslation } from 'react-i18next';
 const RightBar: FunctionComponent = () => {
   const [tab, setTab] = useState('Design');
   const { t } = useTranslation();
+  const ref = useRef<HTMLDivElement>(null);
+  ref.current?.addEventListener('kv-update', ((e: CustomEvent) => {
+    // Handle config change here
+    console.log(e.detail);
+  }) as EventListener);
   return (
-    <div className="rightbar">
+    <div className="rightbar" ref={ref}>
       <RightBarSwitch tab={tab} setTab={setTab} />
       {tab === 'Design' && (
         <RightBarSection name={t('rightbar.background')}>
           <BackgroundPicker />
           <RightBarGridContainer>
-            <RightBarKVField type="number" label={'X'} />
-            <RightBarKVField type="number" label={'Y'} />
+            <RightBarKVField type="number" label={'X'} fieldKey="x" />
+            <RightBarKVField type="number" label={'Y'} fieldKey="y" />
           </RightBarGridContainer>
         </RightBarSection>
       )}
