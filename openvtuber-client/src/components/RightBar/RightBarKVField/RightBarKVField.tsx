@@ -36,19 +36,30 @@ type RightBarKVFieldProps = {
     | 'week',
     string
   >;
+  fieldKey: string;
 };
 
 const RightBarKVField: FunctionComponent<RightBarKVFieldProps> = ({
   label,
   type,
+  fieldKey,
 }: RightBarKVFieldProps) => {
   const [oldVal, setOldVal] = useState('');
   const [currVal, setCurrVal] = useState('');
   const [mouseIsDown, setMouseIsDown] = useState(false);
 
+  const triggerKvUpdateEvent = () => {
+    const updateEvent = new CustomEvent('kv-update', {
+      bubbles: true,
+      detail: { key: fieldKey, value: oldVal },
+    });
+    ref.current?.dispatchEvent(updateEvent);
+  };
+
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       setOldVal(currVal);
+      triggerKvUpdateEvent();
       (document.activeElement as HTMLElement).blur();
     }
     if (event.key === 'Escape') {
@@ -61,6 +72,7 @@ const RightBarKVField: FunctionComponent<RightBarKVFieldProps> = ({
   };
   const handleBlur = () => {
     setOldVal(currVal);
+    triggerKvUpdateEvent();
   };
   const ref = useRef<HTMLLabelElement>(null);
 
@@ -81,6 +93,7 @@ const RightBarKVField: FunctionComponent<RightBarKVFieldProps> = ({
       const adjustedDelta = Math.round(delta * speed);
       setCurrVal((parseInt(currVal) + adjustedDelta).toString());
       setOldVal((parseInt(oldVal) + adjustedDelta).toString());
+      triggerKvUpdateEvent();
     }
   };
   useEffect(() => {
