@@ -18,7 +18,7 @@
     "@pixiv/three-vrm": "^0.5.5",
     "@react-three/fiber": "^6.1.2",
     "i18next": "^19.9.2",
-    "protobufjs": "^6.10.2",
+    "protobufjs": "^6.11.3",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-i18next": "^11.8.8",
