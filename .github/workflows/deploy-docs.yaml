@@ -48,8 +48,6 @@ jobs:
 
           cd "$TARGET_DIR"
 
-          echo "openvtuber.com" > CNAME
-
           echo "Adding git commit"
           ORIGIN_COMMIT="https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
           COMMIT_MESSAGE="See $ORIGIN_COMMIT"
