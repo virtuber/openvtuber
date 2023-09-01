@@ -26,10 +26,11 @@ jobs:
 
       - name: Build
         run: yarn run build
-
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: openvtuber-server/src/openvtuber/client
+          path: 'openvtuber-server/src/openvtuber/client'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
 
