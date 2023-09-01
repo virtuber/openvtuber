@@ -6,7 +6,10 @@ on:
     - master
     paths:
     - 'openvtuber-client/**'
-
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 jobs:
   deploy:
     runs-on: ubuntu-latest
